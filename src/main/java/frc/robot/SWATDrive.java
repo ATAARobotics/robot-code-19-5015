@@ -10,7 +10,7 @@ public class SWATDrive {
     protected double m_deadband = kDefaultDeadband;
     protected double m_maxOutput = kDefaultMaxOutput;
    
-    private double m_rightSideInvertMultiplier = -1.0;
+    private double m_rightSideInvertMultiplier = 1.0;
 
     VictorSPX m_rearLeftMotor;
     TalonSRX m_frontLeftMotor;
