@@ -12,6 +12,7 @@ public class Teleop {
     private Joystick driveStick = new Joystick(0);
     private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0,1);
     private DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
+    private DoubleSolenoid gearShiftSolenoid2 = new DoubleSolenoid(4,5);
     private VictorSPX rearLeftMotor = new VictorSPX(1);
     private TalonSRX frontLeftMotor = new TalonSRX(0);
     private VictorSPX rearRightMotor = new VictorSPX(3);
