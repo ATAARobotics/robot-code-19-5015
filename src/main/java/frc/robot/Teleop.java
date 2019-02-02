@@ -14,13 +14,12 @@ public class Teleop {
 
     private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0,1);
     private DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
+    private DoubleSolenoid gearShiftSolenoid2 = new DoubleSolenoid(4,5);
 
     private VictorSPX rearLeftMotor = new VictorSPX(1);
     private TalonSRX frontLeftMotor = new TalonSRX(0);
     private VictorSPX rearRightMotor = new VictorSPX(3);
     private TalonSRX frontRightMotor = new TalonSRX(2);
-
-    private boolean slow = false;
 
     private SWATDrive driveTrain = new SWATDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
     private Intake intake = new Intake(hatchIntakeSolenoid);
@@ -36,16 +35,10 @@ public class Teleop {
     public void TeleopPeriodic() {
 
         intake.IntakePeriodic(gunnerStick.getRawButton(5), gunnerStick.getRawButton(6));
-
-        if (driveStick.getRawButton(1)) {
-          slow = !slow;
-        }
-
-        if(slow) {
-          driveTrain.arcadeDrive(driveStick.getRawAxis(1)*0.4, driveStick.getRawAxis(4)*0.4, true);
-        }
-        else {
+          if (driveStick.getRawButton(1)) {
+            driveTrain.slow = !driveTrain.slow;
+          } 
           driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
-        }
+
     }
 }
