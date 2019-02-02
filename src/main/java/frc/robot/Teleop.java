@@ -35,7 +35,7 @@ public class Teleop {
 
     public void TeleopPeriodic() {
 
-        intake.IntakePeriodic(gunnerStick.getButton(5), gunnerStick.getButton(6));
+        intake.IntakePeriodic(gunnerStick.getRawButton(5), gunnerStick.getRawButton(6));
 
         if (driveStick.getRawButton(1)) {
           slow = !slow;
