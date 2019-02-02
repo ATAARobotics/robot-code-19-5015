@@ -1,34 +1,47 @@
 package frc.robot;
 
+
+// import libraries
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+
 public class SWATDrive {
+
+    //create static variables that we can change
     public static final double kDefaultDeadband = 0.02;
     public static final double kDefaultMaxOutput = 1.0;
-  
+
+    // set changeable varibles to the static ones
     protected double m_deadband = kDefaultDeadband;
     protected double m_maxOutput = kDefaultMaxOutput;
-   
+
+    // create an inverter for the right side
     private double m_rightSideInvertMultiplier = 1.0;
 
+    // create the motor controller varibles
     VictorSPX m_rearLeftMotor;
     TalonSRX m_frontLeftMotor;
     VictorSPX m_rearRightMotor;
     TalonSRX m_frontRightMotor;
 
+    // constructor that creates the object
     public SWATDrive(TalonSRX frontLeftMotor, VictorSPX rearLeftMotor, TalonSRX frontRightMotor, VictorSPX rearRightMotor) {
         m_frontLeftMotor = frontLeftMotor;
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
     }
+    //arcade drive method
 
     public void arcadeDrive(double xSpeed, double zRotation, boolean squareInputs) {
-    
+
+        //fix the speed varible
         xSpeed = limit(xSpeed);
         xSpeed = applyDeadband(xSpeed, m_deadband);
-    
+
+        // fix the rotation variable
         zRotation = limit(zRotation);
         zRotation = applyDeadband(zRotation, m_deadband);
     
@@ -38,12 +51,16 @@ public class SWATDrive {
           xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
           zRotation = Math.copySign(zRotation * zRotation, zRotation);
         }
-    
+        
+        // create motor output variables
         double leftMotorOutput;
         double rightMotorOutput;
-    
+        
+        //create a maximum input variable
         double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
-    
+        
+
+        //if statements that only rotate if the motor has speed
         if (xSpeed >= 0.0) {
           // First quadrant, else second quadrant
           if (zRotation >= 0.0) {
@@ -63,12 +80,15 @@ public class SWATDrive {
             rightMotorOutput = xSpeed - zRotation;
           }
         }
-    
+        
+        //set the motors to their proper values
         m_frontLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_frontRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
         m_rearLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_rearRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
       }
+
+      //maximize the absolute value of a value
       protected double limit(double value) {
         if (value > 1.0) {
           return 1.0;
@@ -78,6 +98,8 @@ public class SWATDrive {
         }
         return value;
       }
+
+      //create a deadband
       protected double applyDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
           if (value > 0.0) {
@@ -89,6 +111,8 @@ public class SWATDrive {
           return 0.0;
         }
     }
+
+    //set a new deadband
     public void setDeadband(double deadband) {
         m_deadband = deadband;
       }    
