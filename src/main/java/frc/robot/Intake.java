@@ -13,16 +13,21 @@ public class Intake{
     
     public void setHatchState(boolean state){
         if(state){
-            m_hatchIntake.set(DoubleSolenoid.Value.kForward);
-        }
-        if(!state){
             m_hatchIntake.set(DoubleSolenoid.Value.kReverse);
         }
-
-        
+        if(!state){
+            m_hatchIntake.set(DoubleSolenoid.Value.kForward);
+        }
     }
 
-
+    public void IntakePeriodic(boolean hatchOpen, boolean HatchClosed){
+        if(hatchOpen) {
+            intake.setHatchState(true);
+          }
+        else if(HatchClosed) {
+            intake.setHatchState(false);
+        }
+    }
     
 
 }
