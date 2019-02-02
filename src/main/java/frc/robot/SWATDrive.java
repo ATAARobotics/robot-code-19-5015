@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 
 
 public class SWATDrive {
@@ -44,7 +46,8 @@ public class SWATDrive {
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
 
-        gearShifter = new GearShifter(gearShiftSolenoid);
+        m_gearShiftSolenoid = gearShiftSolenoid;
+        gearShifter = new GearShifter(m_gearShiftSolenoid);
     }
     //arcade drive method
 
@@ -101,9 +104,8 @@ public class SWATDrive {
         m_rearLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_rearRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
       }
-
       //maximize the absolute value of a value
-      protected double limit(double value) {
+    protected double limit(double value) {
         if (value > 1.0) {
           return 1.0;
         }
@@ -130,4 +132,13 @@ public class SWATDrive {
     public void setDeadband(double deadband) {
         m_deadband = deadband;
       } 
+
+    public void gearShift(boolean lowGear) {
+      if(lowGear) {
+        gearShifter.setSlow(true);
+      }
+      else {
+        gearShifter.setSlow(false);
+      }
+    }   
 }
