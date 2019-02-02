@@ -6,8 +6,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 
 public class SWATDrive {
@@ -34,10 +32,7 @@ public class SWATDrive {
     BaseMotorController m_frontRightMotor;
 
     //create the pneumatics variable
-    DoubleSolenoid m_gearShiftSolenoid;
-
-    //create the dear shifter
-    GearShifter gearShifter;
+    DoubleSolenoid gearShifter = new DoubleSolenoid(2,3);
 
     // constructor that creates the object
     public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor, DoubleSolenoid gearShiftSolenoid) {
@@ -45,9 +40,7 @@ public class SWATDrive {
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
-
-        m_gearShiftSolenoid = gearShiftSolenoid;
-        gearShifter = new GearShifter(m_gearShiftSolenoid);
+        gearShifter = gearShiftSolenoid;
     }
     //arcade drive method
 
@@ -96,16 +89,15 @@ public class SWATDrive {
             rightMotorOutput = xSpeed - zRotation;
           }
         }
-
-        gearShifter.setSlow(slow);
         //set the motors to their proper values
         m_frontLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_frontRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
         m_rearLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_rearRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
       }
+
       //maximize the absolute value of a value
-    protected double limit(double value) {
+      protected double limit(double value) {
         if (value > 1.0) {
           return 1.0;
         }
@@ -132,13 +124,12 @@ public class SWATDrive {
     public void setDeadband(double deadband) {
         m_deadband = deadband;
       } 
-
     public void gearShift(boolean lowGear) {
       if(lowGear) {
-        gearShifter.setSlow(true);
+        gearShifter.set(DoubleSolenoid.Value.kReverse);
       }
       else {
-        gearShifter.setSlow(false);
+        gearShifter.set(DoubleSolenoid.Value.kForward);
       }
     }   
 }
