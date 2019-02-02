@@ -3,8 +3,8 @@ package frc.robot;
 
 // import libraries
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+
 
 
 public class SWATDrive {
@@ -21,13 +21,13 @@ public class SWATDrive {
     private double m_rightSideInvertMultiplier = 1.0;
 
     // create the motor controller varibles
-    VictorSPX m_rearLeftMotor;
-    TalonSRX m_frontLeftMotor;
-    VictorSPX m_rearRightMotor;
-    TalonSRX m_frontRightMotor;
+    BaseMotorController m_rearLeftMotor;
+    BaseMotorController m_frontLeftMotor;
+    BaseMotorController m_rearRightMotor;
+    BaseMotorController m_frontRightMotor;
 
     // constructor that creates the object
-    public SWATDrive(TalonSRX frontLeftMotor, VictorSPX rearLeftMotor, TalonSRX frontRightMotor, VictorSPX rearRightMotor) {
+    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor) {
         m_frontLeftMotor = frontLeftMotor;
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
