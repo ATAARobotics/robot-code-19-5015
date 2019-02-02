@@ -6,8 +6,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 
 public class SWATDrive {
@@ -34,11 +32,7 @@ public class SWATDrive {
     BaseMotorController m_frontRightMotor;
 
     //create the pneumatics variable
-    DoubleSolenoid leftGearShift = new DoubleSolenoid(2,3);
-    DoubleSolenoid rightGearShift = new DoubleSolenoid(4,5);
-
-    //create the dear shifter
-    GearShifter gearShifter = new GearShifter(leftGearShift,rightGearShift);
+    DoubleSolenoid gearShifter = new DoubleSolenoid(2,3);
 
     // constructor that creates the object
     public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor, DoubleSolenoid gearShiftSolenoid) {
@@ -95,7 +89,6 @@ public class SWATDrive {
             rightMotorOutput = xSpeed - zRotation;
           }
         }
-        gearShifter.setSlow(slow);
         //set the motors to their proper values
         m_frontLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_frontRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);
