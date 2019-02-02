@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   VictorSPX rearRightMotor = new VictorSPX(3);
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   SWATDrive driveTrain = new SWATDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+  private boolean slow = false;
 
   @Override
   public void robotInit() {
@@ -108,7 +109,15 @@ public class Robot extends TimedRobot {
     //frontLeftMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(1));
     //rearRightMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(5));
     //frontRightMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(5));
-    driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
+    if(driveStick.getRawButton(1)) {
+      slow = !slow;
+    }
+    if(slow) {
+      driveTrain.arcadeDrive(driveStick.getRawAxis(1)*0.4, driveStick.getRawAxis(4)*0.4, true);
+    }
+    else {
+      driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
+    }
   }
 
   /**
