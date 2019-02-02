@@ -22,10 +22,10 @@ public class Intake{
 
     public void IntakePeriodic(boolean hatchOpen, boolean HatchClosed){
         if(hatchOpen) {
-            intake.setHatchState(true);
+            this.setHatchState(true);
           }
         else if(HatchClosed) {
-            intake.setHatchState(false);
+            this.setHatchState(false);
         }
     }
     
