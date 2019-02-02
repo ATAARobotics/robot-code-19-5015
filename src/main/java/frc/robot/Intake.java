@@ -28,4 +28,8 @@ public class Intake{
             this.setHatchState(false);
         }
     }
+
+    public void hatchOff(){
+        m_hatchIntake.set(DoubleSolenoid.Value.kOff);
+    }
 }

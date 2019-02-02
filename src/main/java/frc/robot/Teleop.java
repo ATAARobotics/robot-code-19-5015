@@ -28,7 +28,7 @@ public class Teleop {
 
 
     public void init() {
-      intake.setHatchState(false);
+        intake.hatchOff();
     }
 
 
