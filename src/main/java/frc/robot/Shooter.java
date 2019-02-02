@@ -1,21 +1,22 @@
-package org.usfirst.frc.team5015.robot;
+package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Spark;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class shooter {
-    public TalonSRX ShooterTalon = new TalonSRX(4);  
-    public TalonSRX IntakeTalon = new TalonSRX(5);
+public class Shooter {
+    
+    public Spark ShooterSpark = new Spark(0);  
+    public Spark IntakeSpark = new Spark(1);
 
+    //two motors turn opposite direction to squeeze the ball out
     public void shootBall(){
-        ShooterTalon.set (0.7);
+        ShooterSpark.set( -1);
+        IntakeSpark.set(1);
     }
     
+    //one motor turns to get the ball into the shooter
     public void intakeBall(){
-        IntakeTalon.set (0.7);
+        IntakeSpark.set(0.7);
     }
 
 }
