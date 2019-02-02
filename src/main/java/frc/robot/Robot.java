@@ -8,41 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private Joystick gunnerStick = new Joystick(1);
-  private Joystick driveStick = new Joystick(0);
-  DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0,1);
-  TalonSRX frontLeftMotor = new TalonSRX(0);
-  VictorSPX rearLeftMotor = new VictorSPX(1);
-  TalonSRX frontRightMotor = new TalonSRX(2);
-  VictorSPX rearRightMotor = new VictorSPX(3);
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  SWATDrive driveTrain = new SWATDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+  
+  Teleop teleop = new Teleop();
 
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-    hatchIntakeSolenoid.set(DoubleSolenoid.Value.kOff);
-    rearRightMotor.setInverted(true);
-    frontRightMotor.setInverted(true);
+    teleop.init();
   }
 
   /**
@@ -70,10 +43,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /**
@@ -81,15 +50,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
   }
 
   /**
@@ -97,18 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(gunnerStick.getRawButton(5)) {
-      hatchIntakeSolenoid.set(DoubleSolenoid.Value.kForward);
-    }
-    else if(gunnerStick.getRawButton(6)) {
-      hatchIntakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-    }
-    //Tank Drive
-    //rearLeftMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(1));
-    //frontLeftMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(1));
-    //rearRightMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(5));
-    //frontRightMotor.set(ControlMode.PercentOutput, driveStick.getRawAxis(5));
-    driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
+    teleop.TeleopPeriodic();
   }
 
   /**
