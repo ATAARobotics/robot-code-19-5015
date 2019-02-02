@@ -28,7 +28,7 @@ public class Teleop {
 
 
     public void init() {
-        hatchIntakeSolenoid.set(DoubleSolenoid.Value.kOff);
+      intake.setHatchState(false);
     }
 
 
