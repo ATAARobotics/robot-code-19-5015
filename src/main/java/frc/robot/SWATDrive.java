@@ -5,6 +5,9 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 
 
 public class SWATDrive {
@@ -30,12 +33,16 @@ public class SWATDrive {
     BaseMotorController m_rearRightMotor;
     BaseMotorController m_frontRightMotor;
 
+    //Gear Shifters
+    DoubleSolenoid gearShifter;
+
     // constructor that creates the object
-    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor) {
+    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor, DoubleSolenoid gearShiftSolenoid) {
         m_frontLeftMotor = frontLeftMotor;
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
+        gearShifter = gearShiftSolenoid;
     }
     //arcade drive method
 
@@ -121,5 +128,13 @@ public class SWATDrive {
     //set a new deadband
     public void setDeadband(double deadband) {
         m_deadband = deadband;
-      }    
+      } 
+    public void gearShift(boolean lowGear) {
+      if(lowGear) {
+        gearShifter.set(DoubleSolenoid.Value.kReverse);
+      }
+      else {
+        gearShifter.set(DoubleSolenoid.Value.kForward);
+      }
+    }   
 }
