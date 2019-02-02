@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Intake{
 
-    DoubleSolenoid m_hatchIntake = new DoubleSolenoid(0,1);
+    DoubleSolenoid m_hatchIntake;
 
     public Intake(DoubleSolenoid hatchIntake){
         m_hatchIntake = hatchIntake;
@@ -27,5 +27,9 @@ public class Intake{
         else if(HatchClosed) {
             this.setHatchState(false);
         }
+    }
+
+    public void hatchOff(){
+        m_hatchIntake.set(DoubleSolenoid.Value.kOff);
     }
 }
