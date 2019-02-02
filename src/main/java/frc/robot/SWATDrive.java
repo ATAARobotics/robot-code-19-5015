@@ -16,6 +16,10 @@ public class SWATDrive {
     // set changeable varibles to the static ones
     protected double m_deadband = kDefaultDeadband;
     protected double m_maxOutput = kDefaultMaxOutput;
+    
+    //slow variable
+    public boolean slow = false;
+
 
     // create an inverter for the right side
     private double m_rightSideInvertMultiplier = 1.0;
@@ -80,7 +84,9 @@ public class SWATDrive {
             rightMotorOutput = xSpeed - zRotation;
           }
         }
-        
+        if(slow) {
+          m_maxOutput = 0.4;
+        }
         //set the motors to their proper values
         m_frontLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
         m_frontRightMotor.set(ControlMode.PercentOutput, limit(rightMotorOutput) * m_maxOutput * m_rightSideInvertMultiplier);

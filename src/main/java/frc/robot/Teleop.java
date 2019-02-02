@@ -16,7 +16,6 @@ public class Teleop {
     private TalonSRX frontLeftMotor = new TalonSRX(0);
     private VictorSPX rearRightMotor = new VictorSPX(3);
     private TalonSRX frontRightMotor = new TalonSRX(2);
-    private boolean slow = false;
     private SWATDrive driveTrain = new SWATDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
     public void init() {
         hatchIntakeSolenoid.set(DoubleSolenoid.Value.kOff);
@@ -29,13 +28,8 @@ public class Teleop {
             hatchIntakeSolenoid.set(DoubleSolenoid.Value.kReverse);
           }
           if (driveStick.getRawButton(1)) {
-            slow = !slow;
-          }
-          if(slow) {
-            driveTrain.arcadeDrive(driveStick.getRawAxis(1)*0.4, driveStick.getRawAxis(4)*0.4, true);
-          }
-          else {
-            driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
-          }
+            driveTrain.slow = !driveTrain.slow;
+          } 
+          driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
     }
 }
