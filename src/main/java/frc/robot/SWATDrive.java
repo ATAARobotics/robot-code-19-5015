@@ -32,18 +32,19 @@ public class SWATDrive {
     BaseMotorController m_frontRightMotor;
 
     //create the pneumatics variable
-    DoubleSolenoid leftGearShift = new DoubleSolenoid(2,3);
-    DoubleSolenoid rightGearShift = new DoubleSolenoid(4,5);
+    DoubleSolenoid m_gearShiftSolenoid;
 
     //create the dear shifter
-    GearShifter gearShifter = new GearShifter(leftGearShift,rightGearShift);
+    GearShifter gearShifter;
 
     // constructor that creates the object
-    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor) {
+    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor, DoubleSolenoid gearShiftSolenoid) {
         m_frontLeftMotor = frontLeftMotor;
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
+
+        gearShifter = new GearShifter(gearShiftSolenoid);
     }
     //arcade drive method
 
@@ -92,6 +93,7 @@ public class SWATDrive {
             rightMotorOutput = xSpeed - zRotation;
           }
         }
+
         gearShifter.setSlow(slow);
         //set the motors to their proper values
         m_frontLeftMotor.set(ControlMode.PercentOutput, limit(leftMotorOutput) * m_maxOutput);
@@ -127,5 +129,5 @@ public class SWATDrive {
     //set a new deadband
     public void setDeadband(double deadband) {
         m_deadband = deadband;
-      }    
+      } 
 }
