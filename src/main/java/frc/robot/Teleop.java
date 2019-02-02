@@ -23,7 +23,7 @@ public class Teleop {
     private Intake intake = new Intake(hatchIntakeSolenoid);
 
     public void init() {
-        hatchIntakeSolenoid.set(DoubleSolenoid.Value.kOff);
+        intake.hatchOff();
     }
 
 
