@@ -111,10 +111,20 @@ public class Robot extends TimedRobot {
     driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
   }
 
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
+
+  //Debug function to print strings to console and/or SmartDashboard
+  public static void debugOut(String value, int logLevel, String key) {
+    switch (logLevel) {
+      case 0:
+        System.out.println(value);
+
+      case 1:
+        SmartDashboard.putString(key, value);
+
+      default:
+        break;
+    }
   }
+  public static void debugOut(String value, int logLevel) {debugOut(value, logLevel, "log");}
+  public static void debugOut(String value) {debugOut(value, 0);}
 }
