@@ -23,7 +23,7 @@ public class SWATDrive {
 
 
     // create an inverter for the right side
-    private double m_rightSideInvertMultiplier = 1.0;
+    private double m_rightSideInvertMultiplier = -1.0;
 
     // create the motor controller varibles
     BaseMotorController m_rearLeftMotor;
@@ -32,20 +32,27 @@ public class SWATDrive {
     BaseMotorController m_frontRightMotor;
 
     //create the pneumatics variable
-    DoubleSolenoid gearShifter = new DoubleSolenoid(2,3);
+    //add gearShifter var
+
 
     // constructor that creates the object
-    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor, DoubleSolenoid gearShiftSolenoid) {
+    public SWATDrive(BaseMotorController frontLeftMotor, BaseMotorController rearLeftMotor, BaseMotorController frontRightMotor, BaseMotorController rearRightMotor) { //add gearShifter param
         m_frontLeftMotor = frontLeftMotor;
         m_frontRightMotor = frontRightMotor;
         m_rearLeftMotor = rearLeftMotor;
         m_rearRightMotor = rearRightMotor;
-        gearShifter = gearShiftSolenoid;
+        //add gearShifter var
     }
     //arcade drive method
 
     public void arcadeDrive(double xSpeed, double zRotation, boolean squareInputs) {
-
+        //Slow or Fast
+        if(slow) {
+            m_maxOutput = 0.4;
+        }
+        else {
+            m_maxOutput = 1;
+        }
         //fix the speed varible
         xSpeed = limit(xSpeed);
         xSpeed = applyDeadband(xSpeed, m_deadband);
@@ -68,6 +75,7 @@ public class SWATDrive {
         //create a maximum input variable
         double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
         
+
 
         //if statements that only rotate if the motor has speed
         if (xSpeed >= 0.0) {
@@ -124,12 +132,12 @@ public class SWATDrive {
     public void setDeadband(double deadband) {
         m_deadband = deadband;
       } 
-    public void gearShift(boolean lowGear) {
+    /*public void gearShift(boolean lowGear) {
       if(lowGear) {
         gearShifter.set(DoubleSolenoid.Value.kReverse);
       }
       else {
         gearShifter.set(DoubleSolenoid.Value.kForward);
       }
-    }   
+    }  */ 
 }
