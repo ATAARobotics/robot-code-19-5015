@@ -18,7 +18,6 @@ public class Teleop {
     private VictorSPX rearRightMotor = new VictorSPX(3);
     private TalonSRX frontRightMotor = new TalonSRX(2);
     private SWATDrive driveTrain = new SWATDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor); //add gearShifter param
-    private boolean lowGear = true;
     private Intake intake = new Intake(hatchIntakeSolenoid);
 
     public void init() {
