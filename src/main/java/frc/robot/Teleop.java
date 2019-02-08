@@ -28,15 +28,9 @@ public class Teleop {
 
     public void TeleopPeriodic() {
           driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
-          if(driveStick.getRawButton(3)) {
-            lowGear = !lowGear;
-            //driveTrain.gearShift(lowGear);
-          }
         intake.IntakePeriodic(gunnerStick.getRawButton(5), gunnerStick.getRawButton(6));
           if (driveStick.getRawButton(1)) {
             driveTrain.slow = !driveTrain.slow;
           } 
-          driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4), true);
-
     }
 }
