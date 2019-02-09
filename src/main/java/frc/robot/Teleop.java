@@ -41,7 +41,11 @@ public class Teleop {
           if (driveStick.getRawButton(1)) {
             driveTrain.slow();
           } 
-        intake.IntakePeriodic(gunnerStick.getRawButton(5), gunnerStick.getRawButton(6));
-
+        if (gunnerStick.getRawButton(5)) {
+            intake.HatchOpen();
+        }
+        else if (gunnerStick.getRawButton(6)) {
+            intake.HatchClose();
+        }
     }
 }
