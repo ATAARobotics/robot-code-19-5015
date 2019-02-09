@@ -1,7 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -11,8 +14,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Teleop {
 
-    private Joystick gunnerStick = new Joystick(1);
-    private Joystick driveStick = new Joystick(0);
+    private XboxController gunnerStick = new XboxController(1);
+    private XboxController driveStick = new XboxController(0);
     private SWATDrive driveTrain;
     private Intake intake;
     public Teleop() {
@@ -36,17 +39,17 @@ public class Teleop {
     }
     public void TeleopPeriodic() {
 
-          driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4));
-          if(driveStick.getRawButton(3)) {
+          driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
+          if(driveStick.getXButton()) {
             driveTrain.gearShift();
           }
-          if (driveStick.getRawButton(1)) {
+          if (driveStick.getAButton()) {
             driveTrain.slow();
           } 
-        if (gunnerStick.getRawButton(5)) {
+        if (gunnerStick.getBumper(Hand.kLeft)) {
             intake.HatchOpen();
         }
-        else if (gunnerStick.getRawButton(6)) {
+        else if (gunnerStick.getBumper(Hand.kRight)) {
             intake.HatchClose();
         }
     }
