@@ -31,9 +31,11 @@ public class Teleop {
         intake = new Intake(hatchIntakeSolenoid);
     }
     public void teleopInit() {
+
         intake.hatchOff();
     }
     public void TeleopPeriodic() {
+
           driveTrain.arcadeDrive(driveStick.getRawAxis(1), driveStick.getRawAxis(4));
           if(driveStick.getRawButton(3)) {
             driveTrain.gearShift();
