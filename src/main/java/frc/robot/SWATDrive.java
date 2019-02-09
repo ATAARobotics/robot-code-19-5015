@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class SWATDrive extends DifferentialDrive {
     //slow variable
-    public boolean slow = false;
+    private boolean slow = false;
     //low gear variable
     private static boolean lowGear = true;
     //create the pneumatics variable
-    DoubleSolenoid m_gearShifter = new DoubleSolenoid(2, 3);
+    DoubleSolenoid m_gearShifter;
 
     
     public SWATDrive(SpeedController leftMotor, SpeedController rightMotor, DoubleSolenoid gearShifter) {
