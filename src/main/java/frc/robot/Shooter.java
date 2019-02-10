@@ -39,6 +39,7 @@ public class Shooter {
         else {
             gateSolenoid.set(Value.kForward);
         }
+        gateClosed = !gateClosed;
     }
     
     public void punch() {
@@ -48,5 +49,6 @@ public class Shooter {
         else {
             punchSolenoid.set(Value.kForward);
         }
+        punchOut = !punchOut;
     }
 }
