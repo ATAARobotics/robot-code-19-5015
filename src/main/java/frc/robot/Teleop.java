@@ -1,26 +1,24 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
-
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
 public class Teleop {
-    //Controllers for drivers
+    // Controllers for drivers
     private XboxController gunnerStick = new XboxController(1);
     private XboxController driveStick = new XboxController(0);
-    //Vairables for robot classes
+    // Vairables for robot classes
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
+    private double elevatorSpeedFront;
+    private double elevatorSpeedRear;
     public Teleop() {
         //Set All Variables for parts on the robot
 
@@ -59,15 +57,22 @@ public class Teleop {
         }
         else; 
         
-        if (gunnerStick.getBumper(Hand.kLeft)) {
+        if (gunnerStick.getXButton()) {
             intake.HatchOpen();
         }
-        else if (gunnerStick.getBumper(Hand.kRight)) {
+        else if (gunnerStick.getBButton()) {
             intake.HatchClose();
         }
         else;
-        elevator.elevatorControl(gunnerStick.getY(Hand.kLeft), gunnerStick.getY(Hand.kRight));
-        double driveSpeed = gunnerStick.getTriggerAxis(Hand.kLeft) - gunnerStick.getTriggerAxis(Hand.kRight);
-        elevator.driveElevator(driveSpeed);
+        elevatorSpeedFront = gunnerStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedFront = gunnerStick.getTriggerAxis(Hand.kRight);
+        if(gunnerStick.getBumper(Hand.kLeft)) {
+            elevatorSpeedFront = -0.5;
+        }
+        if(gunnerStick.getBumper(Hand.kRight)) {
+            elevatorSpeedRear = -0.5;
+        }
+        elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
+        elevator.driveElevator(gunnerStick.getY(Hand.kLeft));
     }
 }
