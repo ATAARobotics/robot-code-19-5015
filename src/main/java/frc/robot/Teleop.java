@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Spark;
+
 public class Teleop {
     // Controllers for drivers
     private XboxController gunnerStick = new XboxController(1);
@@ -17,16 +19,19 @@ public class Teleop {
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
+    private Shooter shooter;
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
+    private boolean pneumaticShooter;
     public Teleop() {
         //Set All Variables for parts on the robot
 
         //Drive Controllers
-        WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
         WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
-        WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
+        WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
         WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
+        WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
+
         //Group Drive
         SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
@@ -37,11 +42,22 @@ public class Teleop {
         CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
         CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
-        
+        //Set Ball Shooter Variables
+        Spark shooterSpark = new Spark(7);
+        Spark intakeSpark = new Spark(8);
+        DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
+        DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
+        pneumaticShooter = true;
         //Initialize Classes
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
         elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive);
+        if(pneumaticShooter) {
+            shooter = new Shooter(punchSolenoid, gateSolenoid);
+        }
+        else {
+            shooter = new Shooter(intakeSpark, shooterSpark);   
+        }
     }
     public void teleopInit() {
 
@@ -57,22 +73,41 @@ public class Teleop {
         }
         else; 
         
-        if (gunnerStick.getXButton()) {
+        if (gunnerStick.getBumper(Hand.kLeft)) {
             intake.HatchOpen();
         }
-        else if (gunnerStick.getBButton()) {
+        else if (gunnerStick.getBumper(Hand.kRight)) {
             intake.HatchClose();
         }
         else;
-        elevatorSpeedFront = gunnerStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedFront = gunnerStick.getTriggerAxis(Hand.kRight);
-        if(gunnerStick.getBumper(Hand.kLeft)) {
+        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kRight);
+        if(driveStick.getBumper(Hand.kLeft)) {
             elevatorSpeedFront = -0.5;
         }
-        if(gunnerStick.getBumper(Hand.kRight)) {
+        if(driveStick.getBumper(Hand.kRight)) {
             elevatorSpeedRear = -0.5;
         }
         elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
-        elevator.driveElevator(gunnerStick.getY(Hand.kLeft));
+        if(driveStick.getYButton()) {
+            elevator.driveElevator();
+        }
+        else;
+        if(pneumaticShooter) {
+            if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
+                shooter.gate();
+            }
+            else if(gunnerStick.getTriggerAxis(Hand.kRight) >0.2) {
+                shooter.punch();
+            }
+        }
+        else {
+            if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
+                shooter.intakeBall();
+            }
+            else if(gunnerStick.getTriggerAxis(Hand.kRight) >0.2) {
+                shooter.shootBall();
+            }
+        }
     }
 }

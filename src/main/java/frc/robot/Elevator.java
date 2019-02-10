@@ -15,8 +15,8 @@ public class Elevator{
         ElevatorFrontLift.set(speedFront);
         ElevatorRearLift.set(speedRear);
     }
-    public void driveElevator(double speed){
-        ElevatorDrive.set(ControlMode.PercentOutput, speed);
+    public void driveElevator(){
+        ElevatorDrive.set(ControlMode.PercentOutput, 0.5);
     }
 
 }
