@@ -1,22 +1,54 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 
 public class Shooter {
-    
-    public Spark ShooterSpark = new Spark(0);  
-    public Spark IntakeSpark = new Spark(1);
-
-    //two motors turn opposite direction to squeeze the ball out
+    private SpeedController Shooter;  
+    private SpeedController Intake;
+    private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
+    private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
+    private boolean pneumaticShooter = true;
+    private boolean punchOut;
+    private boolean gateClosed;
+    public Shooter(SpeedController Shooter, SpeedController Intake) {
+        this.Shooter = Shooter;
+        this.Intake = Intake;
+        pneumaticShooter = false;
+    }
+    public Shooter(DoubleSolenoid gateSolenoid, DoubleSolenoid punchSolenoid) {
+        this.gateSolenoid = gateSolenoid;
+        this.punchSolenoid = punchSolenoid;
+    }
     public void shootBall(){
-        ShooterSpark.set( -1);
-        IntakeSpark.set(1);
+        Shooter.set( -1);
+        Intake.set(1);
     }
     
     //one motor turns to get the ball into the shooter
     public void intakeBall(){
-        IntakeSpark.set(0.7);
+        Intake.set(0.7);
     }
 
+    public void gate() {
+        if(gateClosed) {
+            gateSolenoid.set(Value.kReverse);
+        }
+        else {
+            gateSolenoid.set(Value.kForward);
+        }
+        gateClosed = !gateClosed;
+    }
+    
+    public void punch() {
+        if(punchOut) {
+            punchSolenoid.set(Value.kReverse);
+        }
+        else {
+            punchSolenoid.set(Value.kForward);
+        }
+        punchOut = !punchOut;
+    }
 }
