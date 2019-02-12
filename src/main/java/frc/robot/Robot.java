@@ -63,6 +63,11 @@ public class Robot extends TimedRobot {
     }
 
 
+
+
+
+
+
   //Debug function to print strings to console and/or SmartDashboard
   public static void debugOut(String value, int logLevel, String key) {
     switch (logLevel) {
@@ -75,7 +80,7 @@ public class Robot extends TimedRobot {
       default:
         break;
     }
-  }
+    }
   public static void debugOut(String value, int logLevel) {debugOut(value, logLevel, "log");}
   public static void debugOut(String value) {debugOut(value, 0);}
 }

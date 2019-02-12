@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Spark;
 
 public class Teleop {
     // Controllers for drivers
+
     private XboxController gunnerStick = new XboxController(1);
     private XboxController driveStick = new XboxController(0);
     // Vairables for robot classes
