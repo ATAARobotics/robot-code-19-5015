@@ -25,7 +25,7 @@ public class Teleop {
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
     private boolean pneumaticShooter;
-    UsbCamera camera;
+    private UsbCamera camera;
     public Teleop() {
         //Set All Variables for parts on the robot
 
