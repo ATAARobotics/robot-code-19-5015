@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -23,6 +25,7 @@ public class Teleop {
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
     private boolean pneumaticShooter;
+    UsbCamera camera;
     public Teleop() {
         //Set All Variables for parts on the robot
 
@@ -48,6 +51,7 @@ public class Teleop {
         DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
         DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         pneumaticShooter = true;
+        camera = CameraServer.getInstance().startAutomaticCapture();
         //Initialize Classes
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
@@ -62,6 +66,7 @@ public class Teleop {
     public void teleopInit() {
 
         intake.hatchOff();
+
     }
     public void TeleopPeriodic() {
         driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
