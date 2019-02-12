@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
-public class Teleop {
+public class Teleop{
 
     private XboxController gunnerStick = new XboxController(1);
     private XboxController driveStick = new XboxController(0);
