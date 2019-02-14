@@ -26,6 +26,9 @@ public class Teleop {
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
     private boolean pneumaticShooter;
+    /*UltrasonicCode
+    private Ultrasonics ultrasonics;
+    */
     private UsbCamera camera;
     public Teleop() {
         //Set All Variables for parts on the robot
@@ -53,6 +56,9 @@ public class Teleop {
         DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
+        /*UltrasonicCode
+        ultrasonics = new Ultrasonics();
+        */
         //Initialize Classes
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
@@ -87,7 +93,7 @@ public class Teleop {
         }
         else;
         elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kRight);
+        elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kRight);
         if(driveStick.getBumper(Hand.kLeft)) {
             elevatorSpeedFront = -0.5;
         }
@@ -115,5 +121,9 @@ public class Teleop {
                 shooter.shootBall();
             }
         }
+    /* public getUltrasonicRange(int direction) {
+        ultrasonic.getRange(direction);
+    }
+    */
     }
 }
