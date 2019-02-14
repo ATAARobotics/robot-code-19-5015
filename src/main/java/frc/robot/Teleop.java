@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
 
 public class Teleop {
     // Controllers for drivers
@@ -22,14 +22,15 @@ public class Teleop {
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
-    private Shooter shooter;
+   // private Shooter shooter;
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
-    private boolean pneumaticShooter;
+    //private boolean pneumaticShooter;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
     private UsbCamera camera;
+    private boolean driving = false;
     public Teleop() {
         //Set All Variables for parts on the robot
 
@@ -50,11 +51,11 @@ public class Teleop {
         CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
         //Set Ball Shooter Variables
-        Spark shooterSpark = new Spark(7);
-        Spark intakeSpark = new Spark(8);
+        //Spark shooterSpark = new Spark(7);
+        //Spark intakeSpark = new Spark(8);
         DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
         DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
-        pneumaticShooter = true;
+        //pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
         /*UltrasonicCode
         ultrasonics = new Ultrasonics();
@@ -63,12 +64,13 @@ public class Teleop {
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
         elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive);
-        if(pneumaticShooter) {
+        /*if(pneumaticShooter) {
             shooter = new Shooter(punchSolenoid, gateSolenoid);
         }
         else {
             shooter = new Shooter(intakeSpark, shooterSpark);   
         }
+        */
     }
     public void teleopInit() {
 
@@ -92,10 +94,10 @@ public class Teleop {
             intake.HatchClose();
         }
         else;
-        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kRight);
+        elevatorSpeedFront = -driveStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kLeft);
         if(driveStick.getBumper(Hand.kLeft)) {
-            elevatorSpeedFront = -0.5;
+            elevatorSpeedFront = 0.5;
         }
         if(driveStick.getBumper(Hand.kRight)) {
             elevatorSpeedRear = -0.5;
@@ -104,8 +106,10 @@ public class Teleop {
         if(driveStick.getYButton()) {
             elevator.driveElevator();
         }
-        else;
-        if(pneumaticShooter) {
+        else {
+            elevator.stopDrive();
+        }
+        /*if(pneumaticShooter) {
             if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
                 shooter.gate();
             }
@@ -121,6 +125,7 @@ public class Teleop {
                 shooter.shootBall();
             }
         }
+        */
     /* public getUltrasonicRange(int direction) {
         ultrasonic.getRange(direction);
     }

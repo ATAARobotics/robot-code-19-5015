@@ -23,5 +23,8 @@ public class Elevator{
     public void driveElevator(){
         ElevatorDrive.set(ControlMode.PercentOutput, 0.5);
     }
+    public void stopDrive() {
+        ElevatorDrive.set(ControlMode.PercentOutput, 0);
+    }
 
 }
