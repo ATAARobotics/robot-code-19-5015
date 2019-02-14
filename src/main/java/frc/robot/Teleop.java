@@ -78,7 +78,7 @@ public class Teleop {
 
     }
     public void TeleopPeriodic() {
-        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
+        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));
         if(driveStick.getXButton()) {
             driveTrain.gearShift();
         }
