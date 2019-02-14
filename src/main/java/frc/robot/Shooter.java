@@ -10,13 +10,13 @@ public class Shooter {
     private SpeedController Intake;
     private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
     private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
-    private boolean pneumaticShooter = true;
+    //private boolean pneumaticShooter = true;
     private boolean punchOut;
     private boolean gateClosed;
     public Shooter(SpeedController Shooter, SpeedController Intake) {
         this.Shooter = Shooter;
         this.Intake = Intake;
-        pneumaticShooter = false;
+        //pneumaticShooter = false;
     }
     public Shooter(DoubleSolenoid gateSolenoid, DoubleSolenoid punchSolenoid) {
         this.gateSolenoid = gateSolenoid;
@@ -32,6 +32,10 @@ public class Shooter {
         Intake.set(0.7);
     }
 
+    public void shooterOff() {
+        punchSolenoid.set(Value.kOff);
+        gateSolenoid.set(Value.kOff);
+    }
     public void gate() {
         if(gateClosed) {
             gateSolenoid.set(Value.kReverse);

@@ -53,8 +53,8 @@ public class Teleop {
         //Set Ball Shooter Variables
         //Spark shooterSpark = new Spark(7);
         //Spark intakeSpark = new Spark(8);
-        DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
-        DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
+        //DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
+        //DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         //pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
         /*UltrasonicCode
@@ -73,9 +73,8 @@ public class Teleop {
         */
     }
     public void teleopInit() {
-
         intake.hatchOff();
-
+        //shooter.shooterOff();
     }
     public void TeleopPeriodic() {
         driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));
