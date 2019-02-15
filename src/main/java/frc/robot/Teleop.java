@@ -54,8 +54,8 @@ public class Teleop {
         DoubleSolenoid m_gearShiftSolenoid = new DoubleSolenoid(2, 3);
 
         //Add Elevator Variables
-        CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
-        CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
+        CANSparkMax ElevatorFrontLift = new CANSparkMax(5, MotorType.kBrushless);
+        CANSparkMax ElevatorRearLift = new CANSparkMax(4, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
 
         //Set Ball Shooter Variables
@@ -89,6 +89,7 @@ public class Teleop {
         intake.hatchOff();
         //shooter.shooterOff();
     }
+
     public void TeleopPeriodic() {
 
 
@@ -115,14 +116,14 @@ public class Teleop {
         }
         else;
 
-        elevatorSpeedFront = -driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedRear = -driveStick.getTriggerAxis(Hand.kLeft);
 
         if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
-            elevatorSpeedFront = 0.5;
+            elevatorSpeedFront = -0.5;
         }
         if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
-            elevatorSpeedRear = -0.5;
+            elevatorSpeedRear = 0.5;
         }
         elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
         if(driveStick.getYButton()) {
