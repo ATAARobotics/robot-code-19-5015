@@ -28,7 +28,9 @@ public class Teleop {
 
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
-    private DigitalInput testSwitch = new DigitalInput(0);
+    private DigitalInput frontSwitch = new DigitalInput(0);
+    private DigitalInput rearSwitch = new DigitalInput(1);
+
     //private boolean pneumaticShooter;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
@@ -116,10 +118,10 @@ public class Teleop {
         elevatorSpeedFront = -driveStick.getTriggerAxis(Hand.kLeft);
         elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kLeft);
 
-        if(driveStick.getBumper(Hand.kLeft)) {
+        if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
             elevatorSpeedFront = 0.5;
         }
-        if(driveStick.getBumper(Hand.kRight)) {
+        if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
             elevatorSpeedRear = -0.5;
         }
         elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
