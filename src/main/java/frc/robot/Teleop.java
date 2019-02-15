@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.cscore.UsbCamera;
@@ -25,12 +26,12 @@ public class Teleop {
    // private Shooter shooter;
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
+    private DigitalInput testSwitch = new DigitalInput(0);
     //private boolean pneumaticShooter;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
     private UsbCamera camera;
-    private boolean driving = false;
     public Teleop() {
         //Set All Variables for parts on the robot
 
@@ -57,6 +58,7 @@ public class Teleop {
         //DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         //pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
+        camera.setResolution(320, 240); 
         /*UltrasonicCode
         ultrasonics = new Ultrasonics();
         */
@@ -75,6 +77,10 @@ public class Teleop {
     public void teleopInit() {
         intake.hatchOff();
         //shooter.shooterOff();
+    }
+    public void TestPeriodic() {
+        String testSwitchState = Boolean.toString(testSwitch.get());
+        Robot.debugOut(testSwitchState, 1, "Test Switch");
     }
     public void TeleopPeriodic() {
         driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));

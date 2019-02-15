@@ -61,9 +61,10 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();
     }
-
-
-
+    
+    public void testPeriodic() {
+        teleop.TestPeriodic();
+    }
 
 
 
