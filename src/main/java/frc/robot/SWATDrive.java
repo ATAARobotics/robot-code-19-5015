@@ -13,7 +13,6 @@ public class SWATDrive extends DifferentialDrive {
     private static boolean lowGear = true;
     //create the pneumatics variable
     DoubleSolenoid m_gearShifter;
-
     
     public SWATDrive(SpeedController leftMotor, SpeedController rightMotor, DoubleSolenoid gearShifter) {
         super(leftMotor, rightMotor);
@@ -37,4 +36,5 @@ public class SWATDrive extends DifferentialDrive {
             setMaxOutput(1);
         }
     }
+    
 }
