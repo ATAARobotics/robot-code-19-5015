@@ -87,10 +87,6 @@ public class Teleop {
         intake.hatchOff();
         //shooter.shooterOff();
     }
-    public void TestPeriodic() {
-        String testSwitchState = Boolean.toString(testSwitch.get());
-        Robot.debugOut(testSwitchState, 1, "Test Switch");
-    }
     public void TeleopPeriodic() {
 
 
