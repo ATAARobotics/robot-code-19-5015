@@ -23,7 +23,9 @@ public class Teleop {
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
+
    // private Shooter shooter;
+
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
     private DigitalInput testSwitch = new DigitalInput(0);
@@ -44,14 +46,18 @@ public class Teleop {
         //Group Drive
         SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
         SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
+
         //Add pneumatics
         DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
         DoubleSolenoid m_gearShiftSolenoid = new DoubleSolenoid(2, 3);
+
         //Add Elevator Variables
         CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
         CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
+
         //Set Ball Shooter Variables
+
         //Spark shooterSpark = new Spark(7);
         //Spark intakeSpark = new Spark(8);
         //DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
@@ -62,11 +68,14 @@ public class Teleop {
         /*UltrasonicCode
         ultrasonics = new Ultrasonics();
         */
+
         //Initialize Classes
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
         elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive);
+
         /*if(pneumaticShooter) {
+
             shooter = new Shooter(punchSolenoid, gateSolenoid);
         }
         else {
@@ -83,7 +92,13 @@ public class Teleop {
         Robot.debugOut(testSwitchState, 1, "Test Switch");
     }
     public void TeleopPeriodic() {
-        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));
+
+
+        //drive
+        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
+
+        //speed limiters
+
         if(driveStick.getXButton()) {
             driveTrain.gearShift();
         }
@@ -92,6 +107,8 @@ public class Teleop {
         }
         else; 
         
+
+        //hatch control
         if (gunnerStick.getBumper(Hand.kLeft)) {
             intake.HatchOpen();
         }
@@ -99,8 +116,10 @@ public class Teleop {
             intake.HatchClose();
         }
         else;
+
         elevatorSpeedFront = -driveStick.getTriggerAxis(Hand.kLeft);
         elevatorSpeedRear = driveStick.getTriggerAxis(Hand.kLeft);
+
         if(driveStick.getBumper(Hand.kLeft)) {
             elevatorSpeedFront = 0.5;
         }
@@ -111,10 +130,12 @@ public class Teleop {
         if(driveStick.getYButton()) {
             elevator.driveElevator();
         }
+
         else {
             elevator.stopDrive();
         }
         /*if(pneumaticShooter) {
+
             if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
                 shooter.gate();
             }
