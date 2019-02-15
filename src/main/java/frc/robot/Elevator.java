@@ -1,36 +1,30 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
 public class Elevator{
-    public TalonSRX ElevatorDriveTalon = new TalonSRX(4);
-    public TalonSRX ElevatorLeftLiftTalon = new TalonSRX (5);
-    public TalonSRX ElevatorRightLiftTalon = new TalonSRX (6);
-
-    public void liftRobot(){
-
-        ElevatorLeftLiftTalon.set(ControlMode.PercentOutput, 0.7);
-        ElevatorRightLiftTalon.set(ControlMode.PercentOutput, 0.7);
+    SpeedController ElevatorFrontLift;
+    Encoder ElevatorFrontEncoder;
+    SpeedController ElevatorRearLift;
+    Encoder ElevatorRearEncoder;
+    BaseMotorController ElevatorDrive;
+    public Elevator(SpeedController FrontMotor, SpeedController RearMotor, BaseMotorController DriveMotor) {
+        ElevatorFrontLift = FrontMotor;
+        ElevatorRearLift = RearMotor;
+        ElevatorDrive = DriveMotor;
     }
-
-    public void lowerRobot(){
-
-        ElevatorLeftLiftTalon.set(ControlMode.PercentOutput, -0.7);
-        ElevatorRightLiftTalon.set(ControlMode.PercentOutput, -0.7);
-
+    public void elevatorControl(double speedFront, double speedRear){
+        ElevatorFrontLift.set(speedFront);
+        ElevatorRearLift.set(speedRear);
     }
-
-    public void driveForward(){
-
-        ElevatorDriveTalon.set(ControlMode.PercentOutput, 0.7);
-
+    public void driveElevator(){
+        ElevatorDrive.set(ControlMode.PercentOutput, 0.5);
     }
-
-    public void driveBackward(){
-
-        ElevatorDriveTalon.set(ControlMode.PercentOutput, -0.7);
-
+    public void stopDrive() {
+        ElevatorDrive.set(ControlMode.PercentOutput, 0);
     }
 
 }

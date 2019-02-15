@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        teleop.init();
+        teleop.teleopInit();
     }
 
     /**
@@ -61,6 +61,11 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();
     }
+    
+    public void testPeriodic() {
+    }
+
+
 
 
   //Debug function to print strings to console and/or SmartDashboard
@@ -75,7 +80,7 @@ public class Robot extends TimedRobot {
       default:
         break;
     }
-  }
+    }
   public static void debugOut(String value, int logLevel) {debugOut(value, logLevel, "log");}
   public static void debugOut(String value) {debugOut(value, 0);}
 }
