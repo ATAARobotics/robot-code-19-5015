@@ -66,7 +66,9 @@ public class Teleop {
         //DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         //pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(320, 240); 
+        
+        boolean cameraSize = camera.setResolution(3200, 2400); 
+        Robot.debugOut(Boolean.toString(cameraSize), 1, "Camera resize worked: ");
         /*UltrasonicCode
         ultrasonics = new Ultrasonics();
         */
@@ -117,7 +119,7 @@ public class Teleop {
         else;
 
         elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedRear = -driveStick.getTriggerAxis(Hand.kLeft);
+        elevatorSpeedRear = -driveStick.getTriggerAxis(Hand.kLeft)*0.75;
 
         if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
             elevatorSpeedFront = -0.5;
