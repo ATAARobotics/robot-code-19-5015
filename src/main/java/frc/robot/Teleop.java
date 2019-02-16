@@ -23,6 +23,7 @@ public class Teleop {
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
+    public Encoders encoder = new Encoders();
 
    // private Shooter shooter;
 
@@ -36,6 +37,7 @@ public class Teleop {
     private Ultrasonics ultrasonics;
     */
     private UsbCamera camera;
+
     public Teleop() {
         //Set All Variables for parts on the robot
 
@@ -74,7 +76,7 @@ public class Teleop {
         //Initialize Classes
         driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
         intake = new Intake(hatchIntakeSolenoid);
-        elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive);
+        elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive, encoder);
 
         /*if(pneumaticShooter) {
 
@@ -85,66 +87,79 @@ public class Teleop {
         }
         */
     }
+
     public void teleopInit() {
+        //Initialize NavX for the encoder
+        encoder.initalizeNavX();
+
         intake.hatchOff();
         //shooter.shooterOff();
     }
 
     public void TeleopPeriodic() {
 
-
-        //drive
-        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
-
-        //speed limiters
-
-        if(driveStick.getXButton()) {
-            driveTrain.gearShift();
-        }
-        if (driveStick.getAButton()) {
-            driveTrain.slow();
-        }
-        else; 
-        
-
-        //hatch control
-        if (gunnerStick.getBumper(Hand.kLeft)) {
-            intake.HatchOpen();
-        }
-        else if (gunnerStick.getBumper(Hand.kRight)) {
-            intake.HatchClose();
-        }
-        else;
-
-        //Elevator down
-        elevator.elevatorDown(driveStick.getTriggerAxis(Hand.kLeft));
-
-        //Elevator up
-        if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
-            elevator.frontElevatorUp(0.5);
-        }
-        else {
-            elevator.frontElevatorUp(0.0);
+        //Used in the auto climb
+        if (elevator.elevatorPeriodic()) {
+            ExtDrive(0.3, 0.3);
         }
 
-        if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
-            elevator.rearElevatorUp(0.5);
-        }
-        else {
-            elevator.rearElevatorUp(0.0);
+        //If limit switch is contacted, stop elevator from moving in the direction of the limit switch
+        elevator.checkLimitSwitches();
+
+        //Toggles autoclimb on and off
+        if (driveStick.getTriggerAxis(Hand.kLeft) != 0.0) {            
+            elevator.setAutoClimb(!elevator.getClimbing());
         }
 
-        //Sets elevator motor speeds
-        elevator.activateElevator();
+        //Disable manual control if climbing
+        if (!elevator.getClimbing()) {
+            driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
 
-        //Drives forward on back elevator wheels
-        if(driveStick.getYButton()) {
-            elevator.driveElevator();
+            //Speed limiters
+            if(driveStick.getXButton()) {
+                driveTrain.gearShift();
+            }
+            if (driveStick.getAButton()) {
+                driveTrain.slow();
+            }
+            else; 
+            
+            //Hatch control
+            if (gunnerStick.getBumper(Hand.kLeft)) {
+                intake.HatchOpen();
+            }
+            else if (gunnerStick.getBumper(Hand.kRight)) {
+                intake.HatchClose();
+            }
+            else;
+
+            //Elevator down
+            elevator.elevatorDown(driveStick.getTriggerAxis(Hand.kLeft));
+
+            //Elevator up
+            if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
+                elevator.frontElevatorUp(0.5);
+            }
+            else {
+                elevator.frontElevatorUp(0.0);
+            }
+
+            if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
+                elevator.rearElevatorUp(0.5);
+            }
+            else {
+                elevator.rearElevatorUp(0.0);
+            }
+
+            //Drives forward on back elevator wheels
+            if(driveStick.getYButton()) {
+                elevator.driveElevator();
+            }
+            else {
+                elevator.stopDrive();
+            }
         }
-        else {
-            elevator.stopDrive();
-        }
-        
+
         /*if(pneumaticShooter) {
 
             if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
@@ -167,5 +182,24 @@ public class Teleop {
         ultrasonic.getRange(direction);
     }
     */
+    }
+    
+    /**
+    * Drive function for external use in Auto.java
+    * @param leftValue value for left motors, ranges from 1 to -1
+    * @param rightValue value for right motors, ranges from 1 to -1
+    * @return void
+    */
+    
+    
+
+    //Drives main wheels
+    public void ExtDrive(double leftValue, double rightValue) {
+        driveTrain.tankDrive(leftValue, rightValue);
+    }
+
+    //Drives elevator (Call ExtDrive without any parameters to drive elevator wheels)
+    public void ExtDrive() {
+        elevator.driveElevator();
     }
 }

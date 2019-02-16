@@ -36,5 +36,4 @@ public class SWATDrive extends DifferentialDrive {
             setMaxOutput(1);
         }
     }
-    
 }

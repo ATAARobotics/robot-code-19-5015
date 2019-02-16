@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
     }
 
+    Encoders encoder = new Encoders();
+
     /**
     * This function is called periodically during autonomous.
     */
