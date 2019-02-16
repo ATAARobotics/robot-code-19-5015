@@ -94,7 +94,7 @@ public class Teleop {
 
 
         //drive
-        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
+        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));
 
         //speed limiters
 
