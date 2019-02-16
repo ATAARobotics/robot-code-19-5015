@@ -54,8 +54,8 @@ public class Teleop {
         DoubleSolenoid m_gearShiftSolenoid = new DoubleSolenoid(2, 3);
 
         //Add Elevator Variables
-        CANSparkMax ElevatorFrontLift = new CANSparkMax(5, MotorType.kBrushless);
-        CANSparkMax ElevatorRearLift = new CANSparkMax(4, MotorType.kBrushless);
+        CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
+        CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
 
         //Set Ball Shooter Variables
