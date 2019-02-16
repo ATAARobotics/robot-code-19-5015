@@ -116,23 +116,35 @@ public class Teleop {
         }
         else;
 
-        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedRear = -driveStick.getTriggerAxis(Hand.kLeft);
+        //Elevator down
+        elevator.elevatorDown(driveStick.getTriggerAxis(Hand.kLeft));
 
+        //Elevator up
         if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
-            elevatorSpeedFront = -0.5;
+            elevator.frontElevatorUp(0.5);
         }
+        else {
+            elevator.frontElevatorUp(0.0);
+        }
+
         if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
-            elevatorSpeedRear = 0.5;
+            elevator.rearElevatorUp(0.5);
         }
-        elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
+        else {
+            elevator.rearElevatorUp(0.0);
+        }
+
+        //Sets elevator motor speeds
+        elevator.activateElevator();
+
+        //Drives forward on back elevator wheels
         if(driveStick.getYButton()) {
             elevator.driveElevator();
         }
-
         else {
             elevator.stopDrive();
         }
+        
         /*if(pneumaticShooter) {
 
             if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
