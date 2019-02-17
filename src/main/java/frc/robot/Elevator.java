@@ -29,11 +29,10 @@ public class Elevator {
         ElevatorFrontLift = FrontMotor;
         ElevatorRearLift = RearMotor;
         ElevatorDrive = DriveMotor;
-        //TODO Resolve DigitalInput crash
-        //frontElevatorUpLimit = new DigitalInput(0);
-        //frontElevatorDownLimit = new DigitalInput(2);
-        //rearElevatorUpLimit = new DigitalInput(1);
-        //rearElevatorDownLimit = new DigitalInput(3);
+        frontElevatorUpLimit = new DigitalInput(2);
+        frontElevatorDownLimit = new DigitalInput(0);
+        rearElevatorUpLimit = new DigitalInput(3);
+        rearElevatorDownLimit = new DigitalInput(1);
         climbing = false;
         climbState = 0;
     }
