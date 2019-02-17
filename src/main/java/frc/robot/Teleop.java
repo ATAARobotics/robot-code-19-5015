@@ -66,9 +66,6 @@ public class Teleop {
         //DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
         //pneumaticShooter = true;
         camera = CameraServer.getInstance().startAutomaticCapture();
-        
-        boolean cameraSize = camera.setResolution(3200, 2400); 
-        Robot.debugOut(Boolean.toString(cameraSize), 1, "Camera resize worked: ");
         /*UltrasonicCode
         ultrasonics = new Ultrasonics();
         */
