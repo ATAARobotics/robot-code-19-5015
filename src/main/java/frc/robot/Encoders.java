@@ -35,6 +35,8 @@ public class Encoders {
     }
 
     public double getDistance() {
+        Robot.debugOut(Double.toString(leftEncoder.getDistance()), 1, "Left Encoder");
+        Robot.debugOut(Double.toString(rightEncoder.getDistance()), 1, "Right Encoder");
         double leftEncoderDistance = leftEncoder.getDistance();
         double rightEncoderDistance = rightEncoder.getDistance();
         if (leftEncoderDistance == 0.0) {

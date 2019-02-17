@@ -2,9 +2,9 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
+
 public class Elevator {
 
     public static final int frontElevatorUpLimitContacted = 1;
@@ -29,10 +29,11 @@ public class Elevator {
         ElevatorFrontLift = FrontMotor;
         ElevatorRearLift = RearMotor;
         ElevatorDrive = DriveMotor;
-        frontElevatorUpLimit = new DigitalInput(0);
-        frontElevatorDownLimit = new DigitalInput(0);
-        rearElevatorUpLimit = new DigitalInput(0);
-        rearElevatorDownLimit = new DigitalInput(0);
+        //TODO Resolve DigitalInput crash
+        //frontElevatorUpLimit = new DigitalInput(0);
+        //frontElevatorDownLimit = new DigitalInput(2);
+        //rearElevatorUpLimit = new DigitalInput(1);
+        //rearElevatorDownLimit = new DigitalInput(3);
         climbing = false;
         climbState = 0;
     }
@@ -74,19 +75,27 @@ public class Elevator {
 
     public void frontElevatorUp(double speed) {
         //Negative because of the wiring
-        elevatorSpeedFront = -1 * speed;
-        activateElevator();
+        if (!frontElevatorUpLimit.get()) {
+            elevatorSpeedFront = -1 * speed;
+            activateElevator();
+        }
     }
 
     public void rearElevatorUp(double speed) {
-        elevatorSpeedRear = speed;
-        activateElevator();
+        if (!rearElevatorUpLimit.get()) {
+            elevatorSpeedRear = speed;
+            activateElevator();
+        }
     }
 
     public void elevatorDown(double speed) {
-        //Positive because of wiring
-        elevatorSpeedFront = speed;
-        elevatorSpeedRear = -1 * speed;
+        if (!frontElevatorDownLimit.get()) {
+            //Positive because of wiring
+            elevatorSpeedFront = speed;
+        }
+        if (!rearElevatorDownLimit.get()) {
+            elevatorSpeedRear = -1 * speed;
+        }
         activateElevator();
     }
 

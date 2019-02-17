@@ -3,7 +3,6 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.cscore.UsbCamera;
@@ -25,10 +24,7 @@ public class Teleop {
     private Elevator elevator;
     public Encoders encoder = new Encoders();
 
-   // private Shooter shooter;
-
-    private DigitalInput frontSwitch = new DigitalInput(0);
-    private DigitalInput rearSwitch = new DigitalInput(1);
+    // private Shooter shooter;
 
     //private boolean pneumaticShooter;
     /*UltrasonicCode
@@ -135,14 +131,14 @@ public class Teleop {
             elevator.elevatorDown(driveStick.getTriggerAxis(Hand.kLeft));
 
             //Elevator up
-            if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
+            if(driveStick.getBumper(Hand.kLeft)) {
                 elevator.frontElevatorUp(0.5);
             }
             else {
                 elevator.frontElevatorUp(0.0);
             }
 
-            if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
+            if(driveStick.getBumper(Hand.kRight)) {
                 elevator.rearElevatorUp(0.5);
             }
             else {
