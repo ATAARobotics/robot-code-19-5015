@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 public class Elevator {
 
@@ -13,9 +12,7 @@ public class Elevator {
     public static final int rearElevatorUpLimitContacted = 4;
     public static final int rearElevatorDownLimitContacted = 8;
     SpeedController ElevatorFrontLift;
-    Encoder ElevatorFrontEncoder;
     SpeedController ElevatorRearLift;
-    Encoder ElevatorRearEncoder;
     BaseMotorController ElevatorDrive;
     private double elevatorSpeedFront;
     private double elevatorSpeedRear;
@@ -25,14 +22,10 @@ public class Elevator {
     private DigitalInput rearElevatorDownLimit;
     private boolean climbing;
     private int climbState;
-    Encoder leftEncoder;
-    Encoder rightEncoder;
-    Encoder elevatorEncoder;
+    Encoders encoders;
 
     public Elevator(SpeedController FrontMotor, SpeedController RearMotor, BaseMotorController DriveMotor, Encoders encoders) {
-        leftEncoder = encoders.leftEncoder;
-        rightEncoder = encoders.rightEncoder;
-        elevatorEncoder = encoders.elevatorEncoder;
+        this.encoders = encoders;
         ElevatorFrontLift = FrontMotor;
         ElevatorRearLift = RearMotor;
         ElevatorDrive = DriveMotor;
@@ -119,16 +112,14 @@ public class Elevator {
         return returnValue;
     }
 
-    public void setEncoderValues(Encoder leftEncoder, Encoder rightEncoder, Encoder elevatorEncoder) {
-
-    }
-
     public boolean getClimbing() {
         return climbing;
     }
 
     private void nextState() {
+        encoders.reset();
         climbState++;
+
     }
 
     private boolean autoClimb() {
@@ -149,7 +140,7 @@ public class Elevator {
             //Drive forward
             case 2:
                 driveElevator();
-                //TODO Check encoder distance
+                //TODO Check time required to get to a point where we can retract the front elevator
                 /* if () {
                     nextState();
                 } */
@@ -168,9 +159,9 @@ public class Elevator {
                 driveElevator();
                 returnValue = true;
                 //TODO Check encoder distance
-                /* if () {
+                if (encoders.getDistance() > 12.5) {
                     nextState();
-                } */
+                }
                 break;
 
             //Retract rear elevator
@@ -186,9 +177,9 @@ public class Elevator {
             case 6:
                 returnValue = true;
                 //TODO Check encoder distance
-                /* if () {
+                if (encoders.getDistance() > 14) {
                     setAutoClimb(false);
-                } */
+                }
                 break;
 
             default:

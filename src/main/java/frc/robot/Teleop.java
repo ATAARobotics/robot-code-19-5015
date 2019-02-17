@@ -27,8 +27,6 @@ public class Teleop {
 
    // private Shooter shooter;
 
-    private double elevatorSpeedFront;
-    private double elevatorSpeedRear;
     private DigitalInput frontSwitch = new DigitalInput(0);
     private DigitalInput rearSwitch = new DigitalInput(1);
 
@@ -56,8 +54,8 @@ public class Teleop {
         DoubleSolenoid m_gearShiftSolenoid = new DoubleSolenoid(2, 3);
 
         //Add Elevator Variables
-        CANSparkMax ElevatorFrontLift = new CANSparkMax(5, MotorType.kBrushless);
-        CANSparkMax ElevatorRearLift = new CANSparkMax(4, MotorType.kBrushless);
+        CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
+        CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
         WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
 
         //Set Ball Shooter Variables
@@ -113,7 +111,7 @@ public class Teleop {
 
         //Disable manual control if climbing
         if (!elevator.getClimbing()) {
-            driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
+            driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), -driveStick.getX(Hand.kRight));
 
             //Speed limiters
             if(driveStick.getXButton()) {
