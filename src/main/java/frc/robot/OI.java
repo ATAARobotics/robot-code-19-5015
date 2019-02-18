@@ -21,6 +21,9 @@ class OI {
     private boolean hatchClosed;
     private boolean punchBall;
     private boolean secureBall;
+    private double manualClimbLift;
+    private boolean manualRearUp;
+    private boolean manualFrontUp;
     public OI() {
 
     }
@@ -33,6 +36,9 @@ class OI {
                 slow = driveStick.getAButtonReleased();
                 autoClimbPressed = driveStick.getBumper(Hand.kRight);
                 manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
+                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
+                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
                 break;
     
             default:
@@ -42,6 +48,9 @@ class OI {
                 slow = driveStick.getAButtonReleased();
                 autoClimbPressed = driveStick.getBumper(Hand.kRight);
                 manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
+                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
+                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
                 break;
         }
         switch (gunnerScheme) {
@@ -148,5 +157,34 @@ class OI {
         else {
             return false;
         }
+    }
+    public double elevatorSpeedDown() {
+        if(manualClimb) {
+            return manualClimbLift;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public boolean elevatorFrontUp() {
+        if(manualClimb && manualFrontUp) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public boolean elevatorRearUp() {
+        if(manualClimb && manualRearUp) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean autoClimb() {
+        return autoClimb;
     }
 }
