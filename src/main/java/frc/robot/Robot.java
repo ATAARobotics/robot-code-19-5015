@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
   
@@ -64,23 +63,4 @@ public class Robot extends TimedRobot {
     
     public void testPeriodic() {
     }
-
-
-
-
-  //Debug function to print strings to console and/or SmartDashboard
-  public static void debugOut(String value, int logLevel, String key) {
-    switch (logLevel) {
-      case 0:
-        System.out.println(value);
-
-      case 1:
-        SmartDashboard.putString(key, value);
-
-      default:
-        break;
-    }
-    }
-  public static void debugOut(String value, int logLevel) {debugOut(value, logLevel, "log");}
-  public static void debugOut(String value) {debugOut(value, 0);}
 }

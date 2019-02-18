@@ -1,89 +1,26 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.DigitalInput;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.Spark;
-
 public class Teleop {
-    // Controllers for drivers
-
-    private XboxController gunnerStick = new XboxController(1);
-    private XboxController driveStick = new XboxController(0);
     // Vairables for robot classes
     private SWATDrive driveTrain;
     private Intake intake;
     private Elevator elevator;
+    private RobotMap robotMap;
+    private OI joysticks;
+    private Shooter shooter;
 
-   // private Shooter shooter;
-
-    private double elevatorSpeedFront;
-    private double elevatorSpeedRear;
-    private DigitalInput frontSwitch = new DigitalInput(0);
-    private DigitalInput rearSwitch = new DigitalInput(1);
-
-    //private boolean pneumaticShooter;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
-    private UsbCamera camera;
+
     public Teleop() {
-        //Set All Variables for parts on the robot
-
-        //Drive Controllers
-        WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
-        WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
-        WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
-        WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
-
-        //Group Drive
-        SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
-        SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
-
-        //Add pneumatics
-        DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
-        DoubleSolenoid m_gearShiftSolenoid = new DoubleSolenoid(2, 3);
-
-        //Add Elevator Variables
-        CANSparkMax ElevatorFrontLift = new CANSparkMax(5, MotorType.kBrushless);
-        CANSparkMax ElevatorRearLift = new CANSparkMax(4, MotorType.kBrushless);
-        WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
-
-        //Set Ball Shooter Variables
-
-        //Spark shooterSpark = new Spark(7);
-        //Spark intakeSpark = new Spark(8);
-        //DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
-        //DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
-        //pneumaticShooter = true;
-        camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(320, 240); 
-        /*UltrasonicCode
-        ultrasonics = new Ultrasonics();
-        */
-
         //Initialize Classes
-        driveTrain = new SWATDrive(leftMotors, rightMotors, m_gearShiftSolenoid);
-        intake = new Intake(hatchIntakeSolenoid);
-        elevator = new Elevator(ElevatorFrontLift, ElevatorRearLift, ElevatorDrive);
-
-        /*if(pneumaticShooter) {
-
-            shooter = new Shooter(punchSolenoid, gateSolenoid);
-        }
-        else {
-            shooter = new Shooter(intakeSpark, shooterSpark);   
-        }
-        */
+        robotMap = new RobotMap();
+        joysticks = new OI();
+        driveTrain = new SWATDrive(robotMap.getLeftMotors(), robotMap.getRightMotors(), robotMap.getGearShift());
+        intake = new Intake(robotMap.getHatchIntake());
+        elevator = new Elevator(robotMap.getElevatorFront(), robotMap.getElevatorRear(), robotMap.getElevatorDrive());
+        shooter = new Shooter();
     }
     public void teleopInit() {
         intake.hatchOff();
@@ -92,65 +29,37 @@ public class Teleop {
 
     public void TeleopPeriodic() {
 
-
+        joysticks.checkInputs();
         //drive
-        driveTrain.arcadeDrive(driveStick.getY(Hand.kLeft), driveStick.getX(Hand.kRight));
-
+        if(!joysticks.climbState()) {
+            driveTrain.arcadeDrive(joysticks.getXSpeed(), joysticks.getZRotation());
+        }
         //speed limiters
 
-        if(driveStick.getXButton()) {
+        if(joysticks.getGearShift()) {
             driveTrain.gearShift();
         }
-        if (driveStick.getAButton()) {
+        if (joysticks.getSlow()) {
             driveTrain.slow();
         }
         else; 
         
 
         //hatch control
-        if (gunnerStick.getBumper(Hand.kLeft)) {
+        if (joysticks.getHatchOpen()) {
             intake.HatchOpen();
         }
-        else if (gunnerStick.getBumper(Hand.kRight)) {
+        else if (joysticks.getHatchClosed()) {
             intake.HatchClose();
         }
         else;
 
-        elevatorSpeedFront = driveStick.getTriggerAxis(Hand.kLeft);
-        elevatorSpeedRear = -driveStick.getTriggerAxis(Hand.kLeft);
-
-        if(driveStick.getBumper(Hand.kLeft) && frontSwitch.get()) {
-            elevatorSpeedFront = -0.5;
-        }
-        if(driveStick.getBumper(Hand.kRight) && rearSwitch.get()) {
-            elevatorSpeedRear = 0.5;
-        }
-        elevator.elevatorControl(elevatorSpeedFront, elevatorSpeedRear);
-        if(driveStick.getYButton()) {
-            elevator.driveElevator();
-        }
-
-        else {
-            elevator.stopDrive();
-        }
-        /*if(pneumaticShooter) {
-
-            if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
+        if(joysticks.getBallSecure()) {
                 shooter.gate();
-            }
-            else if(gunnerStick.getTriggerAxis(Hand.kRight) >0.2) {
+        }
+            else if(joysticks.getBallPunch()) {
                 shooter.punch();
             }
-        }
-        else {
-            if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
-                shooter.intakeBall();
-            }
-            else if(gunnerStick.getTriggerAxis(Hand.kRight) >0.2) {
-                shooter.shootBall();
-            }
-        }
-        */
     /* public getUltrasonicRange(int direction) {
         ultrasonic.getRange(direction);
     }
