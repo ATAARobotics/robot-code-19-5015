@@ -21,15 +21,14 @@ public class Shooter {
         gateSolenoid.set(Value.kForward);
     }
     
-    public void punch() {
+    public boolean punch() {
         switch (stepNumber) {
             case 0:
                 shooterTimer.reset();
                 shooterTimer.start();
                 gateSolenoid.set(Value.kReverse);
                 stepNumber++;
-                punch();
-                break;
+                return false;
             case 1:
                 if(shooterTimer.get() >= 0.75) {
                     shooterTimer.stop();
@@ -37,8 +36,7 @@ public class Shooter {
                     shooterTimer.start();
                     punchSolenoid.set(Value.kForward);
                     stepNumber++;
-                    punch();
-                    break;
+                    return false;
                 }
             case 2:
                 if(shooterTimer.get() >= 0.75) {
@@ -47,10 +45,10 @@ public class Shooter {
                     shooterTimer.start();
                     punchSolenoid.set(Value.kReverse);
                     stepNumber = 0;
-                    break;
+                    return true;
                 }
             default:
-                break;
+                return true;
         }
     }
 }
