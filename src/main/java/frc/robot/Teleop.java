@@ -57,9 +57,27 @@ public class Teleop {
         if(joysticks.getBallSecure()) {
                 shooter.gate();
         }
-            else if(joysticks.getBallPunch()) {
-                shooter.punch();
+        else if(joysticks.getBallPunch()) {
+            shooter.punch();
+        }
+        else;
+        double speedFront = 0;
+        double speedRear = 0;
+        if(joysticks.elevatorFrontUp()) {
+            speedFront = -0.5;
+        }
+        if(joysticks.elevatorRearUp()) {
+            speedRear = 0.5;
+        }
+        else {
+            double speed = joysticks.elevatorSpeedDown();
+            if(speed > 0.75) {
+                speed = 0.75;
             }
+            speedFront = speed;
+            speedRear = -speed;
+        }
+        elevator.elevatorControl(speedFront, speedRear);
     /* public getUltrasonicRange(int direction) {
         ultrasonic.getRange(direction);
     }
