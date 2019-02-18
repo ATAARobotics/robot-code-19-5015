@@ -32,7 +32,7 @@ public class Teleop {
         joysticks.checkInputs();
         //drive
         if(!joysticks.climbState()) {
-            driveTrain.arcadeDrive(joysticks.getXSpeed(), joysticks.getZRotation());
+            driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
         }
         //speed limiters
 
