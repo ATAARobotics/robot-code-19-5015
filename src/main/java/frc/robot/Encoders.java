@@ -3,19 +3,33 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import java.lang.Math;
 
 public class Encoders {
     
-    //Creates left and right encoder objects and sets
-    //them to their respective digital input channels
-    public Encoder leftEncoder = new Encoder(0, 1);
-    public Encoder rightEncoder = new Encoder(2, 3);
-    public AHRS navX;
-    public double ticksPerInch;
+    //Creates left and right encoder objects
+    private WPI_TalonSRX leftMotor;
+    private WPI_TalonSRX rightMotor;
+
+    private AHRS navX;
+    private double leftTicksPerInch;
+    private double rightTicksPerInch;
     private double wheelCircumference = 6 * Math.PI;
+
+    public Encoders(WPI_TalonSRX leftMotor, WPI_TalonSRX rightMotor) {
+
+        this.leftMotor = leftMotor;
+        this.rightMotor = rightMotor;
+
+        this.leftMotor.setSelectedSensorPosition(0);
+        this.rightMotor.setSelectedSensorPosition(0);
+
+        leftTicksPerInch = 30700 / wheelCircumference;
+        rightTicksPerInch = 30700 / wheelCircumference;
+    }
 
     public void initalizeNavX() {
         try
@@ -29,16 +43,9 @@ public class Encoders {
         }
     }
 
-    public void setEncoderValues(double wheelCircumference) {
-        leftEncoder.setDistancePerPulse(wheelCircumference / /*TODO Calculate ticks per rotation*/1);
-        rightEncoder.setDistancePerPulse(wheelCircumference / /*TODO Calculate ticks per rotation*/1);
-    }
-
     public double getDistance() {
-        Robot.debugOut(Double.toString(leftEncoder.getDistance()), 1, "Left Encoder");
-        Robot.debugOut(Double.toString(rightEncoder.getDistance()), 1, "Right Encoder");
-        double leftEncoderDistance = leftEncoder.getDistance();
-        double rightEncoderDistance = rightEncoder.getDistance();
+        double leftEncoderDistance = leftMotor.getSelectedSensorPosition();
+        double rightEncoderDistance = rightMotor.getSelectedSensorPosition();
         if (leftEncoderDistance == 0.0) {
             return Math.abs(rightEncoderDistance);
         }
@@ -51,7 +58,14 @@ public class Encoders {
     }
 
     public void reset() {
-        leftEncoder.reset();
-        rightEncoder.reset();
+        leftMotor.setSelectedSensorPosition(0);
+        rightMotor.setSelectedSensorPosition(0);
+    }
+
+    public void encoderDebug() {
+        Robot.debugOut(Double.toString(leftMotor.getSelectedSensorPosition() / leftTicksPerInch), 1, "Left Encoder");
+        Robot.debugOut(Integer.toString(rightMotor.getSelectedSensorPosition()), 1, "Raw Right Encoder");
+        Robot.debugOut(Double.toString(rightTicksPerInch), 1, "Ticks per inch");
+        Robot.debugOut(Double.toString(rightMotor.getSelectedSensorPosition() / rightTicksPerInch), 1, "Right Encoder");
     }
 }

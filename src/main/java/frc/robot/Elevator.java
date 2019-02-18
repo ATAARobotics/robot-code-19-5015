@@ -4,6 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Elevator {
 
@@ -22,19 +26,23 @@ public class Elevator {
     private DigitalInput rearElevatorDownLimit;
     private boolean climbing;
     private int climbState;
-    Encoders encoders;
+    private Encoders encoders;
+    private CANSparkMax elevatorFrontLift;
+    private CANSparkMax elevatorRearLift;
+    private WPI_VictorSPX elevatorDrive;
+    private edu.wpi.first.wpilibj.Timer timer;
 
-    public Elevator(SpeedController FrontMotor, SpeedController RearMotor, BaseMotorController DriveMotor, Encoders encoders) {
-        this.encoders = encoders;
-        ElevatorFrontLift = FrontMotor;
-        ElevatorRearLift = RearMotor;
-        ElevatorDrive = DriveMotor;
-        frontElevatorUpLimit = new DigitalInput(2);
-        frontElevatorDownLimit = new DigitalInput(0);
-        rearElevatorUpLimit = new DigitalInput(3);
-        rearElevatorDownLimit = new DigitalInput(1);
+    public Elevator() {
+        elevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
+        elevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
+        elevatorDrive = new WPI_VictorSPX(6);
+        frontElevatorUpLimit = new DigitalInput(0);
+        frontElevatorDownLimit = new DigitalInput(2);
+        rearElevatorUpLimit = new DigitalInput(1);
+        rearElevatorDownLimit = new DigitalInput(3);
         climbing = false;
         climbState = 0;
+        timer = new Timer();
     }
 
     //Sets climbing to the input value provided by teleop
@@ -58,18 +66,18 @@ public class Elevator {
 
     //Sets motor speeds
     private void activateElevator(){
-        ElevatorFrontLift.set(elevatorSpeedFront);
-        ElevatorRearLift.set(elevatorSpeedRear);
+        elevatorFrontLift.set(elevatorSpeedFront);
+        elevatorRearLift.set(elevatorSpeedRear);
     }
 
     //Drives forward on back elevator wheels
     public void driveElevator(){
-        ElevatorDrive.set(ControlMode.PercentOutput, 0.5);
+        elevatorDrive.set(ControlMode.PercentOutput, 0.5);
     }
 
     //Stops driving forward on elevator wheels
     public void stopDrive() {
-        ElevatorDrive.set(ControlMode.PercentOutput, 0);
+        elevatorDrive.set(ControlMode.PercentOutput, 0);
     }
 
     public void frontElevatorUp(double speed) {
@@ -141,6 +149,8 @@ public class Elevator {
             case 1:
                 elevatorDown(0.5);
                 if (checkLimitSwitches() == (frontElevatorDownLimitContacted + rearElevatorDownLimitContacted)) {
+                    timer.reset();
+                    timer.start();
                     nextState();
                 }
                 break;
@@ -148,10 +158,9 @@ public class Elevator {
             //Drive forward
             case 2:
                 driveElevator();
-                //TODO Check time required to get to a point where we can retract the front elevator
-                /* if () {
+                if (timer.get() > 3.5) {
                     nextState();
-                } */
+                }
                 break;
             
             //Retract front elevator
@@ -166,7 +175,6 @@ public class Elevator {
             case 4:
                 driveElevator();
                 returnValue = true;
-                //TODO Check encoder distance
                 if (encoders.getDistance() > 12.5) {
                     nextState();
                 }
@@ -184,7 +192,6 @@ public class Elevator {
             //Drive forward
             case 6:
                 returnValue = true;
-                //TODO Check encoder distance
                 if (encoders.getDistance() > 14) {
                     setAutoClimb(false);
                 }
