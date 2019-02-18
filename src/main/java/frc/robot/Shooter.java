@@ -6,18 +6,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Shooter {
     private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
-    //private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
+    private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
     //private boolean pneumaticShooter = true;
     private boolean punchOut;
-    //private boolean gateClosed;
+    private boolean gateClosed;
     public Shooter() {
     }
 
     public void shooterOff() {
         punchSolenoid.set(Value.kOff);
-        //gateSolenoid.set(Value.kOff);
+        gateSolenoid.set(Value.kOff);
     }
-    /*public void gate() {
+    public void gate() {
         if(gateClosed) {
             gateSolenoid.set(Value.kReverse);
         }
@@ -25,7 +25,7 @@ public class Shooter {
             gateSolenoid.set(Value.kForward);
         }
         gateClosed = !gateClosed;
-    } */
+    }
     
     public void punch() {
         if(punchOut) {

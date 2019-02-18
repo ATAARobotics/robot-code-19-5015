@@ -54,10 +54,10 @@ public class Teleop {
         }
         else;
 
-        /*if(gunnerStick.getTriggerAxis(Hand.kLeft) > 0.2) {
+        if(joysticks.getBallSecure()) {
                 shooter.gate();
-        }*/
-            /*else */if(joysticks.getBallPunch()) {
+        }
+            else if(joysticks.getBallPunch()) {
                 shooter.punch();
             }
     /* public getUltrasonicRange(int direction) {
