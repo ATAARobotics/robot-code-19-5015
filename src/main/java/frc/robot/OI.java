@@ -1,6 +1,8 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 class OI {
     private XboxController driveStick = new XboxController(0);
@@ -28,6 +30,8 @@ class OI {
 
     }
     public void checkInputs() {
+        driverScheme = SmartDashboard.getString("Driver Preference", "Default");
+        gunnerScheme = SmartDashboard.getString("Gunner Preference", "Default");
         switch (driverScheme) {
             case "Default":
                 XSpeed = driveStick.getY(Hand.kLeft);
@@ -40,6 +44,18 @@ class OI {
                 manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
                 manualRearUp = driveStick.getBumperReleased(Hand.kRight);
                 break;
+            
+            case "Reverse Turning":
+                XSpeed = -driveStick.getY(Hand.kLeft);
+                ZRotation = driveStick.getX(Hand.kRight);
+                gearShift = driveStick.getXButtonReleased();
+                slow = driveStick.getAButtonReleased();
+                autoClimbPressed = driveStick.getBumper(Hand.kRight);
+                manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
+                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
+                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                break;    
     
             default:
                 XSpeed = driveStick.getY(Hand.kLeft);
@@ -60,7 +76,24 @@ class OI {
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 break;
-    
+            case "Reverse Hatch":
+                hatchOpen = gunnerStick.getRawButtonReleased(6);
+                hatchClosed = gunnerStick.getRawButtonReleased(5);
+                secureBall = gunnerStick.getRawButtonReleased(7);
+                punchBall = gunnerStick.getRawButtonReleased(8);
+                break;
+            case "Reverse Ball":
+                hatchOpen = gunnerStick.getRawButtonReleased(5);
+                hatchClosed = gunnerStick.getRawButtonReleased(6);
+                secureBall = gunnerStick.getRawButtonReleased(8);
+                punchBall = gunnerStick.getRawButtonReleased(7);
+                break;
+            case "Reverse All":
+                hatchOpen = gunnerStick.getRawButtonReleased(6);
+                hatchClosed = gunnerStick.getRawButtonReleased(5);
+                secureBall = gunnerStick.getRawButtonReleased(8);
+                punchBall = gunnerStick.getRawButtonReleased(7);
+                break;    
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
