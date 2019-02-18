@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath.Step;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
