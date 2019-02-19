@@ -8,7 +8,7 @@ public class Teleop {
     private RobotMap robotMap;
     private OI joysticks;
     private Shooter shooter;
-
+    private boolean shooterDone = true;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
@@ -32,7 +32,7 @@ public class Teleop {
         joysticks.checkInputs();
         //drive
         if(!joysticks.climbState()) {
-            driveTrain.arcadeDrive(joysticks.getXSpeed(), joysticks.getZRotation());
+            driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
         }
         //speed limiters
 
@@ -57,8 +57,8 @@ public class Teleop {
         if(joysticks.getBallSecure()) {
                 shooter.gate();
         }
-        else if(joysticks.getBallPunch()) {
-            shooter.punch();
+        else if(joysticks.getBallPunch() || !shooterDone) {
+            shooterDone = shooter.punch();
         }
         else;
         double speedFront = 0;
