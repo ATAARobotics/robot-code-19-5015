@@ -35,14 +35,14 @@ public class SWATDrive extends DifferentialDrive {
     public void slow() {
         slow = !slow;
         if(slow) {
-            setMaxOutput(0.4);
-            maxTurnSpeed = 0.4;
-            maxStraightSpeed = 0.2;
+            setMaxOutput(Settings.driveSpeedSlowAll);
+            maxTurnSpeed = Settings.driveSpeedSlowTurning;
+            maxStraightSpeed = Settings.driveSpeedSlowStraight;
         }
         else {
-            setMaxOutput(1);
-            maxTurnSpeed = 0.8;
-            maxStraightSpeed = 1;
+            setMaxOutput(Settings.driveSpeedNormalAll);
+            maxTurnSpeed = Settings.driveSpeedNormalTurning;
+            maxStraightSpeed = Settings.driveSpeedNormalStraight;
         }
     }
     

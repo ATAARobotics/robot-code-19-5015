@@ -1,8 +1,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 class OI {
     private XboxController driveStick = new XboxController(0);
@@ -30,8 +28,8 @@ class OI {
 
     }
     public void checkInputs() {
-        driverScheme = SmartDashboard.getString("Driver Preference", "Default");
-        gunnerScheme = SmartDashboard.getString("Gunner Preference", "Default");
+        driverScheme = Settings.driverPreferences;
+        gunnerScheme = Settings.gunnerPreferences;
         switch (driverScheme) {
             case "Default":
                 XSpeed = driveStick.getY(Hand.kLeft);

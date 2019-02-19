@@ -25,7 +25,8 @@ class RobotMap {
     //Add pneumatics
     DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
     DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
-
+    DoubleSolenoid punchSolenoid = new DoubleSolenoid(4,5);
+    DoubleSolenoid gateSolenoid = new DoubleSolenoid(6,7);
     //Add Elevator Variables
     CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
     CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
@@ -84,5 +85,13 @@ class RobotMap {
 
     public DigitalInput getLowerRearSwitch() {
         return lowerRearSwitch;
+    }
+
+    public DoubleSolenoid getPunch() {
+        return punchSolenoid;
+    }
+
+    public DoubleSolenoid getGate() {
+        return gateSolenoid;
     }
 }

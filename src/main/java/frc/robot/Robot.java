@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends TimedRobot {
   
     Teleop teleop = new Teleop();
-
+    Settings settings = new Settings();
     @Override
     public void robotInit() {
+        settings.shuffleInit();
         teleop.teleopInit();
     }
 
@@ -29,8 +30,13 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void robotPeriodic() {
+
     }
 
+    @Override
+    public void disabledPeriodic() {
+        settings.shufflePeriodic();
+    }
     /**
     * This autonomous (along with the chooser code above) shows how to select
     * between different autonomous modes using the dashboard. The sendable
