@@ -6,35 +6,44 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.robot.Encoders;
 
-class RobotMap {
-    WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
-    WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
-    WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
-    WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
+public class RobotMap {
+    private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
+    private WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
+    private WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
+    private WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
+    
     //Group Drive
-    SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
-    SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
+    private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
+    private SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
 
+    //Add drivetrain
+    private DifferentialDrive driveTrain = new DifferentialDrive(leftMotors, rightMotors);
+    
     //Add pneumatics
-    DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
-    DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
-    DoubleSolenoid punchSolenoid = new DoubleSolenoid(4,5);
-    DoubleSolenoid gateSolenoid = new DoubleSolenoid(6,7);
+    private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
+    private DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
+
+    private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
+    private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
     //Add Elevator Variables
-    CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
-    CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
-    WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
-    DigitalInput upperFrontSwitch = new DigitalInput(0);
-    DigitalInput upperRearSwitch = new DigitalInput(1);
-    DigitalInput lowerFrontSwitch = new DigitalInput(2);
-    DigitalInput lowerRearSwitch = new DigitalInput(3);
+    private CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
+    private CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
+    private WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
+    private DigitalInput upperFrontSwitch = new DigitalInput(0);
+    private DigitalInput upperRearSwitch = new DigitalInput(1);
+    private DigitalInput lowerFrontSwitch = new DigitalInput(2);
+    private DigitalInput lowerRearSwitch = new DigitalInput(3);
+
+    //Add encoders
+    private Encoders encoders = new Encoders(frontLeftMotor, frontRightMotor);
 
     public RobotMap() {
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -71,27 +80,35 @@ class RobotMap {
         return ElevatorDrive;
     }
 
-    public DigitalInput getUpperFrontSwitch() {
+    public DigitalInput getFrontElevatorUpLimit() {
         return upperFrontSwitch;
     }
 
-    public DigitalInput getUpperRearSwitch() {
+    public DigitalInput getRearElevatorUpLimit() {
         return upperRearSwitch;
     }
 
-    public DigitalInput getLowerFrontSwitch() {
+    public DigitalInput getFrontElevatorDownLimit() {
         return lowerFrontSwitch;
     }
 
-    public DigitalInput getLowerRearSwitch() {
+    public DigitalInput getRearElevatorDownLimit() {
         return lowerRearSwitch;
     }
 
-    public DoubleSolenoid getPunch() {
-        return punchSolenoid;
+    public Encoders getEncoders() {
+        return encoders;
     }
 
-    public DoubleSolenoid getGate() {
+    public DifferentialDrive getDriveTrain() {
+        return driveTrain;
+    }
+
+    public DoubleSolenoid getGateSolenoid() {
         return gateSolenoid;
+    }
+
+    public DoubleSolenoid getPunchSolenoid() {
+        return punchSolenoid;
     }
 }

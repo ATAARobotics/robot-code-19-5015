@@ -15,7 +15,7 @@ class OI {
     private boolean autoClimbPressed;
     private boolean autoClimb = false;
     private boolean manualClimbPressed;
-    private boolean manualClimb = false;
+    private boolean manualClimb = true;
     //Gunner variables
     private boolean hatchOpen;
     private boolean hatchClosed;
@@ -24,6 +24,7 @@ class OI {
     private double manualClimbLift;
     private boolean manualRearUp;
     private boolean manualFrontUp;
+    private boolean manualDrive;
     public OI() {
 
     }
@@ -36,11 +37,12 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumper(Hand.kRight);
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
                 manualClimbPressed = driveStick.getBumper(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
-                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                manualFrontUp = driveStick.getAButton();
+                manualRearUp = driveStick.getBButton();
+                manualDrive = driveStick.getYButton();
                 break;
             
             case "Reverse Turning":
@@ -48,11 +50,12 @@ class OI {
                 ZRotation = driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumper(Hand.kRight);
-                manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
-                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                manualFrontUp = driveStick.getAButton();
+                manualRearUp = driveStick.getBButton();
+                manualDrive = driveStick.getYButton();
                 break;    
     
             default:
@@ -60,11 +63,12 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumper(Hand.kRight);
-                manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
-                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                manualFrontUp = driveStick.getAButton();
+                manualRearUp = driveStick.getBButton();
+                manualDrive = driveStick.getYButton();
                 break;
         }
         switch (gunnerScheme) {
@@ -105,17 +109,9 @@ class OI {
         if(manualClimbPressed) {
             manualClimb = !manualClimb;
         }
-        switch (gunnerScheme) {
-            case "default":
-            
-                break;
-    
-            default:
-                break;
-        }
     }
     public boolean climbState() {
-        if(manualClimb || autoClimb) {
+        if(autoClimb) {
             return true;
         }
         else {
@@ -208,6 +204,15 @@ class OI {
     }
     public boolean elevatorRearUp() {
         if(manualClimb && manualRearUp) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean elevatorDrive() {
+        if(manualClimb && manualDrive) {
             return true;
         }
         else {
