@@ -57,11 +57,12 @@ public class Teleop {
         if(joysticks.getBallSecure()) {
                 shooter.gate();
         }
-        else if(joysticks.getBallPunch() || !shooterDone) {
-            shooterDone = shooter.punch();
+        else if(joysticks.getBallPunch()) {
+            shooter.punch();
         }
         else;
-        if(joysticks.autoClimb()) {
+
+        if(!joysticks.autoClimb()) {
             elevator.elevatorDown(joysticks.elevatorSpeedDown());
         }
 

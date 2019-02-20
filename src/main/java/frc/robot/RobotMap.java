@@ -37,6 +37,7 @@ public class RobotMap {
     private CANSparkMax ElevatorFrontLift = new CANSparkMax(4, MotorType.kBrushless);
     private CANSparkMax ElevatorRearLift = new CANSparkMax(5, MotorType.kBrushless);
     private WPI_VictorSPX ElevatorDrive = new WPI_VictorSPX(6);
+    
     private DigitalInput upperFrontSwitch = new DigitalInput(0);
     private DigitalInput upperRearSwitch = new DigitalInput(1);
     private DigitalInput lowerFrontSwitch = new DigitalInput(2);

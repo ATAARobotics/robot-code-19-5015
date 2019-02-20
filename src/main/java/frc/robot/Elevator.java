@@ -59,25 +59,25 @@ public class Elevator {
 
     public void frontElevatorUp(double speed) {
         //Negative because of the wiring
-        if (!robotMap.getFrontElevatorUpLimit().get()) {
+        if (robotMap.getFrontElevatorUpLimit().get()) {
             elevatorSpeedFront = -1 * speed;
             activateElevator();
         }
     }
 
     public void rearElevatorUp(double speed) {
-        if (!robotMap.getRearElevatorUpLimit().get()) {
+        if (robotMap.getRearElevatorUpLimit().get()) {
             elevatorSpeedRear = speed;
             activateElevator();
         }
     }
 
     public void elevatorDown(double speed) {
-        if (!robotMap.getFrontElevatorDownLimit().get()) {
+        if (robotMap.getFrontElevatorDownLimit().get()) {
             //Positive because of wiring
             elevatorSpeedFront = speed;
         }
-        if (!robotMap.getRearElevatorDownLimit().get()) {
+        if (robotMap.getRearElevatorDownLimit().get()) {
             elevatorSpeedRear = -1 * speed;
         }
         activateElevator();

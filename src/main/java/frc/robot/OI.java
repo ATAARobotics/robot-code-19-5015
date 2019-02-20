@@ -195,7 +195,7 @@ class OI {
     }
 
     public boolean elevatorFrontUp() {
-        if(manualClimb && manualFrontUp) {
+        if(manualFrontUp) {
             return true;
         }
         else {

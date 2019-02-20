@@ -21,34 +21,30 @@ public class Shooter {
         roboMap.getGateSolenoid().set(Value.kForward);
     }
     
-    public boolean punch() {
+    public void punch() {
         switch (stepNumber) {
             case 0:
-                shooterTimer.reset();
-                shooterTimer.start();
                 roboMap.getGateSolenoid().set(Value.kReverse);
                 stepNumber++;
-                return false;
-            case 1:
-                if(shooterTimer.get() >= 0.75) {
-                    shooterTimer.stop();
-                    shooterTimer.reset();
-                    shooterTimer.start();
-                    roboMap.getPunchSolenoid().set(Value.kForward);
-                    stepNumber++;
-                    return false;
-                }
-            case 2:
-                if(shooterTimer.get() >= 0.75) {
-                    shooterTimer.stop();
-                    shooterTimer.reset();
-                    shooterTimer.start();
+                punch();
+                break;
+            case 3:
+                roboMap.getPunchSolenoid().set(Value.kForward);
+                stepNumber++;
+                punch();
+                break;
+            case 5:
                     roboMap.getPunchSolenoid().set(Value.kReverse);
                     stepNumber = 0;
-                    return true;
-                }
+                    break;
             default:
-                return true;
+                if(stepNumber <= 5) {
+                    stepNumber++;
+                }
+                else {
+                    stepNumber = 0;
+                }
+                break;
         }
     }
 }
