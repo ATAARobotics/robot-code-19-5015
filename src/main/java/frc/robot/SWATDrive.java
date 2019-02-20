@@ -18,7 +18,7 @@ public class SWATDrive {
     public SWATDrive(RobotMap roboMap) {
 
         robotMap = roboMap;
-        
+        maxStraightSpeed = 1;
         maxTurnSpeed = 0.8;
     }
     public void gearShift() {
@@ -33,9 +33,9 @@ public class SWATDrive {
     public void slow() {
         slow = !slow;
         if(slow) {
-            robotMap.getDriveTrain().setMaxOutput(0.4);
-            maxTurnSpeed = 0.4;
-            maxStraightSpeed = 0.2;
+            robotMap.getDriveTrain().setMaxOutput(0.5);
+            maxTurnSpeed = 0.5;
+            maxStraightSpeed = 0.5;
         }
         else {
             robotMap.getDriveTrain().setMaxOutput(1);

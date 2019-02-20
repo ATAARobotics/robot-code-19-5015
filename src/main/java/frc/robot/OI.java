@@ -29,8 +29,8 @@ class OI {
 
     }
     public void checkInputs() {
-        driverScheme = Settings.driverPreferences;
-        gunnerScheme = Settings.gunnerPreferences;
+        //driverScheme = Settings.driverPreferences;
+        //gunnerScheme = Settings.gunnerPreferences;
         switch (driverScheme) {
             case "Default":
                 XSpeed = driveStick.getY(Hand.kLeft);
@@ -53,8 +53,8 @@ class OI {
                 autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
                 manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getAButton();
-                manualRearUp = driveStick.getBButton();
+                manualFrontUp = driveStick.getBackButton();
+                manualRearUp = driveStick.getStartButton();
                 manualDrive = driveStick.getYButton();
                 break;    
     
@@ -66,8 +66,8 @@ class OI {
                 autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
                 manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getAButton();
-                manualRearUp = driveStick.getBButton();
+                manualFrontUp = driveStick.getBackButton();
+                manualRearUp = driveStick.getStartButton();
                 manualDrive = driveStick.getYButton();
                 break;
         }
@@ -119,7 +119,7 @@ class OI {
         }
     }
     public double getXSpeed() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return XSpeed;
         }
         else {
@@ -127,7 +127,7 @@ class OI {
         }
     }
     public double getZRotation() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return ZRotation;
         }
         else {
@@ -136,7 +136,7 @@ class OI {
     }
 
     public boolean getGearShift() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return gearShift;
         }
         else {
@@ -145,7 +145,7 @@ class OI {
     }
 
     public boolean getSlow() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return slow;
         }
         else {
