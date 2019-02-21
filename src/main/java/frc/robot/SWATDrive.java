@@ -33,9 +33,9 @@ public class SWATDrive {
     public void slow() {
         slow = !slow;
         if(slow) {
-            robotMap.getDriveTrain().setMaxOutput(0.5);
-            maxTurnSpeed = 0.5;
-            maxStraightSpeed = 0.5;
+            robotMap.getDriveTrain().setMaxOutput(0.7);
+            maxTurnSpeed = 0.7;
+            maxStraightSpeed = 0.7;
         }
         else {
             robotMap.getDriveTrain().setMaxOutput(1);
