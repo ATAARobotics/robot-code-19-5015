@@ -40,6 +40,7 @@ public class Shooter {
             default:
                 if(stepNumber <= 5) {
                     stepNumber++;
+                    punch();
                 }
                 else {
                     stepNumber = 0;
