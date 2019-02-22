@@ -15,7 +15,7 @@ class OI {
     private boolean autoClimbPressed;
     private boolean autoClimb = false;
     private boolean manualClimbPressed;
-    private boolean manualClimb = true;
+    private boolean manualClimb = false;
     //Gunner variables
     private boolean hatchOpen;
     private boolean hatchClosed;
