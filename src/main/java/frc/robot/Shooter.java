@@ -1,12 +1,10 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 
 public class Shooter {
 
-    private Timer shooterTimer = new Timer();
     private int stepNumber = 0;
     private RobotMap roboMap;
     public Shooter(RobotMap robotMap) {
