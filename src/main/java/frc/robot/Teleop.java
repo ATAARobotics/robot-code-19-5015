@@ -8,7 +8,6 @@ public class Teleop {
     private RobotMap robotMap;
     private OI joysticks;
     private Shooter shooter;
-    private boolean shooterDone = true;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
