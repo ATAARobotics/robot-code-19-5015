@@ -12,8 +12,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.robot.Encoders;
-import com.kauailabs.navx.frc.*;
 
 public class RobotMap {
     private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
