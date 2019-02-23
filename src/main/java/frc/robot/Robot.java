@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends TimedRobot {
   
     Teleop teleop = new Teleop();
+    Auto auto = new Auto(teleop);
     //Settings settings = new Settings();
     @Override
     public void robotInit() {
         //settings.shuffleInit();
         teleop.teleopInit();
+        auto.AutoInit();
     }
 
     /**
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
+        auto.AutoInit();
     }
 
     /**
@@ -57,6 +60,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
+        auto.AutoPeriodic();
     }
 
     /**

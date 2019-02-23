@@ -13,9 +13,7 @@ class OI {
     private boolean gearShift;
     private boolean slow;
     private boolean autoClimbPressed;
-    private boolean autoClimb = false;
-    private boolean manualClimbPressed;
-    private boolean manualClimb = false;
+
     //Gunner variables
     private boolean hatchOpen;
     private boolean hatchClosed;
@@ -25,6 +23,7 @@ class OI {
     private boolean manualRearUp;
     private boolean manualFrontUp;
     private boolean manualDrive;
+    private boolean manualControl;
     public OI() {
 
     }
@@ -38,11 +37,11 @@ class OI {
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
                 autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
-                manualClimbPressed = driveStick.getBumper(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getAButton();
-                manualRearUp = driveStick.getBButton();
-                manualDrive = driveStick.getYButton();
+                manualRearUp = driveStick.getBackButton();
+                manualDrive = driveStick.getStartButton();
+                manualControl = driveStick.getAButton();
                 break;
             
             case "Reverse Turning":
@@ -51,11 +50,11 @@ class OI {
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
                 autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
-                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getBackButton();
                 manualRearUp = driveStick.getStartButton();
                 manualDrive = driveStick.getYButton();
+                manualControl = driveStick.getAButton();
                 break;    
     
             default:
@@ -64,11 +63,11 @@ class OI {
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
                 autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
-                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getBackButton();
                 manualRearUp = driveStick.getStartButton();
                 manualDrive = driveStick.getYButton();
+                manualControl = driveStick.getAButton();
                 break;
         }
         switch (gunnerScheme) {
@@ -103,95 +102,37 @@ class OI {
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 break;
         }
-        if(autoClimbPressed) {
-            autoClimb = !autoClimb;
-        }
-        if(manualClimbPressed) {
-            manualClimb = !manualClimb;
-        }
-    }
-    public boolean climbState() {
-        if(autoClimb) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        
     }
     public double getXSpeed() {
-        if(!autoClimb) {
-            return XSpeed;
-        }
-        else {
-            return 0;
-        }
+        return XSpeed;
     }
     public double getZRotation() {
-        if(!autoClimb) {
-            return ZRotation;
-        }
-        else {
-            return 0;
-        }
+        return ZRotation;
     }
 
     public boolean getGearShift() {
-        if(!autoClimb) {
-            return gearShift;
-        }
-        else {
-            return false;
-        }
+        return gearShift;
     }
 
     public boolean getSlow() {
-        if(!autoClimb) {
-            return slow;
-        }
-        else {
-            return false;
-        }
+        return slow;
     }
 
     public boolean getHatchOpen() {
-        if(!manualClimb && !autoClimb) {
-            return hatchOpen;
-        }
-        else {
-            return false;
-        }
+        return hatchOpen;
     }
     public boolean getHatchClosed() {
-        if(!manualClimb && !autoClimb) {
-            return hatchClosed;
-        }
-        else {
-            return false;
-        }
+        return hatchClosed;
     }
     public boolean getBallPunch() {
-        if(!manualClimb && !autoClimb) {
-            return punchBall;
-        }
-        else {
-            return false;
-        }
+        return punchBall;
     }
     public boolean getBallSecure() {
-        if(!manualClimb && !autoClimb) {
-            return secureBall;
-        }
-        else {
-            return false;
-        }
+        return secureBall;
     }
     public double elevatorSpeedDown() {
-        if(manualClimb) {
-            return manualClimbLift;
-        }
-        else {
-            return 0;
-        }
+        return manualClimbLift;
     }
 
     public boolean elevatorFrontUp() {
@@ -203,7 +144,7 @@ class OI {
         }
     }
     public boolean elevatorRearUp() {
-        if(manualClimb && manualRearUp) {
+        if(manualRearUp) {
             return true;
         }
         else {
@@ -212,15 +153,17 @@ class OI {
     }
 
     public boolean elevatorDrive() {
-        if(manualClimb && manualDrive) {
+        if(manualDrive) {
             return true;
         }
         else {
             return false;
         }
     }
-
-    public boolean autoClimb() {
-        return autoClimb;
+    public boolean autoClimbPressed() {
+        return autoClimbPressed;
     }
+	public boolean setManualControl() {
+		return manualControl;
+	}
 }

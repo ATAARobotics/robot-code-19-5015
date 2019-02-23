@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Encoders;
+import com.kauailabs.navx.frc.*;
 
 public class RobotMap {
     private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
@@ -42,6 +43,8 @@ public class RobotMap {
     private DigitalInput upperRearSwitch = new DigitalInput(1);
     private DigitalInput lowerFrontSwitch = new DigitalInput(2);
     private DigitalInput lowerRearSwitch = new DigitalInput(3);
+
+    private Gyro NavX = new Gyro();
 
     //Add encoders
     private Encoders encoders = new Encoders(frontLeftMotor, frontRightMotor);
@@ -111,5 +114,9 @@ public class RobotMap {
 
     public DoubleSolenoid getPunchSolenoid() {
         return punchSolenoid;
+    }
+
+    public Gyro getGyro() {
+        return NavX;
     }
 }

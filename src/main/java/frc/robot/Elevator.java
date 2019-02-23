@@ -22,8 +22,8 @@ public class Elevator {
     }
 
     //Sets climbing to the input value provided by teleop
-    public void setAutoClimb(boolean climbing) {
-        this.climbing = climbing;
+    public void setAutoClimb() {
+        climbing = !climbing;
         if (!climbing) {
             climbState = 0;
         }
@@ -44,7 +44,6 @@ public class Elevator {
     private void activateElevator(){
         robotMap.getElevatorFront().set(elevatorSpeedFront);
         robotMap.getElevatorRear().set(elevatorSpeedRear);
-        System.out.println("Speed: " + elevatorSpeedFront + "\n Actual Speed" + robotMap.getElevatorFront().get());
     }
 
     //Drives forward on back elevator wheels
@@ -111,8 +110,8 @@ public class Elevator {
 
     private void nextState() {
         robotMap.getEncoders().reset();
+        stopDrive();
         climbState++;
-
     }
 
     private boolean autoClimb() {
@@ -135,7 +134,7 @@ public class Elevator {
             //Drive forward
             case 2:
                 driveElevator();
-                if (timer.get() > 3.5) {
+                if (timer.get() > 1) {
                     nextState();
                 }
                 break;
@@ -159,7 +158,6 @@ public class Elevator {
 
             //Retract rear elevator
             case 5:
-                stopDrive();
                 rearElevatorUp(0.5);
                 if (checkLimitSwitches() == rearElevatorUpLimitContacted) {
                     nextState();
@@ -170,13 +168,15 @@ public class Elevator {
             case 6:
                 returnValue = true;
                 if (robotMap.getEncoders().getDistance() > 14) {
-                    setAutoClimb(false);
+                    nextState();
                 }
                 break;
 
             default:
                 stopDrive();
-                setAutoClimb(false);
+                if(getClimbing()) {
+                    setAutoClimb();
+                }
                 break;
         }
         return returnValue;
