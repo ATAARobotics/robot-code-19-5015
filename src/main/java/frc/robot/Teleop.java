@@ -8,7 +8,6 @@ public class Teleop {
     private RobotMap robotMap;
     private OI joysticks;
     private Shooter shooter;
-    private boolean shooterDone = true;
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
@@ -17,10 +16,10 @@ public class Teleop {
         //Initialize Classes
         robotMap = new RobotMap();
         joysticks = new OI();
-        driveTrain = new SWATDrive(robotMap.getLeftMotors(), robotMap.getRightMotors(), robotMap.getGearShift());
+        driveTrain = new SWATDrive(robotMap);
         intake = new Intake(robotMap.getHatchIntake());
-        elevator = new Elevator(robotMap.getElevatorFront(), robotMap.getElevatorRear(), robotMap.getElevatorDrive());
-        shooter = new Shooter();
+        elevator = new Elevator(robotMap);
+        shooter = new Shooter(robotMap);
     }
     public void teleopInit() {
         intake.hatchOff();
@@ -57,27 +56,37 @@ public class Teleop {
         if(joysticks.getBallSecure()) {
                 shooter.gate();
         }
-        else if(joysticks.getBallPunch() || !shooterDone) {
-            shooterDone = shooter.punch();
+        else if(joysticks.getBallPunch()) {
+            shooter.punch();
         }
         else;
-        double speedFront = 0;
-        double speedRear = 0;
-        if(joysticks.elevatorFrontUp()) {
-            speedFront = -0.5;
+
+        if(!joysticks.autoClimb()) {
+            elevator.elevatorDown(joysticks.elevatorSpeedDown());
         }
+
+        //Elevator up
+        if(joysticks.elevatorFrontUp()) {
+            elevator.frontElevatorUp(0.5);
+        }
+        else {  
+            elevator.frontElevatorUp(0.0);
+        }
+
         if(joysticks.elevatorRearUp()) {
-            speedRear = 0.5;
+            elevator.rearElevatorUp(0.5);
         }
         else {
-            double speed = joysticks.elevatorSpeedDown();
-            if(speed > 0.75) {
-                speed = 0.75;
-            }
-            speedFront = speed;
-            speedRear = -speed;
+            elevator.rearElevatorUp(0.0);
         }
-        elevator.elevatorControl(speedFront, speedRear);
+
+        //Drives forward on back elevator wheels
+        if(joysticks.elevatorDrive()) {
+            elevator.driveElevator();
+        }
+        else {
+            elevator.stopDrive();
+        }
     /* public getUltrasonicRange(int direction) {
         ultrasonic.getRange(direction);
     }

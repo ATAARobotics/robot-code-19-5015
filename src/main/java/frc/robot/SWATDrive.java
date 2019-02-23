@@ -2,54 +2,61 @@ package frc.robot;
 
 // import libraries
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
-public class SWATDrive extends DifferentialDrive {
+public class SWATDrive {
+
     //slow variable
     private boolean slow = false;
     //low gear variable
     private static boolean lowGear = true;
-    //create the pneumatics variable
-    DoubleSolenoid m_gearShifter;
+
     private double maxTurnSpeed;
     private double maxStraightSpeed;
+    private RobotMap robotMap;
     
-    public SWATDrive(SpeedController leftMotor, SpeedController rightMotor, DoubleSolenoid gearShifter) {
-        super(leftMotor, rightMotor);
-        m_gearShifter = gearShifter;
+    public SWATDrive(RobotMap roboMap) {
+
+        robotMap = roboMap;
+        maxStraightSpeed = 1;
         maxTurnSpeed = 0.8;
     }
-
     public void gearShift() {
         lowGear = !lowGear;
         if(lowGear) {
-            m_gearShifter.set(DoubleSolenoid.Value.kReverse);
+            robotMap.getGearShift().set(DoubleSolenoid.Value.kReverse);
         }
         else {
-            m_gearShifter.set(DoubleSolenoid.Value.kForward);
+            robotMap.getGearShift().set(DoubleSolenoid.Value.kForward);
         }
     }
-
     public void slow() {
         slow = !slow;
         if(slow) {
-            setMaxOutput(0.4);
-            maxTurnSpeed = 0.4;
-            maxStraightSpeed = 0.2;
+            robotMap.getDriveTrain().setMaxOutput(0.7);
+            maxTurnSpeed = 0.7;
+            maxStraightSpeed = 0.7;
         }
         else {
-            setMaxOutput(1);
+            robotMap.getDriveTrain().setMaxOutput(1);
             maxTurnSpeed = 0.8;
             maxStraightSpeed = 1;
         }
     }
-    
+
     public double getMaxTurnSpeed() {
         return maxTurnSpeed;
     }
     public double getMaxStraightSpeed() {
         return maxStraightSpeed;
     }
+
+    public void arcadeDrive(double speed, double rotation) {
+        robotMap.getDriveTrain().arcadeDrive(speed, rotation);
+    }
+
+    public void tankDrive(double lSpeed, double rSpeed) {
+        robotMap.getDriveTrain().tankDrive(lSpeed, rSpeed);
+    }
 }
+  

@@ -1,54 +1,49 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 
 public class Shooter {
-    private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
-    private DoubleSolenoid gateSolenoid = new DoubleSolenoid(6, 7);
-    private Timer shooterTimer = new Timer();
+
     private int stepNumber = 0;
-    public Shooter() {
+    private RobotMap roboMap;
+    public Shooter(RobotMap robotMap) {
+        roboMap = robotMap;
     }
 
     public void shooterOff() {
-        punchSolenoid.set(Value.kOff);
-        gateSolenoid.set(Value.kOff);
+        roboMap.getPunchSolenoid().set(Value.kOff);
+        roboMap.getGateSolenoid().set(Value.kOff);
     }
     public void gate() {
-        gateSolenoid.set(Value.kForward);
+        roboMap.getGateSolenoid().set(Value.kForward);
     }
     
-    public boolean punch() {
+    public void punch() {
         switch (stepNumber) {
             case 0:
-                shooterTimer.reset();
-                shooterTimer.start();
-                gateSolenoid.set(Value.kReverse);
+                roboMap.getGateSolenoid().set(Value.kReverse);
                 stepNumber++;
-                return false;
-            case 1:
-                if(shooterTimer.get() >= 0.75) {
-                    shooterTimer.stop();
-                    shooterTimer.reset();
-                    shooterTimer.start();
-                    punchSolenoid.set(Value.kForward);
-                    stepNumber++;
-                    return false;
-                }
-            case 2:
-                if(shooterTimer.get() >= 0.75) {
-                    shooterTimer.stop();
-                    shooterTimer.reset();
-                    shooterTimer.start();
-                    punchSolenoid.set(Value.kReverse);
+                punch();
+                break;
+            case 3:
+                roboMap.getPunchSolenoid().set(Value.kForward);
+                stepNumber++;
+                punch();
+                break;
+            case 5:
+                    roboMap.getPunchSolenoid().set(Value.kReverse);
                     stepNumber = 0;
-                    return true;
-                }
+                    break;
             default:
-                return true;
+                if(stepNumber <= 5) {
+                    stepNumber++;
+                    punch();
+                }
+                else {
+                    stepNumber = 0;
+                }
+                break;
         }
     }
 }

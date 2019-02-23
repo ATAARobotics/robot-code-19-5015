@@ -24,33 +24,51 @@ class OI {
     private double manualClimbLift;
     private boolean manualRearUp;
     private boolean manualFrontUp;
+    private boolean manualDrive;
     public OI() {
 
     }
     public void checkInputs() {
+        //driverScheme = Settings.driverPreferences;
+        //gunnerScheme = Settings.gunnerPreferences;
         switch (driverScheme) {
             case "Default":
                 XSpeed = driveStick.getY(Hand.kLeft);
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumper(Hand.kRight);
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
                 manualClimbPressed = driveStick.getBumper(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
-                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                manualFrontUp = driveStick.getAButton();
+                manualRearUp = driveStick.getBButton();
+                manualDrive = driveStick.getYButton();
                 break;
+            
+            case "Reverse Turning":
+                XSpeed = -driveStick.getY(Hand.kLeft);
+                ZRotation = driveStick.getX(Hand.kRight);
+                gearShift = driveStick.getXButtonReleased();
+                slow = driveStick.getAButtonReleased();
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
+                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
+                manualFrontUp = driveStick.getBackButton();
+                manualRearUp = driveStick.getStartButton();
+                manualDrive = driveStick.getYButton();
+                break;    
     
             default:
                 XSpeed = driveStick.getY(Hand.kLeft);
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumper(Hand.kRight);
-                manualClimbPressed = driveStick.getBumper(Hand.kLeft);
+                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                manualClimbPressed = driveStick.getBumperReleased(Hand.kLeft);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumperReleased(Hand.kLeft);
-                manualRearUp = driveStick.getBumperReleased(Hand.kRight);
+                manualFrontUp = driveStick.getBackButton();
+                manualRearUp = driveStick.getStartButton();
+                manualDrive = driveStick.getYButton();
                 break;
         }
         switch (gunnerScheme) {
@@ -60,7 +78,24 @@ class OI {
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 break;
-    
+            case "Reverse Hatch":
+                hatchOpen = gunnerStick.getRawButtonReleased(6);
+                hatchClosed = gunnerStick.getRawButtonReleased(5);
+                secureBall = gunnerStick.getRawButtonReleased(7);
+                punchBall = gunnerStick.getRawButtonReleased(8);
+                break;
+            case "Reverse Ball":
+                hatchOpen = gunnerStick.getRawButtonReleased(5);
+                hatchClosed = gunnerStick.getRawButtonReleased(6);
+                secureBall = gunnerStick.getRawButtonReleased(8);
+                punchBall = gunnerStick.getRawButtonReleased(7);
+                break;
+            case "Reverse All":
+                hatchOpen = gunnerStick.getRawButtonReleased(6);
+                hatchClosed = gunnerStick.getRawButtonReleased(5);
+                secureBall = gunnerStick.getRawButtonReleased(8);
+                punchBall = gunnerStick.getRawButtonReleased(7);
+                break;    
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
@@ -74,17 +109,9 @@ class OI {
         if(manualClimbPressed) {
             manualClimb = !manualClimb;
         }
-        switch (gunnerScheme) {
-            case "default":
-            
-                break;
-    
-            default:
-                break;
-        }
     }
     public boolean climbState() {
-        if(manualClimb || autoClimb) {
+        if(autoClimb) {
             return true;
         }
         else {
@@ -92,7 +119,7 @@ class OI {
         }
     }
     public double getXSpeed() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return XSpeed;
         }
         else {
@@ -100,7 +127,7 @@ class OI {
         }
     }
     public double getZRotation() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return ZRotation;
         }
         else {
@@ -109,7 +136,7 @@ class OI {
     }
 
     public boolean getGearShift() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return gearShift;
         }
         else {
@@ -118,7 +145,7 @@ class OI {
     }
 
     public boolean getSlow() {
-        if(!manualClimb && !autoClimb) {
+        if(!autoClimb) {
             return slow;
         }
         else {
@@ -168,7 +195,7 @@ class OI {
     }
 
     public boolean elevatorFrontUp() {
-        if(manualClimb && manualFrontUp) {
+        if(manualFrontUp) {
             return true;
         }
         else {
@@ -177,6 +204,15 @@ class OI {
     }
     public boolean elevatorRearUp() {
         if(manualClimb && manualRearUp) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean elevatorDrive() {
+        if(manualClimb && manualDrive) {
             return true;
         }
         else {
