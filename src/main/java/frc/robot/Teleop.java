@@ -69,15 +69,9 @@ public class Teleop {
             if(joysticks.elevatorFrontUp()) {
                 elevator.frontElevatorUp(0.5);
             }
-            else {  
-                elevator.frontElevatorUp(0.0);
-            }
 
             if(joysticks.elevatorRearUp()) {
                 elevator.rearElevatorUp(0.5);
-            }
-            else {
-                elevator.rearElevatorUp(0.0);
             }
 
             //Drives forward on back elevator wheels

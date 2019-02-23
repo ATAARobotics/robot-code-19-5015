@@ -13,7 +13,7 @@ public class Auto {
 
   public Auto(Teleop tele) {
     this.teleop = tele;
-    robotMap = new RobotMap();
+    //robotMap = new RobotMap();
   }
 
   /**
@@ -21,7 +21,7 @@ public class Auto {
    */
   public void AutoInit() {
       step = 0;
-      robotMap.getGyro().initalizeNavX();
+      //robotMap.getGyro().initalizeNavX();
   }
 
   /**

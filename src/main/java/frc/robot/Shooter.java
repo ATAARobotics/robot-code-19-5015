@@ -7,6 +7,8 @@ public class Shooter {
 
     private int stepNumber = 0;
     private RobotMap roboMap;
+    private boolean punch = true;
+    private boolean gate = true;
     public Shooter(RobotMap robotMap) {
         roboMap = robotMap;
     }
@@ -16,34 +18,22 @@ public class Shooter {
         roboMap.getGateSolenoid().set(Value.kOff);
     }
     public void gate() {
-        roboMap.getGateSolenoid().set(Value.kForward);
+        gate = !gate;
+        if(gate) {
+            roboMap.getGateSolenoid().set(Value.kForward);
+        }
+        else {
+            roboMap.getGateSolenoid().set(Value.kReverse);
+        }
     }
     
     public void punch() {
-        switch (stepNumber) {
-            case 0:
-                roboMap.getGateSolenoid().set(Value.kReverse);
-                stepNumber++;
-                punch();
-                break;
-            case 3:
-                roboMap.getPunchSolenoid().set(Value.kForward);
-                stepNumber++;
-                punch();
-                break;
-            case 5:
-                    roboMap.getPunchSolenoid().set(Value.kReverse);
-                    stepNumber = 0;
-                    break;
-            default:
-                if(stepNumber <= 5) {
-                    stepNumber++;
-                    punch();
-                }
-                else {
-                    stepNumber = 0;
-                }
-                break;
+        punch = !punch;
+        if(punch) {
+            roboMap.getPunchSolenoid().set(Value.kForward);
+        }
+        else {
+            roboMap.getPunchSolenoid().set(Value.kReverse);
+        }
         }
     }
-}
