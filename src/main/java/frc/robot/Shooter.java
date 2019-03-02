@@ -36,4 +36,9 @@ public class Shooter {
             roboMap.getPunchSolenoid().set(Value.kReverse);
         }
         }
-    }
+
+	public void shooterInit() {
+        roboMap.getPunchSolenoid().set(Value.kForward);
+        roboMap.getGateSolenoid().set(Value.kForward);
+	}
+}

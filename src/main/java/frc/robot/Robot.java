@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();
+        //settings.shufflePeriodic();
     }
     
     public void testPeriodic() {

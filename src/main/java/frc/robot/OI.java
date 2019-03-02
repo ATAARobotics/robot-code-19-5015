@@ -1,6 +1,7 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.XboxController;
 class OI {
     private XboxController driveStick = new XboxController(0);
@@ -12,18 +13,22 @@ class OI {
     private double ZRotation;
     private boolean gearShift;
     private boolean slow;
-    private boolean autoClimbPressed;
+    private double autoClimbPressed;
+    private boolean autoClimb;
 
     //Gunner variables
     private boolean hatchOpen;
     private boolean hatchClosed;
     private boolean punchBall;
     private boolean secureBall;
-    private double manualClimbLift;
+    private double manualClimbLift = 0;
     private boolean manualRearUp;
     private boolean manualFrontUp;
     private boolean manualDrive;
-    private boolean manualControl;
+
+    //Special Function variables
+    boolean leftTriggerPressed = false;
+    boolean rightTriggerPressed = false;
     public OI() {
 
     }
@@ -36,12 +41,11 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getAButton();
-                manualRearUp = driveStick.getBackButton();
-                manualDrive = driveStick.getStartButton();
-                manualControl = driveStick.getAButton();
+                manualFrontUp = driveStick.getBumper(Hand.kLeft);
+                manualRearUp = driveStick.getBumper(Hand.kRight);
+                manualDrive = driveStick.getYButton();
                 break;
             
             case "Reverse Turning":
@@ -49,12 +53,11 @@ class OI {
                 ZRotation = driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBackButton();
-                manualRearUp = driveStick.getStartButton();
+                manualFrontUp = driveStick.getBumper(Hand.kLeft);
+                manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
-                manualControl = driveStick.getAButton();
                 break;    
     
             default:
@@ -62,12 +65,11 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getBumperReleased(Hand.kRight);
+                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBackButton();
-                manualRearUp = driveStick.getStartButton();
+                manualFrontUp = driveStick.getBumper(Hand.kLeft);
+                manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
-                manualControl = driveStick.getAButton();
                 break;
         }
         switch (gunnerScheme) {
@@ -100,9 +102,9 @@ class OI {
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
-                break;
+                break;   
         }
-        
+        autoClimb = buttonPressed(autoClimbPressed, "right");
     }
     public double getXSpeed() {
         return XSpeed;
@@ -132,6 +134,7 @@ class OI {
         return secureBall;
     }
     public double elevatorSpeedDown() {
+        System.out.println(manualClimbLift);
         return manualClimbLift;
     }
 
@@ -161,9 +164,44 @@ class OI {
         }
     }
     public boolean autoClimbPressed() {
-        return autoClimbPressed;
+        return autoClimb;
     }
-	public boolean setManualControl() {
-		return manualControl;
-	}
+
+    private boolean buttonPressed(double triggerValue, String trigger) {
+        if(trigger.equals("left")) {
+            if(triggerValue < 0.2 && leftTriggerPressed) {
+                leftTriggerPressed = false;
+                return true;
+            }
+
+            else if(triggerValue > 0.2 && !leftTriggerPressed) {
+                leftTriggerPressed = true;
+                return false;
+            }
+        
+            else{
+                return false;
+            }
+        }
+
+        else if(trigger.equals("right")) {
+            if(triggerValue < 0.2 && rightTriggerPressed) {
+                rightTriggerPressed = false;
+                return true;
+            }
+
+            else if(triggerValue > 0.2 && rightTriggerPressed) {
+                rightTriggerPressed = true;
+                return false;
+            }
+        
+            else{
+                return false;
+            }
+        }
+
+        else {
+            return false;
+        }
+    }
 }

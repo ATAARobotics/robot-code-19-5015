@@ -22,12 +22,11 @@ public class Teleop {
         shooter = new Shooter(robotMap);
     }
     public void teleopInit() {
-        intake.hatchOff();
-        //shooter.shooterOff();
+        //intake.hatchOff();
+        shooter.shooterInit();
     }
 
     public void TeleopPeriodic() {
-
         joysticks.checkInputs();
         //drive
         if(joysticks.autoClimbPressed()) {

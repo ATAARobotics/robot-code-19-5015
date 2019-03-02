@@ -77,7 +77,7 @@ public class Elevator {
             elevatorSpeedFront = speed;
         }
         if (robotMap.getRearElevatorDownLimit().get()) {
-            elevatorSpeedRear = -1 * speed;
+            elevatorSpeedRear = -0.94 * speed;
         }
         activateElevator();
     }

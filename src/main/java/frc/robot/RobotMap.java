@@ -49,7 +49,7 @@ public class RobotMap {
 
     public RobotMap() {
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        Shuffleboard.getTab("LiveWindow").add(camera);
+        Shuffleboard.getTab("Camera").add(camera);
         camera.setFPS(30);
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);

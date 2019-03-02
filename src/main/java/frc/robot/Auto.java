@@ -28,7 +28,7 @@ public class Auto {
    * Periodic function that contains 'tasks' that are designed to be ran periodically.
    */
   public void AutoPeriodic() {
-    if(joysticks.setManualControl()) {
+    if(true) {
         auto = false;
     }
     if(auto) {  
