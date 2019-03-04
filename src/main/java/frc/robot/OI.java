@@ -15,6 +15,7 @@ class OI {
     private boolean slow;
     private double autoClimbPressed;
     private boolean autoClimb;
+    private boolean manualControl;
 
     //Gunner variables
     private boolean hatchOpen;
@@ -46,6 +47,7 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
+                manualControl = driveStick.getBButtonReleased();
                 break;
             
             case "Reverse Turning":
@@ -58,6 +60,7 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
+                manualControl = driveStick.getBButtonReleased();
                 break;    
     
             default:
@@ -70,6 +73,7 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
+                manualControl = driveStick.getBButtonReleased();
                 break;
         }
         switch (gunnerScheme) {
@@ -165,6 +169,10 @@ class OI {
     }
     public boolean autoClimbPressed() {
         return autoClimb;
+    }
+
+    public boolean manualControl() {
+        return manualControl;
     }
 
     private boolean buttonPressed(double triggerValue, String trigger) {

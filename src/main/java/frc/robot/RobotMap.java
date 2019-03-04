@@ -48,9 +48,12 @@ public class RobotMap {
     private Encoders encoders = new Encoders(frontLeftMotor, frontRightMotor);
 
     public RobotMap() {
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
         Shuffleboard.getTab("Camera").add(camera);
+        UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        Shuffleboard.getTab("Camera").add(camera2);
         camera.setFPS(30);
+        camera2.setFPS(30);
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);
     }

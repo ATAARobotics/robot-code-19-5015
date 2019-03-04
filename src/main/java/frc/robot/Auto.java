@@ -28,13 +28,13 @@ public class Auto {
    * Periodic function that contains 'tasks' that are designed to be ran periodically.
    */
   public void AutoPeriodic() {
-    if(true) {
+    if(joysticks.manualControl()) {
         auto = false;
     }
     if(auto) {  
     switch(step) {
         case 0:
-            teleop.drive(0.7, 0, true);
+            teleop.drive(0.7, robotMap.getGyro().getAngle()*-0.1, true);
             
             if(robotMap.getEncoders().getDistance() > 144) {
                 step++;
@@ -46,13 +46,13 @@ public class Auto {
             break;
 
         case 2:
-            teleop.drive(-0.7, 0, true);
+            teleop.drive(-0.7, robotMap.getGyro().getAngle()*-0.1, true);
             
             if(robotMap.getEncoders().getDistance() > 12) {
                 step++;
             }
             break;
-        case 3:
+        case 30:
             teleop.drive(0, 0.7, true);
             double angle = robotMap.getGyro().getAngle();
             if(angle >= 90) {
@@ -64,14 +64,14 @@ public class Auto {
                 }
             }
             break;   
-        case 4:
+        case 40:
             teleop.drive(-0.7, 0, true);
 
             if(robotMap.getEncoders().getDistance() > 120) {
                 step++;
             }
             break;
-        case 5:
+        case 50:
             teleop.drive(0, 0, true);
             teleop.hatch(false);
             break;
