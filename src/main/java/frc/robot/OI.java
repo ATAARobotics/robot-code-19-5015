@@ -1,7 +1,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.XboxController;
 class OI {
     private XboxController driveStick = new XboxController(0);
@@ -16,16 +15,19 @@ class OI {
     private double autoClimbPressed;
     private boolean autoClimb;
     private boolean manualControl;
-
-    //Gunner variables
-    private boolean hatchOpen;
-    private boolean hatchClosed;
-    private boolean punchBall;
-    private boolean secureBall;
     private double manualClimbLift = 0;
     private boolean manualRearUp;
     private boolean manualFrontUp;
     private boolean manualDrive;
+
+    //Gunner variables
+    private boolean hatchOpen;
+    private boolean hatchClosed;
+    private boolean hatchPunchOut;
+    private boolean hatchPunchIn;
+    private boolean punchBall;
+    private boolean secureBall;
+    private boolean autoShoot;
 
     //Special Function variables
     boolean leftTriggerPressed = false;
@@ -80,34 +82,51 @@ class OI {
             case "Default":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
+                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
+                autoShoot = gunnerStick.getRawButtonReleased(8);
                 break;
             case "Reverse Hatch":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
+                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
+                autoShoot = gunnerStick.getRawButtonReleased(8);
                 break;
             case "Reverse Ball":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
+                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
+                autoShoot = gunnerStick.getRawButtonReleased(7);
                 break;
             case "Reverse All":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
+                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
+                autoShoot = gunnerStick.getRawButtonReleased(7);
+
                 break;    
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
+                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
+                autoShoot = gunnerStick.getRawButtonReleased(2);
                 break;   
         }
+        System.out.println(autoShoot);
         autoClimb = buttonPressed(autoClimbPressed, "right");
     }
     public double getXSpeed() {
@@ -138,7 +157,6 @@ class OI {
         return secureBall;
     }
     public double elevatorSpeedDown() {
-        System.out.println(manualClimbLift);
         return manualClimbLift;
     }
 
@@ -211,5 +229,14 @@ class OI {
         else {
             return false;
         }
+    }
+	public boolean getHatchPunchOut() {
+		return hatchPunchOut;
+	}
+	public boolean getHatchPunchIn() {
+		return hatchPunchIn;
+    }
+    public boolean getAutoShoot() {
+        return autoShoot;
     }
 }

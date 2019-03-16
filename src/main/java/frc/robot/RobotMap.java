@@ -27,7 +27,9 @@ public class RobotMap {
     private DifferentialDrive driveTrain = new DifferentialDrive(leftMotors, rightMotors);
     
     //Add pneumatics
-    private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
+    private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);
+    private DoubleSolenoid hatchPunchSolenoid = new DoubleSolenoid(1, 0, 1);
+    
     private DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
 
     private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
@@ -120,4 +122,7 @@ public class RobotMap {
     public Gyro getGyro() {
         return NavX;
     }
+	public DoubleSolenoid getHatchPunch() {
+		return hatchPunchSolenoid;
+	}
 }

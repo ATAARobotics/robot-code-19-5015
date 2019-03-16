@@ -8,6 +8,9 @@ public class Teleop {
     private RobotMap robotMap;
     private OI joysticks;
     private Shooter shooter;
+    private boolean autoShoot = true;
+    private boolean shooterDone = true;
+
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
     */
@@ -17,7 +20,7 @@ public class Teleop {
         robotMap = new RobotMap();
         joysticks = new OI();
         driveTrain = new SWATDrive(robotMap);
-        intake = new Intake(robotMap.getHatchIntake());
+        intake = new Intake(robotMap.getHatchIntake(), robotMap.getHatchPunch());
         elevator = new Elevator(robotMap);
         shooter = new Shooter(robotMap);
     }
@@ -55,14 +58,26 @@ public class Teleop {
                 intake.HatchClose();
             }
             else;
+            if (joysticks.getHatchPunchOut()) {
+                intake.punchOut();
+            }
+            else if (joysticks.getHatchPunchIn()) {
+                intake.punchIn();
+            }
+            else;
 
-            if(joysticks.getBallSecure()) {
+            if(joysticks.getAutoShoot() || !shooterDone) {
+                shooterDone = shooter.autoShoot();
+            }
+
+            else if(joysticks.getBallSecure()) {
                     shooter.gate();
             }
-            else if(joysticks.getBallPunch()) {
+            else if(joysticks.getBallPunch() && !autoShoot) {
                 shooter.punch();
             }
             else;
+
             elevator.elevatorDown(joysticks.elevatorSpeedDown());
             //Elevator up
             if(joysticks.elevatorFrontUp()) {
