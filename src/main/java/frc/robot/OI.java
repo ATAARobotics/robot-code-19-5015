@@ -3,24 +3,25 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 class OI {
-    private XboxController driveStick = new XboxController(0);
-    private Joystick gunnerStick = new Joystick(1);
-    private String driverScheme = "default";
-    private String gunnerScheme = "default";
+
     //Driver Variables
+    private XboxController driveStick = new XboxController(0);
+    private String driverScheme = "Default";
     private double XSpeed;
     private double ZRotation;
     private boolean gearShift;
     private boolean slow;
     private double autoClimbPressed;
     private boolean autoClimb;
-    private boolean manualControl;
+    private boolean manualControlSandstorm;
     private double manualClimbLift = 0;
     private boolean manualRearUp;
     private boolean manualFrontUp;
     private boolean manualDrive;
 
     //Gunner variables
+    private Joystick gunnerStick = new Joystick(1);
+    private String gunnerScheme = "Default";
     private boolean hatchOpen;
     private boolean hatchClosed;
     private boolean hatchPunchOut;
@@ -32,12 +33,13 @@ class OI {
     //Special Function variables
     boolean leftTriggerPressed = false;
     boolean rightTriggerPressed = false;
+    
     public OI() {
 
     }
+    //periodic function to update controller input
     public void checkInputs() {
-        //driverScheme = Settings.driverPreferences;
-        //gunnerScheme = Settings.gunnerPreferences;
+        //switch statement to detirmine controls for the driver
         switch (driverScheme) {
             case "Default":
                 XSpeed = driveStick.getY(Hand.kLeft);
@@ -49,7 +51,7 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
-                manualControl = driveStick.getBButtonReleased();
+                manualControlSandstorm = driveStick.getBButtonReleased();
                 break;
             
             case "Reverse Turning":
@@ -62,7 +64,7 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
-                manualControl = driveStick.getBButtonReleased();
+                manualControlSandstorm = driveStick.getBButtonReleased();
                 break;    
     
             default:
@@ -75,9 +77,12 @@ class OI {
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
-                manualControl = driveStick.getBButtonReleased();
+                manualControlSandstorm = driveStick.getBButtonReleased();
                 break;
         }
+        
+        //switch statement to detirmine controls for the gunner
+        
         switch (gunnerScheme) {
             case "Default":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
@@ -116,6 +121,7 @@ class OI {
                 autoShoot = gunnerStick.getRawButtonReleased(7);
 
                 break;    
+            
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
@@ -126,9 +132,10 @@ class OI {
                 autoShoot = gunnerStick.getRawButtonReleased(2);
                 break;   
         }
-        System.out.println(autoShoot);
+        //set button input of trigger for autoClimb
         autoClimb = buttonPressed(autoClimbPressed, "right");
     }
+    //Getter functions for controls
     public double getXSpeed() {
         return XSpeed;
     }
@@ -147,15 +154,31 @@ class OI {
     public boolean getHatchOpen() {
         return hatchOpen;
     }
+
     public boolean getHatchClosed() {
         return hatchClosed;
     }
+
+    public boolean getHatchPunchOut() {
+		return hatchPunchOut;
+    }
+    
+	public boolean getHatchPunchIn() {
+		return hatchPunchIn;
+    }
+
+    public boolean getAutoShoot() {
+        return autoShoot;
+    }
+
     public boolean getBallPunch() {
         return punchBall;
     }
+
     public boolean getBallSecure() {
         return secureBall;
     }
+
     public double elevatorSpeedDown() {
         return manualClimbLift;
     }
@@ -168,6 +191,7 @@ class OI {
             return false;
         }
     }
+
     public boolean elevatorRearUp() {
         if(manualRearUp) {
             return true;
@@ -185,14 +209,16 @@ class OI {
             return false;
         }
     }
+
     public boolean autoClimbPressed() {
         return autoClimb;
     }
 
-    public boolean manualControl() {
-        return manualControl;
+    public boolean manualControlSandstorm() {
+        return manualControlSandstorm;
     }
 
+    //Custom function to allow triggers to act as buttons
     private boolean buttonPressed(double triggerValue, String trigger) {
         if(trigger.equals("left")) {
             if(triggerValue < 0.2 && leftTriggerPressed) {
@@ -229,14 +255,5 @@ class OI {
         else {
             return false;
         }
-    }
-	public boolean getHatchPunchOut() {
-		return hatchPunchOut;
-	}
-	public boolean getHatchPunchIn() {
-		return hatchPunchIn;
-    }
-    public boolean getAutoShoot() {
-        return autoShoot;
     }
 }

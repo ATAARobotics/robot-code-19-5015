@@ -10,13 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class Robot extends TimedRobot {
-  
+    //Create objects to run auto and teleop code
     Teleop teleop = new Teleop();
     Auto auto = new Auto(teleop);
-    //Settings settings = new Settings();
+    
     @Override
     public void robotInit() {
-        //settings.shuffleInit();
         teleop.teleopInit();
         auto.AutoInit();
     }
@@ -37,19 +36,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        //settings.shufflePeriodic();
     }
-    /**
-    * This autonomous (along with the chooser code above) shows how to select
-    * between different autonomous modes using the dashboard. The sendable
-    * chooser code works with the Java SmartDashboard. If you prefer the
-    * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-    * getString line to get the auto name from the text box below the Gyro
-    *
-    * <p>You can add additional auto modes by adding additional comparisons to
-    * the switch structure below with additional strings. If using the
-    * SendableChooser make sure to add them to the chooser code above as well.
-    */
+    
     @Override
     public void autonomousInit() {
         auto.AutoInit();
@@ -69,7 +57,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();
-        //settings.shufflePeriodic();
     }
     
     public void testPeriodic() {

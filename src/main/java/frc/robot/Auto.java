@@ -13,7 +13,6 @@ public class Auto {
 
   public Auto(Teleop tele) {
     this.teleop = tele;
-    //robotMap = new RobotMap();
   }
 
   /**
@@ -27,8 +26,9 @@ public class Auto {
   /**
    * Periodic function that contains 'tasks' that are designed to be ran periodically.
    */
+  double startingAngle;
   public void AutoPeriodic() {
-    if(joysticks.manualControl()) {
+    if(joysticks.manualControlSandstorm()) {
         auto = false;
     }
     if(auto) {  
@@ -49,29 +49,57 @@ public class Auto {
             teleop.drive(-0.7, robotMap.getGyro().getAngle()*-0.1, true);
             
             if(robotMap.getEncoders().getDistance() > 12) {
+                startingAngle = robotMap.getGyro().getAngle();
                 step++;
             }
             break;
-        case 30:
+        case 3:
             teleop.drive(0, 0.7, true);
+
             double angle = robotMap.getGyro().getAngle();
+            angle -= startingAngle;
             if(angle >= 90) {
                 if(angle > 95) {
-                    teleop.drive(0, 0.6, true);
+                    teleop.drive(0, -0.6, true);
                 }
                 else {
                     step++;
                 }
             }
             break;   
-        case 40:
-            teleop.drive(-0.7, 0, true);
+        case 4:
+            teleop.drive(0.7, 0, true);
 
             if(robotMap.getEncoders().getDistance() > 120) {
+                startingAngle = robotMap.getGyro().getAngle();
                 step++;
             }
             break;
-        case 50:
+        case 5:
+            teleop.drive(0, 0.7, true);
+
+            angle = robotMap.getGyro().getAngle();
+            angle -= startingAngle;
+            if(angle >= 90) {
+                if(angle > 95) {
+                    teleop.drive(0, -0.6, true);
+                }
+                else {
+                    step++;
+                }
+        }
+        break; 
+
+        case 6:
+        teleop.drive(0.7, 0, true);
+
+        if(robotMap.getEncoders().getDistance() > 120) {
+            startingAngle = robotMap.getGyro().getAngle();
+            step++;
+        }
+        break;
+            
+        case 7:
             teleop.drive(0, 0, true);
             teleop.hatch(false);
             break;
