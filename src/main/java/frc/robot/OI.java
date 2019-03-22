@@ -2,6 +2,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
+/**
+ * A centralized file that keeps track of all joystick inputs
+ * 
+ * @author Alexander Greco
+ */
 class OI {
 
     //Driver Variables

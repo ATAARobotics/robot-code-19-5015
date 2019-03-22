@@ -1,7 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
+/**
+ * A file that deals with the ball intake/shooter system
+ * 
+ * @author Alexander Greco
+ */
 public class Shooter {
 
     private int stepNumber = 0;

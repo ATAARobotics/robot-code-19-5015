@@ -1,8 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+/**
+ * File for the hatch intake system
+ * 
+ * @author Alexander Greco
+ */
 
 public class Intake{
+
 
     DoubleSolenoid m_hatchIntake;
     DoubleSolenoid m_punchSolenoid;

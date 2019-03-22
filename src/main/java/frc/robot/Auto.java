@@ -2,7 +2,11 @@ package frc.robot;
 
 //import frc.robot.pathweaver.PathFinder;
 import frc.robot.Teleop;
-
+/**
+ * A file dedicated to all auto related code
+ * 
+ * @author Alexander Greco
+ */
 public class Auto {
 
     private Teleop teleop;

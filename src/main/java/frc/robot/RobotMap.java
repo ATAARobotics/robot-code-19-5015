@@ -12,7 +12,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-
+/**
+ * A centralized file that keeps track of all robot actuators and physical components
+ * 
+ * @author Alexander Greco
+ */
 public class RobotMap {
     private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
     private WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
