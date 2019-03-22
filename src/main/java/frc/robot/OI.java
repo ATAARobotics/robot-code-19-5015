@@ -18,6 +18,7 @@ class OI {
     private boolean manualRearUp;
     private boolean manualFrontUp;
     private boolean manualDrive;
+    private double manualRearDown;
 
     //Gunner variables
     private Joystick gunnerStick = new Joystick(1);
@@ -29,7 +30,7 @@ class OI {
     private boolean punchBall;
     private boolean secureBall;
     private boolean autoShoot;
-
+    private boolean autoPunch;
     //Special Function variables
     boolean leftTriggerPressed = false;
     boolean rightTriggerPressed = false;
@@ -52,6 +53,7 @@ class OI {
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
                 manualControlSandstorm = driveStick.getBButtonReleased();
+                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
                 break;
             
             case "Reverse Turning":
@@ -65,6 +67,7 @@ class OI {
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
                 manualControlSandstorm = driveStick.getBButtonReleased();
+                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
                 break;    
     
             default:
@@ -78,6 +81,7 @@ class OI {
                 manualRearUp = driveStick.getBumper(Hand.kRight);
                 manualDrive = driveStick.getYButton();
                 manualControlSandstorm = driveStick.getBButtonReleased();
+                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
                 break;
         }
         
@@ -87,17 +91,19 @@ class OI {
             case "Default":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
-                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
-                autoShoot = gunnerStick.getRawButtonReleased(8);
+                autoShoot = gunnerStick.getRawButtonReleased(2);
                 break;
             case "Reverse Hatch":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
-                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 autoShoot = gunnerStick.getRawButtonReleased(8);
@@ -105,8 +111,9 @@ class OI {
             case "Reverse Ball":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
-                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
                 autoShoot = gunnerStick.getRawButtonReleased(7);
@@ -114,8 +121,9 @@ class OI {
             case "Reverse All":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
-                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
                 autoShoot = gunnerStick.getRawButtonReleased(7);
@@ -125,8 +133,9 @@ class OI {
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
-                hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
+                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
+                autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 autoShoot = gunnerStick.getRawButtonReleased(2);
@@ -134,6 +143,7 @@ class OI {
         }
         //set button input of trigger for autoClimb
         autoClimb = buttonPressed(autoClimbPressed, "right");
+        System.out.println(gunnerStick.getRawButtonReleased(8));
     }
     //Getter functions for controls
     public double getXSpeed() {
@@ -165,6 +175,9 @@ class OI {
     
 	public boolean getHatchPunchIn() {
 		return hatchPunchIn;
+    }
+    public boolean getAutoPunch() {
+        return autoPunch;
     }
 
     public boolean getAutoShoot() {
@@ -211,9 +224,17 @@ class OI {
     }
 
     public boolean autoClimbPressed() {
-        return autoClimb;
+        if(false) {
+            return autoClimb;
+        }
+        else {
+            return false;
+        }
     }
 
+    public double elevatorRearDown() {
+        return -manualRearDown;
+    }
     public boolean manualControlSandstorm() {
         return manualControlSandstorm;
     }
