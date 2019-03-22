@@ -12,7 +12,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.robot.Encoders;
 
 public class RobotMap {
     private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
@@ -28,7 +27,9 @@ public class RobotMap {
     private DifferentialDrive driveTrain = new DifferentialDrive(leftMotors, rightMotors);
     
     //Add pneumatics
-    private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);  
+    private DoubleSolenoid hatchIntakeSolenoid = new DoubleSolenoid(0, 1);
+    private DoubleSolenoid hatchPunchSolenoid = new DoubleSolenoid(1, 0, 1);
+    
     private DoubleSolenoid gearShiftSolenoid = new DoubleSolenoid(2, 3);
 
     private DoubleSolenoid punchSolenoid = new DoubleSolenoid(4, 5);
@@ -43,13 +44,18 @@ public class RobotMap {
     private DigitalInput lowerFrontSwitch = new DigitalInput(2);
     private DigitalInput lowerRearSwitch = new DigitalInput(3);
 
+    private Gyro NavX = new Gyro();
+
     //Add encoders
     private Encoders encoders = new Encoders(frontLeftMotor, frontRightMotor);
 
     public RobotMap() {
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        Shuffleboard.getTab("LiveWindow").add(camera);
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+        Shuffleboard.getTab("Camera").add(camera);
+        UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        Shuffleboard.getTab("Camera").add(camera2);
         camera.setFPS(30);
+        camera2.setFPS(30);
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);
     }
@@ -112,4 +118,11 @@ public class RobotMap {
     public DoubleSolenoid getPunchSolenoid() {
         return punchSolenoid;
     }
+
+    public Gyro getGyro() {
+        return NavX;
+    }
+	public DoubleSolenoid getHatchPunch() {
+		return hatchPunchSolenoid;
+	}
 }

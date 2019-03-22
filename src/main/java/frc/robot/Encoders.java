@@ -1,9 +1,5 @@
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import java.lang.Math;
@@ -14,7 +10,6 @@ public class Encoders {
     private WPI_TalonSRX leftMotor;
     private WPI_TalonSRX rightMotor;
 
-    private AHRS navX;
     private double leftTicksPerInch;
     private double rightTicksPerInch;
     private double wheelCircumference = 6 * Math.PI;
@@ -29,18 +24,6 @@ public class Encoders {
 
         leftTicksPerInch = 30700 / wheelCircumference;
         rightTicksPerInch = 30700 / wheelCircumference;
-    }
-
-    public void initalizeNavX() {
-        try
-        {
-            // Initializes the navX object on the roboRIO's MXP port and resets itw
-            navX = new AHRS(SPI.Port.kMXP);
-            navX.reset();
-        } catch (RuntimeException ex)
-        {
-            DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
-        }
     }
 
     public double getDistance() {

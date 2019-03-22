@@ -2,11 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-
 public class Shooter {
 
     private int stepNumber = 0;
     private RobotMap roboMap;
+    private boolean punch = true;
+    private boolean gate = true;
     public Shooter(RobotMap robotMap) {
         roboMap = robotMap;
     }
@@ -16,34 +17,57 @@ public class Shooter {
         roboMap.getGateSolenoid().set(Value.kOff);
     }
     public void gate() {
-        roboMap.getGateSolenoid().set(Value.kForward);
+        gate = !gate;
+        if(gate) {
+            roboMap.getGateSolenoid().set(Value.kForward);
+        }
+        else {
+            roboMap.getGateSolenoid().set(Value.kReverse);
+        }
     }
     
     public void punch() {
+        punch = !punch;
+        if(punch) {
+            roboMap.getPunchSolenoid().set(Value.kForward);
+        }
+        else {
+            roboMap.getPunchSolenoid().set(Value.kReverse);
+        }
+        }
+
+	public void shooterInit() {
+        roboMap.getPunchSolenoid().set(Value.kForward);
+        roboMap.getGateSolenoid().set(Value.kForward);
+    }
+    
+    public boolean autoShoot() {
         switch (stepNumber) {
             case 0:
-                roboMap.getGateSolenoid().set(Value.kReverse);
+                gate(true);
                 stepNumber++;
+                return false;
+            case 9:
                 punch();
-                break;
-            case 3:
-                roboMap.getPunchSolenoid().set(Value.kForward);
                 stepNumber++;
+                return false;
+            case 19:
                 punch();
-                break;
-            case 5:
-                    roboMap.getPunchSolenoid().set(Value.kReverse);
-                    stepNumber = 0;
-                    break;
+                stepNumber = 0;
+                return true;
             default:
-                if(stepNumber <= 5) {
-                    stepNumber++;
-                    punch();
+                if(stepNumber > 19) {
+                    stepNumber = 0;
+                    return true;
                 }
                 else {
-                    stepNumber = 0;
+                    stepNumber++;
+                    return false;
                 }
-                break;
         }
+    }
+
+    private void gate(boolean b) {
+        roboMap.getGateSolenoid().set(Value.kForward);
     }
 }
