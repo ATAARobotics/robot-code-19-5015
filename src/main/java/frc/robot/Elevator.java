@@ -66,6 +66,19 @@ public class Elevator {
 
     public void rearElevatorUp(double speed) {
         if (robotMap.getRearElevatorUpLimit().get()) {
+            if(speed < 0) {
+                speed = -speed;
+            }
+            elevatorSpeedRear = speed;
+            activateElevator();
+        }
+    }
+
+    public void rearElevatorDown(double speed) {
+        if (robotMap.getRearElevatorDownLimit().get()) {
+            if(speed > 0) {
+                speed = -speed;
+            }
             elevatorSpeedRear = speed;
             activateElevator();
         }
