@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class Shooter {
 
@@ -43,10 +42,9 @@ public class Shooter {
     }
     
     public boolean autoShoot() {
-        System.out.println("StepNumber: " + stepNumber);
         switch (stepNumber) {
             case 0:
-                gate();
+                gate(true);
                 stepNumber++;
                 return false;
             case 9:
@@ -67,5 +65,9 @@ public class Shooter {
                     return false;
                 }
         }
+    }
+
+    private void gate(boolean b) {
+        roboMap.getGateSolenoid().set(Value.kForward);
     }
 }
