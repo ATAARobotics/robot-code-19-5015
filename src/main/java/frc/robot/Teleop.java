@@ -10,6 +10,7 @@ public class Teleop {
     private Shooter shooter;
     private boolean autoShoot = true;
     private boolean shooterDone = true;
+    private boolean punchDone = true;
 
     /*UltrasonicCode
     private Ultrasonics ultrasonics;
@@ -58,11 +59,14 @@ public class Teleop {
                 intake.HatchClose();
             }
             else;
-            if (joysticks.getHatchPunchOut()) {
+            /*if (joysticks.getHatchPunchOut()) {
                 intake.punchOut();
             }
             else if (joysticks.getHatchPunchIn()) {
                 intake.punchIn();
+            }*/
+            if (joysticks.getAutoPunch() || !punchDone) {
+                punchDone = intake.autoPunch();
             }
             else;
 
@@ -84,7 +88,11 @@ public class Teleop {
                 elevator.frontElevatorUp(0.5);
             }
 
-            if(joysticks.elevatorRearUp()) {
+            if(joysticks.elevatorRearDown() < -0.2) {
+                elevator.rearElevatorDown(0.5);
+            }
+
+            else if(joysticks.elevatorRearUp()) {
                 elevator.rearElevatorUp(0.5);
             }
 
@@ -121,4 +129,7 @@ public class Teleop {
             intake.HatchClose();
         }
     }
+	public void TestPeriodic() {
+        joysticks.checkInputs();
+	}
 }
