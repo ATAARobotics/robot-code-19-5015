@@ -73,5 +73,6 @@ public class Shooter {
 
     private void gate(boolean b) {
         roboMap.getGateSolenoid().set(Value.kForward);
+        gate = true;
     }
 }
