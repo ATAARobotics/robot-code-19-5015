@@ -19,7 +19,7 @@ public class Intake{
         m_hatchIntake = hatchIntake;
         m_punchSolenoid = punchSolenoid;
     }
-
+    //set hatch state for reverse claw and punch
     public void HatchOpen(){
         m_hatchIntake.set(DoubleSolenoid.Value.kReverse);
     }
@@ -35,6 +35,7 @@ public class Intake{
     public void hatchOff(){
         m_hatchIntake.set(DoubleSolenoid.Value.kOff);
     }
+    // releases hatch and punches in and out
     public boolean autoPunch() {
         switch (stepNumber) {
             case 0:
