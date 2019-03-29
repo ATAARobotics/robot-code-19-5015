@@ -57,7 +57,7 @@ public class Elevator {
     public void elevatorDown(double speed) {
         //Positive because of wiring
         elevatorSpeedFront = speed;
-        elevatorSpeedRear = -0.92 * speed;
+        elevatorSpeedRear = -0.94 * speed;
         activateElevator();
     }
 }
