@@ -16,8 +16,6 @@ class OI {
     private double ZRotation;
     private boolean gearShift;
     private boolean slow;
-    private double autoClimbPressed;
-    private boolean autoClimb;
     private boolean manualControlSandstorm;
     private double manualClimbLift = 0;
     private boolean manualRearUp;
@@ -52,7 +50,6 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
@@ -66,7 +63,6 @@ class OI {
                 ZRotation = driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
@@ -80,7 +76,6 @@ class OI {
                 ZRotation = -driveStick.getX(Hand.kRight);
                 gearShift = driveStick.getXButtonReleased();
                 slow = driveStick.getAButtonReleased();
-                autoClimbPressed = driveStick.getTriggerAxis(Hand.kRight);
                 manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
                 manualFrontUp = driveStick.getBumper(Hand.kLeft);
                 manualRearUp = driveStick.getBumper(Hand.kRight);
@@ -147,8 +142,6 @@ class OI {
                 break;   
         }
         //set button input of trigger for autoClimb
-        autoClimb = buttonPressed(autoClimbPressed, "right");
-        System.out.println(gunnerStick.getRawButtonReleased(8));
     }
     //Getter functions for controls
     public double getXSpeed() {
@@ -228,58 +221,10 @@ class OI {
         }
     }
 
-    public boolean autoClimbPressed() {
-        if(false) {
-            return autoClimb;
-        }
-        else {
-            return false;
-        }
-    }
-
     public double elevatorRearDown() {
         return -manualRearDown;
     }
     public boolean manualControlSandstorm() {
         return manualControlSandstorm;
-    }
-
-    //Custom function to allow triggers to act as buttons
-    private boolean buttonPressed(double triggerValue, String trigger) {
-        if(trigger.equals("left")) {
-            if(triggerValue < 0.2 && leftTriggerPressed) {
-                leftTriggerPressed = false;
-                return true;
-            }
-
-            else if(triggerValue > 0.2 && !leftTriggerPressed) {
-                leftTriggerPressed = true;
-                return false;
-            }
-        
-            else{
-                return false;
-            }
-        }
-
-        else if(trigger.equals("right")) {
-            if(triggerValue < 0.2 && rightTriggerPressed) {
-                rightTriggerPressed = false;
-                return true;
-            }
-
-            else if(triggerValue > 0.2 && rightTriggerPressed) {
-                rightTriggerPressed = true;
-                return false;
-            }
-        
-            else{
-                return false;
-            }
-        }
-
-        else {
-            return false;
-        }
     }
 }
