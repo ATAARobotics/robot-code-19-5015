@@ -4,10 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Elevator {
 
-    public static final int frontElevatorUpLimitContacted = 1;
-    public static final int frontElevatorDownLimitContacted = 2;
-    public static final int rearElevatorUpLimitContacted = 4;
-    public static final int rearElevatorDownLimitContacted = 8;
     private double elevatorSpeedFront = 0.0;
     private double elevatorSpeedRear = 0.0;
     private RobotMap robotMap;

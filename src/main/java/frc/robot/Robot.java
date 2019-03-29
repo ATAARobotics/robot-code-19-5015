@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
-        auto.AutoInit();
+        teleop.teleopInit();
     }
 
     /**
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
-        auto.AutoPeriodic();
+        teleop.TeleopPeriodic();
     }
 
     /**
