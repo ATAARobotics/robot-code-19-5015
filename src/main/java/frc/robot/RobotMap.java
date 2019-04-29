@@ -61,6 +61,8 @@ public class RobotMap {
         Shuffleboard.getTab("Camera").add(camera2);
         camera.setFPS(30);
         camera2.setFPS(30);
+        camera.setResolution(160, 120);
+        camera2.setResolution(160, 120);
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);
         elevatorTab.add(upperFrontSwitch);
