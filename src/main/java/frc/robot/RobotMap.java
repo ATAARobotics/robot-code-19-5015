@@ -12,8 +12,15 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+/**
+ * A centralized file that keeps track of all robot actuators and physical components
+ * 
+ * @author Alexander Greco
+ */
 public class RobotMap {
+    private ShuffleboardTab elevatorTab = Shuffleboard.getTab("Elevators");
+
     private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
     private WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
     private WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
@@ -41,8 +48,6 @@ public class RobotMap {
     
     private DigitalInput upperFrontSwitch = new DigitalInput(0);
     private DigitalInput upperRearSwitch = new DigitalInput(1);
-    private DigitalInput lowerFrontSwitch = new DigitalInput(2);
-    private DigitalInput lowerRearSwitch = new DigitalInput(3);
 
     private Gyro NavX = new Gyro();
 
@@ -56,8 +61,12 @@ public class RobotMap {
         Shuffleboard.getTab("Camera").add(camera2);
         camera.setFPS(30);
         camera2.setFPS(30);
+        camera.setResolution(160, 120);
+        camera2.setResolution(160, 120);
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);
+        elevatorTab.add(upperFrontSwitch);
+        elevatorTab.add(upperRearSwitch);
     }
     public SpeedControllerGroup getLeftMotors() {
         return leftMotors;
@@ -93,14 +102,6 @@ public class RobotMap {
 
     public DigitalInput getRearElevatorUpLimit() {
         return upperRearSwitch;
-    }
-
-    public DigitalInput getFrontElevatorDownLimit() {
-        return lowerFrontSwitch;
-    }
-
-    public DigitalInput getRearElevatorDownLimit() {
-        return lowerRearSwitch;
     }
 
     public Encoders getEncoders() {

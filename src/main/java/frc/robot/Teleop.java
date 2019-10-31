@@ -33,83 +33,69 @@ public class Teleop {
     public void TeleopPeriodic() {
         joysticks.checkInputs();
         //drive
-        if(joysticks.autoClimbPressed()) {
-            elevator.setAutoClimb();
+        driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
+        //speed limiters
 
+        if(joysticks.getGearShift()) {
+            driveTrain.gearShift();
         }
-
-        if(!elevator.getClimbing()) {
-            driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
-            //speed limiters
-
-            if(joysticks.getGearShift()) {
-                driveTrain.gearShift();
-            }
-            if (joysticks.getSlow()) {
-                driveTrain.slow();
-            }
-            else; 
+        if (joysticks.getSlow()) {
+            driveTrain.slow();
+        }
+        else; 
         
 
-            //hatch control
-            if (joysticks.getHatchOpen()) {
-                intake.HatchOpen();
-            }
-            else if (joysticks.getHatchClosed()) {
-                intake.HatchClose();
-            }
-            else;
-            /*if (joysticks.getHatchPunchOut()) {
-                intake.punchOut();
-            }
-            else if (joysticks.getHatchPunchIn()) {
-                intake.punchIn();
-            }*/
-            if (joysticks.getAutoPunch() || !punchDone) {
-                punchDone = intake.autoPunch();
-            }
-            else;
-
-            if(joysticks.getAutoShoot() || !shooterDone) {
-                shooterDone = shooter.autoShoot();
-            }
-
-            else if(joysticks.getBallSecure()) {
-                    shooter.gate();
-            }
-            else if(joysticks.getBallPunch() && !autoShoot) {
-                shooter.punch();
-            }
-            else;
-
-            elevator.elevatorDown(joysticks.elevatorSpeedDown());
-            //Elevator up
-            if(joysticks.elevatorFrontUp()) {
-                elevator.frontElevatorUp(0.5);
-            }
-
-            if(joysticks.elevatorRearDown() < -0.2) {
-                elevator.rearElevatorDown(0.5);
-            }
-
-            else if(joysticks.elevatorRearUp()) {
-                elevator.rearElevatorUp(0.5);
-            }
-
-            //Drives forward on back elevator wheels
-            if(joysticks.elevatorDrive()) {
-                elevator.driveElevator();
-            }
-            else {
-                elevator.stopDrive();
-            }
+        //hatch control
+        if (joysticks.getHatchOpen()) {
+            intake.HatchOpen();
         }
-        elevator.elevatorPeriodic();
+        else if (joysticks.getHatchClosed()) {
+            intake.HatchClose();
+        }
+        else;
+        if (joysticks.getAutoPunch() || !punchDone) {
+            punchDone = intake.autoPunch();
+        }
+        else;
+
+        if(joysticks.getAutoShoot() || !shooterDone) {
+            shooterDone = shooter.autoShoot();
+        }
+
+        else if(joysticks.getBallSecure()) {
+            shooter.gate();
+        }
+        else if(joysticks.getBallPunch() && !autoShoot) {
+            shooter.punch();
+        }
+        else;
+
+        elevator.elevatorDown(joysticks.elevatorSpeedDown());
+        //Elevator up
+        if(joysticks.elevatorFrontUp()) {
+            elevator.frontElevatorUp(0.5);
+        }
+
+        if(joysticks.elevatorRearDown() < -0.2) {
+            elevator.rearElevatorDown(0.5);
+        }
+
+        else if(joysticks.elevatorRearUp()) {
+            elevator.rearElevatorUp(0.5);
+        }
+
+        //Drives forward on back elevator wheels
+        if(joysticks.elevatorDrive()) {
+            elevator.driveElevator();
+        }
+        else {
+            elevator.stopDrive();
+        }
+    }
     /* public getUltrasonicRange(int direction) {
         ultrasonic.getRange(direction);
     }
     */
-    }
 	public void drive(double speedA, double speedB, boolean arcade) {
         if(arcade) {
             driveTrain.arcadeDrive(speedA, speedB);
@@ -130,6 +116,45 @@ public class Teleop {
         }
     }
 	public void TestPeriodic() {
+        //safe mode
+        driveTrain.gearShiftSafe();
         joysticks.checkInputs();
+        
+        driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
+        if (joysticks.getSlow()) {
+            driveTrain.slow();
+        }
+        else; 
+
+        //hatch control
+        if (joysticks.getHatchOpen()) {
+            intake.HatchOpen();
+        }
+        else if (joysticks.getHatchClosed()) {
+            intake.HatchClose();
+        }
+        else;
+        /*if (joysticks.getHatchPunchOut()) {
+            intake.punchOut();
+        }
+        else if (joysticks.getHatchPunchIn()) {
+            intake.punchIn();
+        }*/
+        if (joysticks.getAutoPunch() || !punchDone) {
+            punchDone = intake.autoPunch();
+        }
+        else;
+
+        if(joysticks.getAutoShoot() || !shooterDone) {
+            shooterDone = shooter.autoShoot();
+        }
+
+        else if(joysticks.getBallSecure()) {
+                shooter.gate();
+        }
+        else if(joysticks.getBallPunch() && !autoShoot) {
+            shooter.punch();
+        }
+        else;
 	}
 }

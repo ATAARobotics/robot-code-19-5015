@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
     //Create objects to run auto and teleop code
     Teleop teleop = new Teleop();
     Auto auto = new Auto(teleop);
-    
+
     @Override
     public void robotInit() {
         teleop.teleopInit();
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
-        auto.AutoInit();
+        teleop.teleopInit();
     }
 
     /**
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
-        auto.AutoPeriodic();
+        teleop.TeleopPeriodic();
     }
 
     /**

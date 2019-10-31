@@ -3,7 +3,11 @@ package frc.robot;
 // import libraries
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-
+/**
+ * A file in charge of managing the drivetrain and all drive functions of the robot
+ * 
+ * @author Alexander Greco
+ */
 public class SWATDrive {
 
     //slow variable
@@ -29,6 +33,9 @@ public class SWATDrive {
         else {
             robotMap.getGearShift().set(DoubleSolenoid.Value.kForward);
         }
+    }
+    public void gearShiftSafe() { 
+        robotMap.getGearShift().set(DoubleSolenoid.Value.kReverse);
     }
     public void slow() {
         slow = !slow;
