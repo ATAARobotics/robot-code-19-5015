@@ -130,6 +130,45 @@ public class Teleop {
         }
     }
 	public void TestPeriodic() {
+        //safe mode
+        driveTrain.gearShiftSafe();
         joysticks.checkInputs();
+        
+        driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
+        if (joysticks.getSlow()) {
+            driveTrain.slow();
+        }
+        else; 
+
+        //hatch control
+        if (joysticks.getHatchOpen()) {
+            intake.HatchOpen();
+        }
+        else if (joysticks.getHatchClosed()) {
+            intake.HatchClose();
+        }
+        else;
+        /*if (joysticks.getHatchPunchOut()) {
+            intake.punchOut();
+        }
+        else if (joysticks.getHatchPunchIn()) {
+            intake.punchIn();
+        }*/
+        if (joysticks.getAutoPunch() || !punchDone) {
+            punchDone = intake.autoPunch();
+        }
+        else;
+
+        if(joysticks.getAutoShoot() || !shooterDone) {
+            shooterDone = shooter.autoShoot();
+        }
+
+        else if(joysticks.getBallSecure()) {
+                shooter.gate();
+        }
+        else if(joysticks.getBallPunch() && !autoShoot) {
+            shooter.punch();
+        }
+        else;
 	}
 }
