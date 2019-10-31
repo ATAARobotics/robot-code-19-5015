@@ -34,6 +34,9 @@ public class SWATDrive {
             robotMap.getGearShift().set(DoubleSolenoid.Value.kForward);
         }
     }
+    public void gearShiftSafe() { 
+        robotMap.getGearShift().set(DoubleSolenoid.Value.kReverse);
+    }
     public void slow() {
         slow = !slow;
         if(slow) {
