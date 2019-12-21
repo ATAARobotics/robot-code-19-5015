@@ -21,11 +21,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class RobotMap {
     private ShuffleboardTab elevatorTab = Shuffleboard.getTab("Elevators");
 
-    private WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
+    public WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(0);
     private WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(1);
-    private WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
+    public WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
     private WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(3);
     
+    private static WPI_TalonSRX staticFrontLeftMotor = new WPI_TalonSRX(0);
+    private static WPI_TalonSRX staticFrontRightMotor = new WPI_TalonSRX(2);
     //Group Drive
     private SpeedControllerGroup rightMotors = new SpeedControllerGroup(rearRightMotor, frontRightMotor);
     private SpeedControllerGroup leftMotors = new SpeedControllerGroup(rearLeftMotor, frontLeftMotor);
@@ -49,10 +51,12 @@ public class RobotMap {
     private DigitalInput upperFrontSwitch = new DigitalInput(0);
     private DigitalInput upperRearSwitch = new DigitalInput(1);
 
+    //private Encoders encoder = new Encoders(frontLeftMotor, frontRightMotor);
+
     private Gyro NavX = new Gyro();
 
     //Add encoders
-    private Encoders encoders = new Encoders(frontLeftMotor, frontRightMotor);
+    private static Encoders encoder = new Encoders(staticFrontLeftMotor, staticFrontRightMotor);
 
     public RobotMap() {
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
@@ -104,8 +108,8 @@ public class RobotMap {
         return upperRearSwitch;
     }
 
-    public Encoders getEncoders() {
-        return encoders;
+    static public Encoders getEncoder() {
+        return encoder;
     }
 
     public DifferentialDrive getDriveTrain() {

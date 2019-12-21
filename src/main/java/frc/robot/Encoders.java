@@ -22,22 +22,21 @@ public class Encoders {
         this.leftMotor.setSelectedSensorPosition(0);
         this.rightMotor.setSelectedSensorPosition(0);
 
-        leftTicksPerInch = 30700 / wheelCircumference;
+        leftTicksPerInch = 30400 / wheelCircumference;
         rightTicksPerInch = 30700 / wheelCircumference;
     }
+    public double getRight() {
+        return rightMotor.getSelectedSensorPosition();
+    }
+    public double getLeft() {
+        return leftMotor.getSelectedSensorPosition();
+    }
+    public double getLeftDistance() {
+        return leftMotor.getSelectedSensorPosition()/leftTicksPerInch;     
+    }
 
-    public double getDistance() {
-        double leftEncoderDistance = leftMotor.getSelectedSensorPosition();
-        double rightEncoderDistance = rightMotor.getSelectedSensorPosition();
-        if (leftEncoderDistance == 0.0) {
-            return Math.abs(rightEncoderDistance);
-        }
-        else if (rightEncoderDistance == 0.0) {
-            return Math.abs(leftEncoderDistance);
-        }
-        else {
-            return Math.abs((leftEncoderDistance + rightEncoderDistance) / 2);
-        }
+    public double getRightDistance() {
+        return rightMotor.getSelectedSensorPosition()/rightTicksPerInch;
     }
 
     public void reset() {

@@ -1,8 +1,11 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Teleop {
     // Vairables for robot classes
     private SWATDrive driveTrain;
+    private Encoders encoders;
     private Intake intake;
     private Elevator elevator;
     private RobotMap robotMap;
@@ -24,8 +27,10 @@ public class Teleop {
         intake = new Intake(robotMap.getHatchIntake(), robotMap.getHatchPunch());
         elevator = new Elevator(robotMap);
         shooter = new Shooter(robotMap);
+        encoders = RobotMap.getEncoder();
     }
     public void teleopInit() {
+        encoders.reset();
         //intake.hatchOff();
         shooter.shooterInit();
     }
@@ -33,6 +38,12 @@ public class Teleop {
     public void TeleopPeriodic() {
         joysticks.checkInputs();
         //drive
+        
+        SmartDashboard.putNumber("EncoderLeft", encoders.getLeft());
+        SmartDashboard.putNumber("EncoderRight", encoders.getRight());
+        SmartDashboard.putNumber("EncoderLeftDistance", encoders.getLeftDistance());
+        SmartDashboard.putNumber("EncoderRightDistance", encoders.getRightDistance());
+
         driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
         //speed limiters
 
@@ -104,9 +115,6 @@ public class Teleop {
             driveTrain.tankDrive(speedA, speedB);
         }
 	}
-	public double getInches() {
-		return robotMap.getEncoders().getDistance();
-    }
     public void hatch(boolean outake) {
         if(outake) {
             intake.HatchOpen();
