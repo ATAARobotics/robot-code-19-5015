@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.*;
 
 public class Robot extends TimedRobot {
     //Create objects to run auto and teleop code
-    Teleop teleop = new Teleop();
+    public static Teleop teleop = new Teleop();
     Auto auto = new Auto();
 
     @Override

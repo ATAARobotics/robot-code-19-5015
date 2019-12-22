@@ -8,7 +8,7 @@ public class Teleop {
     private Encoders encoders;
     private Intake intake;
     private Elevator elevator;
-    private RobotMap robotMap;
+    public RobotMap robotMap;
     private OI joysticks;
     private Shooter shooter;
     private boolean autoShoot = true;

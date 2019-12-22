@@ -9,8 +9,8 @@ import frc.robot.Teleop;
  */
 public class Auto {
     
-    private Teleop teleop;
-    private RobotMap robotMap = new RobotMap();
+    private Teleop teleop = Robot.teleop;
+    private RobotMap robotMap = teleop.robotMap;
     Encoders encoder = robotMap.getEncoder();
     SWATDrive swatDrive = new SWATDrive(robotMap);
   /**
