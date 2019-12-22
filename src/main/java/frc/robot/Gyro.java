@@ -16,6 +16,9 @@ public class Gyro {
             DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
         }
     }
+    public void reset() {
+        navX.reset();
+    }
     public double getAngle() {
         return navX.getAngle();
     }

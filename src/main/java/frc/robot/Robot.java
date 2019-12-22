@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         teleop.teleopInit();
-        auto.AutoInit();
+        //auto.AutoInit();
     }
 
     /**

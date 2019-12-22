@@ -129,5 +129,5 @@ public class RobotMap {
     }
 	public DoubleSolenoid getHatchPunch() {
 		return hatchPunchSolenoid;
-	}
+    }
 }
