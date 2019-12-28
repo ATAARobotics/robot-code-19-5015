@@ -11,21 +11,23 @@ public class Auto {
     
     private Teleop teleop = Robot.teleop;
     private RobotMap robotMap = teleop.robotMap;
-    Encoders encoder = robotMap.getEncoder();
+    private double lSpeed;
+    private double rSpeed;
+    Encoders encoder = RobotMap.getEncoder();
     SWATDrive swatDrive = new SWATDrive(robotMap);
   /**
-   * Function that contains 'tasks' designed to be ran at initalization
+   * Function that contains tasks designed to be ran at initalization
    */
   public void AutoInit() {
       encoder.reset();
   }
 
   /**
-   * Periodic function that contains 'tasks' that are designed to be ran periodically.
+   * Periodic function that contains tasks that are designed to be ran periodically.
    */
     public void AutoPeriodic() {
-        double lSpeed = 0;
-        double rSpeed = 0;
+        lSpeed = 0;
+        rSpeed = 0;
         if(encoder.getLeftDistance() < 110.4) {
             lSpeed = 1; 
         }
@@ -36,7 +38,7 @@ public class Auto {
   }
 
   /**
-   * Function that contains 'tasks' designed to be ran when the robot is disabled.
+   * Function that contains tasks designed to be ran when the robot is disabled.
    */
   public void AutoDisabled() {
   }
