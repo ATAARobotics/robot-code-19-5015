@@ -89,9 +89,6 @@ public class Teleop {
         SmartDashboard.putNumber("EncoderLeftDistance", encoders.getLeftDistance());
         SmartDashboard.putNumber("EncoderRightDistance", encoders.getRightDistance());
 
-        driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
-        //speed limiters
-
         // Vision Alignment
         if(visionActive) {
 
@@ -122,6 +119,9 @@ public class Teleop {
                 stopAlignPID();
                 limeLight.setCameraMode(CameraMode.Drive);
             }
+
+            //This is where the robot is driven (disabled during vision)
+            driveTrain.arcadeDrive(joysticks.getXSpeed() * driveTrain.getMaxStraightSpeed(), joysticks.getZRotation() * driveTrain.getMaxTurnSpeed());
 
             if(joysticks.getGearShift()) {
                 driveTrain.gearShift();
