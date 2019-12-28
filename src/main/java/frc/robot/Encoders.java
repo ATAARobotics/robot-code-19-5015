@@ -4,6 +4,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import java.lang.Math;
 
+/**
+ * Encoder code
+ * 
+ * @author Jacob Guglielmin
+ */
+
 public class Encoders {
     
     //Creates left and right encoder objects
@@ -22,21 +28,21 @@ public class Encoders {
         this.leftMotor.setSelectedSensorPosition(0);
         this.rightMotor.setSelectedSensorPosition(0);
 
-        leftTicksPerInch = 30400 / wheelCircumference;
-        rightTicksPerInch = 30700 / wheelCircumference;
+        leftTicksPerInch = 28600 / wheelCircumference;
+        rightTicksPerInch = 28900 / wheelCircumference;
     }
     public double getRight() {
         return rightMotor.getSelectedSensorPosition();
     }
     public double getLeft() {
-        return leftMotor.getSelectedSensorPosition();
+        return leftMotor.getSelectedSensorPosition() * -1;
     }
     public double getLeftDistance() {
-        return leftMotor.getSelectedSensorPosition()/leftTicksPerInch;     
+        return (leftMotor.getSelectedSensorPosition() * -1) / leftTicksPerInch;     
     }
 
     public double getRightDistance() {
-        return rightMotor.getSelectedSensorPosition()/rightTicksPerInch;
+        return rightMotor.getSelectedSensorPosition() / rightTicksPerInch;
     }
 
     public void reset() {
