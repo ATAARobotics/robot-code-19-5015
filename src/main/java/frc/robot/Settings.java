@@ -62,7 +62,6 @@ public class Settings {
     static public double TEST = settingsFile.getDoubleProperty("TEST", 0.5);
     // Example of ShuffleboardTab setup.
     private ShuffleboardTab dashboardTab = Shuffleboard.getTab("Dashboard");
-    private ShuffleboardTab outputTab = Shuffleboard.getTab("Output");
 
     //NetworkTableEntry LOW_GEAR_TURN_THRESHOLD_ENTRY;
     //static public double LOW_GEAR_TURN_THRESHOLD;

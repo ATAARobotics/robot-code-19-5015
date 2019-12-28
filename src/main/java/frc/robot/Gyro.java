@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class Gyro {
     private AHRS navX;
-    public void initalizeNavX() {
+    public void initializeNavX() {
         try {
             // Initializes the navX object on the roboRIO's MXP port and resets itw
             navX = new AHRS(SPI.Port.kMXP);

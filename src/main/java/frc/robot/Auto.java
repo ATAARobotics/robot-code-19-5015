@@ -5,7 +5,7 @@ import frc.robot.Teleop;
 /**
  * A file dedicated to all auto related code
  * 
- * @author Alexander Greco
+ * @author Alexander Greco and Jacob Guglielmin
  */
 public class Auto {
     
@@ -13,13 +13,18 @@ public class Auto {
     private RobotMap robotMap = teleop.robotMap;
     private double lSpeed;
     private double rSpeed;
-    Encoders encoder = RobotMap.getEncoder();
+
+    //Adjusts motor speeds so that they match
+    private final double LEFT_SPEED_CONSTANT = -0.851;
+    private final double RIGHT_SPEED_CONSTANT = -1;
+
+    Encoders encoders = RobotMap.getEncoder();
     SWATDrive swatDrive = new SWATDrive(robotMap);
   /**
    * Function that contains tasks designed to be ran at initalization
    */
   public void AutoInit() {
-      encoder.reset();
+      encoders.reset();
   }
 
   /**
@@ -28,14 +33,17 @@ public class Auto {
     public void AutoPeriodic() {
         lSpeed = 0;
         rSpeed = 0;
-        if(encoder.getLeftDistance() < 110.4) {
-            lSpeed = 1; 
+
+        //The values in the if statements are how far the bot should go in inches
+        if(encoders.getLeftDistance() < 110.4) {
+            lSpeed = 0.5 * LEFT_SPEED_CONSTANT; 
         }
-        if(encoder.getRightDistance() < 110.4) {
-            rSpeed = 1; 
+        if(encoders.getRightDistance() < 110.4) {
+            rSpeed = 0.5 * RIGHT_SPEED_CONSTANT; 
         }
         swatDrive.tankDrive(lSpeed, rSpeed);
-  }
+
+    }
 
   /**
    * Function that contains tasks designed to be ran when the robot is disabled.
