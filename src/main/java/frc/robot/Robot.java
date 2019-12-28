@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.*;
 
 public class Robot extends TimedRobot {
     //Create objects to run auto and teleop code
-    Teleop teleop = new Teleop();
-    Auto auto = new Auto(teleop);
+    public static Teleop teleop = new Teleop();
+    Auto auto = new Auto();
 
     @Override
     public void robotInit() {
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
-        teleop.teleopInit();
+        auto.AutoInit();
     }
 
     /**
@@ -48,12 +48,16 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
-        teleop.TeleopPeriodic();
+        auto.AutoPeriodic();
     }
 
     /**
     * This function is called periodically during operator control.
     */
+    @Override
+    public void teleopInit() {
+        teleop.teleopInit();
+    }
     @Override
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();

@@ -8,28 +8,37 @@ import frc.robot.Teleop;
  * @author Alexander Greco
  */
 public class Auto {
-
-    private Teleop teleop;
-
-  public Auto(Teleop tele) {
-    this.teleop = tele;
-  }
-
+    
+    private Teleop teleop = Robot.teleop;
+    private RobotMap robotMap = teleop.robotMap;
+    private double lSpeed;
+    private double rSpeed;
+    Encoders encoder = RobotMap.getEncoder();
+    SWATDrive swatDrive = new SWATDrive(robotMap);
   /**
-   * Function that contains 'tasks' designed to be ran at initalization
+   * Function that contains tasks designed to be ran at initalization
    */
   public void AutoInit() {
+      encoder.reset();
   }
 
   /**
-   * Periodic function that contains 'tasks' that are designed to be ran periodically.
+   * Periodic function that contains tasks that are designed to be ran periodically.
    */
-  public void AutoPeriodic() {
-        teleop.TeleopPeriodic();
+    public void AutoPeriodic() {
+        lSpeed = 0;
+        rSpeed = 0;
+        if(encoder.getLeftDistance() < 110.4) {
+            lSpeed = 1; 
+        }
+        if(encoder.getRightDistance() < 110.4) {
+            rSpeed = 1; 
+        }
+        swatDrive.tankDrive(lSpeed, rSpeed);
   }
 
   /**
-   * Function that contains 'tasks' designed to be ran when the robot is disabled.
+   * Function that contains tasks designed to be ran when the robot is disabled.
    */
   public void AutoDisabled() {
   }
