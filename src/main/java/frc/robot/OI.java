@@ -2,11 +2,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
-/**
- * A centralized file that keeps track of all joystick inputs
- * 
- * @author Alexander Greco
- */
 class OI {
 
     //Driver Variables
@@ -22,6 +17,7 @@ class OI {
     private boolean manualFrontUp;
     private boolean manualDrive;
     private double manualRearDown;
+    private boolean visionButton;
 
     //Gunner variables
     private Joystick gunnerStick = new Joystick(1);
@@ -43,66 +39,34 @@ class OI {
     }
     //periodic function to update controller input
     public void checkInputs() {
-        //switch statement to detirmine controls for the driver
+        gearShift = driveStick.getXButtonReleased();
+        slow = driveStick.getAButtonReleased();
+        manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
+        manualFrontUp = driveStick.getBumper(Hand.kLeft);
+        manualRearUp = driveStick.getBumper(Hand.kRight);
+        manualDrive = driveStick.getYButton();
+        manualControlSandstorm = driveStick.getBButtonReleased();
+        manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
+        visionButton = driveStick.getBackButtonReleased();
+
+        //switch statement to determine controls for the driver
         switch (driverScheme) {
-            case "Default":
-                XSpeed = driveStick.getY(Hand.kLeft);
-                ZRotation = -driveStick.getX(Hand.kRight);
-                gearShift = driveStick.getXButtonReleased();
-                slow = driveStick.getAButtonReleased();
-                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumper(Hand.kLeft);
-                manualRearUp = driveStick.getBumper(Hand.kRight);
-                manualDrive = driveStick.getYButton();
-                manualControlSandstorm = driveStick.getBButtonReleased();
-                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
-                break;
-            
             case "Reverse Turning":
                 XSpeed = -driveStick.getY(Hand.kLeft);
                 ZRotation = driveStick.getX(Hand.kRight);
-                gearShift = driveStick.getXButtonReleased();
-                slow = driveStick.getAButtonReleased();
-                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumper(Hand.kLeft);
-                manualRearUp = driveStick.getBumper(Hand.kRight);
-                manualDrive = driveStick.getYButton();
-                manualControlSandstorm = driveStick.getBButtonReleased();
-                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
                 break;    
-    
             default:
                 XSpeed = driveStick.getY(Hand.kLeft);
                 ZRotation = -driveStick.getX(Hand.kRight);
-                gearShift = driveStick.getXButtonReleased();
-                slow = driveStick.getAButtonReleased();
-                manualClimbLift = driveStick.getTriggerAxis(Hand.kLeft);
-                manualFrontUp = driveStick.getBumper(Hand.kLeft);
-                manualRearUp = driveStick.getBumper(Hand.kRight);
-                manualDrive = driveStick.getYButton();
-                manualControlSandstorm = driveStick.getBButtonReleased();
-                manualRearDown = driveStick.getTriggerAxis(Hand.kRight);
                 break;
         }
         
         //switch statement to detirmine controls for the gunner
         
         switch (gunnerScheme) {
-            case "Default":
-                hatchOpen = gunnerStick.getRawButtonReleased(5);
-                hatchClosed = gunnerStick.getRawButtonReleased(6);
-                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
-                autoPunch = gunnerStick.getRawButtonReleased(1);
-                secureBall = gunnerStick.getRawButtonReleased(7);
-                punchBall = gunnerStick.getRawButtonReleased(8);
-                autoShoot = gunnerStick.getRawButtonReleased(2);
-                break;
             case "Reverse Hatch":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
-                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
@@ -111,8 +75,6 @@ class OI {
             case "Reverse Ball":
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
-                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
@@ -121,28 +83,23 @@ class OI {
             case "Reverse All":
                 hatchOpen = gunnerStick.getRawButtonReleased(6);
                 hatchClosed = gunnerStick.getRawButtonReleased(5);
-                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(8);
                 punchBall = gunnerStick.getRawButtonReleased(7);
                 autoShoot = gunnerStick.getRawButtonReleased(7);
-
                 break;    
             
             default:
                 hatchOpen = gunnerStick.getRawButtonReleased(5);
                 hatchClosed = gunnerStick.getRawButtonReleased(6);
-                //hatchPunchOut = gunnerStick.getRawButtonReleased(1);
-                //hatchPunchIn = gunnerStick.getRawButtonReleased(4);
                 autoPunch = gunnerStick.getRawButtonReleased(1);
                 secureBall = gunnerStick.getRawButtonReleased(7);
                 punchBall = gunnerStick.getRawButtonReleased(8);
                 autoShoot = gunnerStick.getRawButtonReleased(2);
                 break;   
         }
-        //set button input of trigger for autoClimb
     }
+
     //Getter functions for controls
     public double getXSpeed() {
         return XSpeed;
@@ -226,5 +183,9 @@ class OI {
     }
     public boolean manualControlSandstorm() {
         return manualControlSandstorm;
+    }
+
+    public boolean getVisionButton() {
+        return visionButton;
     }
 }

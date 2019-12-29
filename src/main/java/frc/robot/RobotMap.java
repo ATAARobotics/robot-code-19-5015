@@ -71,6 +71,7 @@ public class RobotMap {
         rearRightMotor.follow(frontRightMotor);
         elevatorTab.add(upperFrontSwitch);
         elevatorTab.add(upperRearSwitch);
+        NavX.initializeNavX();
     }
     public SpeedControllerGroup getLeftMotors() {
         return leftMotors;

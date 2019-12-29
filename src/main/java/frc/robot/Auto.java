@@ -6,7 +6,7 @@ import frc.robot.Teleop;
 /**
  * A file dedicated to all auto related code
  * 
- * @author Alexander Greco
+ * @author Alexander Greco and Jacob Guglielmin
  */
 public class Auto {
     double P = 0.6;
@@ -19,7 +19,12 @@ public class Auto {
     private RobotMap robotMap = teleop.robotMap;
     private double lSpeed;
     private double rSpeed;
-    Encoders encoder = RobotMap.getEncoder();
+
+    //Adjusts motor speeds so that they match
+    private final double LEFT_SPEED_CONSTANT = -0.851;
+    private final double RIGHT_SPEED_CONSTANT = -1;
+
+    Encoders encoders = RobotMap.getEncoder();
     SWATDrive swatDrive = new SWATDrive(robotMap);
     Gyro gyro = robotMap.getGyro();
   /**
