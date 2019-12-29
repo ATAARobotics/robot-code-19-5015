@@ -17,11 +17,13 @@ public class Auto {
     double setpoint = 60;
     private Teleop teleop = Robot.teleop;
     private RobotMap robotMap = teleop.robotMap;
-    Encoders encoder = robotMap.getEncoder();
+    private double lSpeed;
+    private double rSpeed;
+    Encoders encoder = RobotMap.getEncoder();
     SWATDrive swatDrive = new SWATDrive(robotMap);
     Gyro gyro = robotMap.getGyro();
   /**
-   * Function that contains 'tasks' designed to be ran at initalization
+   * Function that contains tasks designed to be ran at initalization
    */
   public void AutoInit() {
       encoder.reset();
@@ -29,7 +31,7 @@ public class Auto {
   }
 
   /**
-   * Periodic function that contains 'tasks' that are designed to be ran periodically.
+   * Periodic function that contains tasks that are designed to be ran periodically.
    */
     public void AutoPeriodic() {
         SmartDashboard.putNumber("Encoder", encoder.getLeftDistance());
@@ -46,7 +48,7 @@ public class Auto {
   }
 
   /**
-   * Function that contains 'tasks' designed to be ran when the robot is disabled.
+   * Function that contains tasks designed to be ran when the robot is disabled.
    */
   public void AutoDisabled() {
   }
