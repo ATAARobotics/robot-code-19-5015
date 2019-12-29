@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         teleop.teleopInit();
+        teleop.robotMap.getGyro().initalizeNavX();
         //auto.AutoInit();
     }
 

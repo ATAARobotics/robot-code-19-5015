@@ -9,7 +9,12 @@ import frc.robot.Teleop;
  * @author Alexander Greco
  */
 public class Auto {
-    
+    double P = 0.6;
+    int I = 0;
+    int D = 0;
+    double rcw;
+    double integral, previous_error,error,derivative = 0;
+    double setpoint = 60;
     private Teleop teleop = Robot.teleop;
     private RobotMap robotMap = teleop.robotMap;
     Encoders encoder = robotMap.getEncoder();
@@ -30,17 +35,26 @@ public class Auto {
         SmartDashboard.putNumber("Encoder", encoder.getLeftDistance());
         double lSpeed = 0;
         double rSpeed = 0;
-        if(encoder.getLeftDistance() < 60) {
+        if(-encoder.getLeftDistance() < 60) {
             lSpeed = -0.7; 
+            PID();
+            swatDrive.arcadeDrive(-rcw, (gyro.getAngle()/7));
         }
-
-        swatDrive.arcadeDrive(lSpeed, gyro.getAngle());
+        else {
+            swatDrive.arcadeDrive(0, 0);
+        }
   }
 
   /**
    * Function that contains 'tasks' designed to be ran when the robot is disabled.
    */
   public void AutoDisabled() {
+  }
+  public void PID() {
+    error = setpoint + encoder.getLeftDistance();// Error = Target - Actual
+    this.integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+    derivative = (error - this.previous_error) / .02;
+    this.rcw = P*error + I*this.integral + D*derivative;
   }
 
 }
