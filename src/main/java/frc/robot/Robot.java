@@ -17,8 +17,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         teleop.teleopInit();
-        teleop.robotMap.getGyro().initalizeNavX();
-        //auto.AutoInit();
+        teleop.robotMap.getGyro().initializeNavX();
+        auto.AutoInit();
     }
 
     /**
@@ -36,12 +36,19 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+    public void disabledInit() {
+        super.disabledInit();
+        auto.drivePID.disable();
+    }
+
+    @Override
     public void disabledPeriodic() {
     }
     
     @Override
     public void autonomousInit() {
         auto.AutoInit();
+        System.out.println("Enabling auto from robot");
     }
 
     /**
@@ -57,7 +64,8 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void teleopInit() {
-        teleop.teleopInit();
+        auto.AutoDisabled();
+        teleop.teleopInit();   
     }
     @Override
     public void teleopPeriodic() {
