@@ -28,8 +28,8 @@ public class Encoders {
         this.leftMotor.setSelectedSensorPosition(0);
         this.rightMotor.setSelectedSensorPosition(0);
 
-        leftTicksPerInch = 28600 / wheelCircumference;
-        rightTicksPerInch = 28900 / wheelCircumference;
+        leftTicksPerInch = 28600.0 / wheelCircumference;
+        rightTicksPerInch = 28900.0 / wheelCircumference;
     }
     public double getRight() {
         return rightMotor.getSelectedSensorPosition();

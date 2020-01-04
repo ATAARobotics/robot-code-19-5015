@@ -10,29 +10,25 @@ import frc.robot.Teleop;
  * @author Alexander Greco and Jacob Guglielmin
  */
 public class Auto {
-    //TODO Tune PIDs
 
     //Drive values
-    double Dp = 0.1;
+    double Dp = 0.05;
     double Di = 0;
-    double Dd = 0;
+    double Dd = 0.2;
 
     double speed = 0;
 
     //Turn values
-    double Tp = 0.1;
+    double Tp = 0.15;
     double Ti = 0;
-    double Td = 0;
+    double Td = 0.2;
 
     double turn = 0;
+    int step = 0;
+    boolean turning = false;
 
-    //double rcw;
-    //double integral, previous_error,error,derivative = 0;
-    //double setpoint = 60;
     private Teleop teleop = Robot.teleop;
     private RobotMap robotMap = teleop.robotMap;
-    //private double lSpeed;
-    //private double rSpeed;
     PIDSubsystem drivePID;
     PIDSubsystem turnPID;
     
@@ -50,8 +46,11 @@ public class Auto {
    * Function that contains tasks designed to be ran at initalization
    */
   public void AutoInit() {
+
       encoders.reset();
       gyro.reset();
+
+      step = 0;
 
       //Speed PID
       drivePID = new PIDSubsystem(Dp, Di, Dd){
@@ -65,6 +64,7 @@ public class Auto {
           protected void usePIDOutput(double output) {
               speed = output;
               System.out.println("Speed PID: "+output);
+              System.out.println("Encoder: "+encoders.getLeftDistance());
           }
       
           @Override
@@ -74,7 +74,7 @@ public class Auto {
 
           @Override
             public void enable() {
-                //Enabled PID
+                //Enable PID
                 super.enable();
                 //Set enabled variable to true
                 driveIsEnabled = true;
@@ -88,9 +88,8 @@ public class Auto {
                 driveIsEnabled = false;
             }
       };
-      drivePID.setAbsoluteTolerance(0.5);
-      drivePID.setOutputRange(-0.5, 0.5);
-      drivePID.setSetpoint(-20);
+      drivePID.setAbsoluteTolerance(1.0);
+      drivePID.setOutputRange(-1.0, 1.0);
 
       //Turn PID
       turnPID = new PIDSubsystem(Tp, Ti, Td){
@@ -102,13 +101,13 @@ public class Auto {
     
         @Override
         protected void usePIDOutput(double output) {
-            turn = -output;
+            turn = output;
         }
     
         @Override
         protected double returnPIDInput() {
             //GYRO
-            return gyro.getAngle();
+            return -gyro.getAngle();
         }
 
         @Override
@@ -127,9 +126,9 @@ public class Auto {
               turnIsEnabled = false;
           }
     };
-    drivePID.setAbsoluteTolerance(1);
-    drivePID.setOutputRange(-0.5, 0.5);
-    drivePID.setSetpoint(0);
+    turnPID.setAbsoluteTolerance(2.0);
+    turnPID.setOutputRange(-1.0, 1.0);
+    turnPID.setSetpoint(0.0);
   }
 
   /**
@@ -143,41 +142,69 @@ public class Auto {
 
         System.out.println("Speed: "+speed);
         System.out.println("Turn: "+turn);
+        System.out.println("Setpoint: "+drivePID.getSetpoint());
+        System.out.println("Gyro: "+gyro.getAngle());
+
+        switch (step) {
+            case 0:
+                turning = false;
+                drivePID.setSetpoint(-150.0 * (30.0/29.0));
+                turnPID.setSetpoint(0.0);
+
+                if (drivePID.onTarget()) {
+                    step++;
+                }
+
+                break;
+            
+            case 1:
+                drivePID.disable();
+                speed = 0;
+                turning = true;
+                turnPID.setSetpoint(90.0);
+
+                if (turnPID.onTarget()) {
+                    step++;
+                }
+
+                break;
+
+            case 2:
+                turning = false;
+                drivePID.setSetpoint(-50.0 * (30.0/29.0));
+                turnPID.setSetpoint(0.0);
+
+                if (drivePID.onTarget()) {
+                    step++;
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+        //Corrects all motor speed to be between 30% and 70% in each direction
+        if (0.001 > speed && speed > -0.001) {
+            speed = 0;
+        } else if (speed>0) {
+            speed = speed*0.40;
+            speed += 0.3;
+        } else {
+            speed = speed*0.40;
+            speed -= 0.3;
+        }
 
         swatDrive.arcadeDrive(speed, turn);
         
         SmartDashboard.putNumber("Encoder", encoders.getLeftDistance());
-        //double lSpeed = 0;
-        //double rSpeed = 0;
+    }
 
-        /*if(-encoders.getLeftDistance() < 60) {
-            lSpeed = -0.7; 
-            PID();
-            //swatDrive.arcadeDrive(rcw, (gyro.getAngle()/7));
-        }
-        else {
-            swatDrive.arcadeDrive(0, 0);
-        }*/
-        //System.out.println("RCW: " + rcw);
-        //System.out.println("Encoder: " + encoders.getLeftDistance());
-
-  }
-
-  /**
-   * Function that contains tasks designed to be ran when the robot is disabled.
-   */
-  public void AutoDisabled() {
-      drivePID.disable();
-  }
-
-
-
-  /*There is a pid controller in wpilib, so i commented this out
-  public void PID() {
-    error = setpoint + encoders.getLeftDistance();// Error = Target - Actual
-    this.integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-    derivative = (error - this.previous_error) / .02;
-    this.rcw = P*error + I*this.integral + D*derivative;
-  }*/
-
+    /**
+    * Function that contains tasks designed to be ran when the robot is disabled.
+    */
+    public void AutoDisabled() {
+        drivePID.disable();
+        turnPID.disable();
+    }
 }
