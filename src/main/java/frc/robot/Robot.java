@@ -8,16 +8,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
+import frc.robot.vision.LimeLight;
 
 public class Robot extends TimedRobot {
     //Create objects to run auto and teleop code
     public static Teleop teleop = new Teleop();
     Auto auto = new Auto();
+    LimeLight limeLight = new LimeLight();
 
     @Override
     public void robotInit() {
         teleop.teleopInit();
+        teleop.robotMap.getGyro().initializeNavX();
         auto.AutoInit();
+        limeLight.ledOff();
     }
 
     /**
@@ -35,12 +39,19 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+    public void disabledInit() {
+        super.disabledInit();
+        auto.drivePID.disable();
+    }
+
+    @Override
     public void disabledPeriodic() {
     }
     
     @Override
     public void autonomousInit() {
         auto.AutoInit();
+        System.out.println("Enabling auto from robot");
     }
 
     /**
@@ -56,7 +67,8 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void teleopInit() {
-        teleop.teleopInit();
+        auto.AutoDisabled();
+        teleop.teleopInit();   
     }
     @Override
     public void teleopPeriodic() {
