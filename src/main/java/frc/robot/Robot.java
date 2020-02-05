@@ -15,6 +15,7 @@ public class Robot extends TimedRobot {
     public static Teleop teleop = new Teleop();
     Auto auto = new Auto();
     LimeLight limeLight = new LimeLight();
+    DistanceTest distTest = new DistanceTest();
 
     @Override
     public void robotInit() {
@@ -31,11 +32,11 @@ public class Robot extends TimedRobot {
     *
     * <p>This runs after the mode specific periodic functions, but before
     * LiveWindow and SmartDashboard integrated updating.
-    * 
+    *
     */
     @Override
     public void robotPeriodic() {
-
+        distTest.distancePeriodic();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
     }
-    
+
     @Override
     public void autonomousInit() {
         auto.AutoInit();
@@ -68,13 +69,13 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         auto.AutoDisabled();
-        teleop.teleopInit();   
+        teleop.teleopInit();
     }
     @Override
     public void teleopPeriodic() {
         teleop.TeleopPeriodic();
     }
-    
+
     public void testPeriodic() {
         teleop.TestPeriodic();
     }
